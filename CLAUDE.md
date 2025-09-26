@@ -377,13 +377,51 @@ This project was built with **Claude Code**. For questions about:
 
 ---
 
+---
+
+## 🔄 Simple Development Workflow
+
+### **Current Approach: Option 1 (Ultra Simple)**
+**Philosophy**: Keep it simple, add complexity only when needed
+
+### **Daily Development Workflow**
+```bash
+1. npm run dev              # Work locally at localhost:3000
+2. npm test                 # Ensure tests pass
+3. git add . && git commit -m "description of what you changed"
+4. git push origin main     # Goes live automatically via Vercel
+5. Check live demo, share URL with stakeholders
+```
+
+### **Before Each Development Session**
+```bash
+git pull origin main        # Get any updates
+npm run dev                 # Start local development
+```
+
+### **When to Add Complexity**
+- ❌ **Not now**: Learning phase, single developer
+- ✅ **Later**: When you have team members joining
+- ✅ **Later**: When simple workflow causes real problems
+- ✅ **Later**: When you have users reporting bugs from broken deployments
+
+### **Future Workflow Evolution Plan**
+1. **Phase 0 (Now)**: Direct to main branch, auto-deploy
+2. **Phase 1**: Add `develop` branch when backend development starts
+3. **Phase 2**: Add feature branches when team grows
+4. **Phase 3**: Add code review when complexity increases
+
+---
+
 ## 🔄 Development Status Reference
 
 **Current Phase**: Demo MVP Complete ✅
-**Next Phase**: Planning Phase 1 (Functional MVP)
+**Next Phase**: Deploy to Vercel, then Planning Phase 1 (Functional MVP)
 **PRD Alignment**: 100% compliant with Demo MVP requirements
 **Test Coverage**: 100% for UI components
 **Technical Stack**: Stable and production-ready
-**Deployment Status**: Ready for Vercel deployment
+**Development Workflow**: Option 1 (Ultra Simple)
+**Deployment Status**: ✅ LIVE on Vercel with auto-deploy
 **Multi-language Support**: Phase 4 planned (Swedish/English)
-**Last Updated**: 2025-09-25
+**Live Demo URL**: https://kollektivly-csr.vercel.app/
+**Last Updated**: 2025-09-26
