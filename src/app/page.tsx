@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { projects } from '@/data/projects';
 import ProjectCard from '@/components/ProjectCard';
 import ProjectModal from '@/components/ProjectModal';
@@ -39,33 +40,23 @@ export default function Home() {
             </h1>
             <p className="text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed">
               Plattformen som kopplar samman företag med verifierade CSR-projekt från lokala organisationer.
-              <span className="block mt-2 text-blue-600 font-semibold">Trovärdig, datadriven och skalbar samhällsnytta.</span>
+              <span className="block mt-2 text-blue-600 font-semibold">Enkel väg till meningsfull samhällsnytta.</span>
             </p>
-
-            {/* Success Metrics */}
-            <div className="flex justify-center space-x-8 mb-8">
-              <div className="text-center">
-                <div className="text-3xl font-bold text-blue-600">150+</div>
-                <div className="text-sm text-gray-600">Verifierade Projekt</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-green-600">2.3M kr</div>
-                <div className="text-sm text-gray-600">Donerat via Plattformen</div>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-bold text-purple-600">50+</div>
-                <div className="text-sm text-gray-600">Företagspartners</div>
-              </div>
-            </div>
 
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <button className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md">
+              <Link
+                href="/alla-projekt"
+                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
+              >
                 Bläddra bland alla projekt
-              </button>
-              <button className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-colors">
+              </Link>
+              <Link
+                href="/lagg-till-projekt"
+                className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-colors"
+              >
                 Lägg till ditt projekt
-              </button>
+              </Link>
             </div>
           </div>
         </div>
@@ -95,21 +86,49 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Bottom Call-to-Action */}
-        <div className="bg-blue-50 rounded-2xl p-8 text-center">
-          <h3 className="text-2xl font-semibold text-gray-900 mb-4">
-            Hitta fler projekt eller lägg till ditt eget
-          </h3>
-          <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Utforska vårt kompletta projektbibliotek eller hjälp din organisation att nå fler företag genom vår plattform.
-          </p>
+        {/* Bottom Call-to-Action with Metrics */}
+        <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 text-center border border-blue-100">
+          {/* Trust Metrics */}
+          <div className="flex justify-center space-x-8 mb-8">
+            <div className="text-center">
+              <div className="text-3xl font-bold text-blue-600">150+</div>
+              <div className="text-sm text-gray-600">Verifierade Projekt</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-green-600">2.3M kr</div>
+              <div className="text-sm text-gray-600">Donerat via Plattformen</div>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-bold text-purple-600">50+</div>
+              <div className="text-sm text-gray-600">Företagspartners</div>
+            </div>
+          </div>
+
+          {/* Trust Statement */}
+          <div className="mb-6">
+            <p className="text-lg font-semibold text-gray-900 mb-2">
+              Trovärdig, datadriven och skalbar samhällsnytta
+            </p>
+            <p className="text-gray-600 max-w-2xl mx-auto">
+              Alla projekt är verifierade, handplockade och matchade enligt FN:s globala mål.
+              Gör skillnad genom vårt kvalitetssäkrade nätverk av organisationer.
+            </p>
+          </div>
+
+          {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <button className="bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors">
+            <Link
+              href="/alla-projekt"
+              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
+            >
               Se alla 150+ projekt
-            </button>
-            <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-semibold border border-blue-600 hover:bg-blue-50 transition-colors">
+            </Link>
+            <Link
+              href="/registrera"
+              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-colors"
+            >
               Registrera din organisation
-            </button>
+            </Link>
           </div>
         </div>
       </main>
