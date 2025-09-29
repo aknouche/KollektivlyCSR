@@ -38,7 +38,8 @@ export const projects: Project[] = [
     budget: "320 000 kr",
     csrKategori: "Inkludering",
     fnMal: ["Mål 3: Hälsa och välbefinnande", "Mål 5: Jämställdhet", "Mål 10: Minskad ojämlikhet"],
-    viewsLeft: 1
+    viewsLeft: 1,
+    imageUrl: "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 4,
@@ -51,7 +52,8 @@ export const projects: Project[] = [
     csrKategori: "Inkludering",
     fnMal: ["Mål 4: God utbildning", "Mål 9: Hållbar industri", "Mål 10: Minskad ojämlikhet"],
     badges: ["VERIFIERAD"],
-    viewsLeft: 5
+    viewsLeft: 5,
+    imageUrl: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 5,
@@ -62,7 +64,8 @@ export const projects: Project[] = [
     stad: "Uppsala",
     budget: "180 000 kr",
     csrKategori: "Miljö",
-    fnMal: ["Mål 11: Hållbara städer", "Mål 12: Hållbar konsumtion", "Mål 13: Klimatåtgärder"]
+    fnMal: ["Mål 11: Hållbara städer", "Mål 12: Hållbar konsumtion", "Mål 13: Klimatåtgärder"],
+    imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 6,
@@ -73,7 +76,8 @@ export const projects: Project[] = [
     stad: "Linköping",
     budget: "420 000 kr",
     csrKategori: "Inkludering",
-    fnMal: ["Mål 4: God utbildning", "Mål 10: Minskad ojämlikhet", "Mål 16: Fredliga och inkluderande samhällen"]
+    fnMal: ["Mål 4: God utbildning", "Mål 10: Minskad ojämlikhet", "Mål 16: Fredliga och inkluderande samhällen"],
+    imageUrl: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 7,
@@ -84,7 +88,8 @@ export const projects: Project[] = [
     stad: "Örebro",
     budget: "210 000 kr",
     csrKategori: "Miljö",
-    fnMal: ["Mål 2: Ingen hunger", "Mål 3: Hälsa och välbefinnande", "Mål 11: Hållbara städer", "Mål 15: Ekosystem på land"]
+    fnMal: ["Mål 2: Ingen hunger", "Mål 3: Hälsa och välbefinnande", "Mål 11: Hållbara städer", "Mål 15: Ekosystem på land"],
+    imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 8,
@@ -96,7 +101,8 @@ export const projects: Project[] = [
     budget: "190 000 kr",
     csrKategori: "Ungdom",
     fnMal: ["Mål 4: God utbildning", "Mål 8: Anständiga arbetsvillkor", "Mål 11: Hållbara städer"],
-    badges: ["NY"]
+    badges: ["NY"],
+    imageUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 9,
@@ -109,7 +115,8 @@ export const projects: Project[] = [
     csrKategori: "Inkludering",
     fnMal: ["Mål 4: God utbildning", "Mål 10: Minskad ojämlikhet", "Mål 16: Fredliga och inkluderande samhällen"],
     badges: ["POPULÄR", "VERIFIERAD"],
-    viewsLeft: 4
+    viewsLeft: 4,
+    imageUrl: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 10,
@@ -122,6 +129,7 @@ export const projects: Project[] = [
     csrKategori: "Miljö",
     fnMal: ["Mål 13: Klimatåtgärder", "Mål 14: Hav och marina resurser", "Mål 15: Ekosystem på land"],
     badges: ["NY", "VERIFIERAD"],
-    viewsLeft: 3
+    viewsLeft: 3,
+    imageUrl: "https://images.unsplash.com/photo-1583212292454-1fe6229603b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   }
 ];
