@@ -12,7 +12,8 @@ export const projects: Project[] = [
     csrKategori: "Miljö",
     fnMal: ["Mål 4: God utbildning", "Mål 13: Klimatåtgärder", "Mål 15: Ekosystem på land"],
     badges: ["NY", "VERIFIERAD"],
-    viewsLeft: 2
+    viewsLeft: 2,
+    imageUrl: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 2,
@@ -24,7 +25,8 @@ export const projects: Project[] = [
     budget: "280 000 kr",
     csrKategori: "Ungdom",
     fnMal: ["Mål 1: Ingen fattigdom", "Mål 4: God utbildning", "Mål 8: Anständiga arbetsvillkor", "Mål 10: Minskad ojämlikhet"],
-    badges: ["POPULÄR", "VERIFIERAD"]
+    badges: ["POPULÄR", "VERIFIERAD"],
+    imageUrl: "https://images.unsplash.com/photo-1529390079861-591de354faf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
     id: 3,

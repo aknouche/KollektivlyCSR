@@ -37,8 +37,19 @@ const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
   return (
     <div
       onClick={() => onClick(project)}
-      className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 hover:border-gray-200 transform hover:-translate-y-1"
+      className="bg-white rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 cursor-pointer border border-gray-100 hover:border-gray-200 transform hover:-translate-y-1 overflow-hidden"
     >
+      {/* Project Image */}
+      {project.imageUrl && (
+        <div className="h-48 w-full overflow-hidden">
+          <img
+            src={project.imageUrl}
+            alt={project.projektnamn}
+            className="w-full h-full object-cover"
+          />
+        </div>
+      )}
+
       <div className="p-6">
         {/* Header */}
         <div className="mb-4">

@@ -10,4 +10,5 @@ export interface Project {
   fnMal: string[];
   badges?: Array<'NY' | 'POPULÄR' | 'VERIFIERAD'>;
   viewsLeft?: number;
+  imageUrl?: string;
 }
