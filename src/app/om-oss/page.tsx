@@ -16,10 +16,10 @@ export default function OmOss() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-6">
-            Om KollektivlyCSR
+            Om Kollektivly
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Vi bygger Sveriges ledande plattform för CSR och samhällsinitiativ
+            Vi bygger Sveriges ledande plattform som för samman civilsamhälle och näringsliv för samhällsnytta
           </p>
         </div>
 
@@ -43,7 +43,7 @@ export default function OmOss() {
             </div>
             <h3 className="text-xl font-semibold text-gray-900 mb-4">För Företag</h3>
             <p className="text-gray-600">
-              Hitta verifierade CSR-projekt som matchar era hållbarhetsmål. Spara tid, stärk varumärket och
+              Hitta verifierade projekt som matchar era hållbarhetsmål. Spara tid, stärk varumärket och
               rapportera trovärd samhällsnytta som följer CSRD och ESG-krav.
             </p>
           </div>
@@ -54,7 +54,7 @@ export default function OmOss() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 119.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
               </svg>
             </div>
-            <h3 className="text-xl font-semibold text-gray-900 mb-4">För Organisationer</h3>
+            <h3 className="text-xl font-semibold text-gray-900 mb-4">För Föreningar</h3>
             <p className="text-gray-600">
               Nå fler företag med era samhällsprojekt. Presentera era initiativ professionellt och få
               stöd snabbare genom vårt kvalitetssäkrade nätverk.

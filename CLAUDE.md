@@ -1,20 +1,20 @@
-# KollektivlyCSR - Development Guide
+# Kollektivly - Development Guide
 
-## Product Requirements Document (PRD) Integration
+## Product Requirements Document (PRD) - Revised
 
-### 🎯 Vision & Purpose
-**KollektivlyCSR** creates a platform that connects companies wanting to make social impact (CSR/sustainability) with organizations driving projects. The platform should be **credible, data-driven and scalable**, while being simple and attractive to use.
+### 🎯 Core Purpose
+To create a platform that connects companies focused on driving **Measurable Social Impact (ESG/Sustainability)** with verified non-profit associations that run projects. The platform must be **trustworthy, data-driven, and scalable**, while being simple and attractive to use.
 
-### 👥 Target Groups
-- **Companies** – small, medium and large companies seeking CSR and sustainability projects
-- **Organizations/non-profits** – want to reach companies with their projects
-- **Municipalities & associations** – secondary customers, can purchase reports and insights
-- **Investors/partners** – interested in scalable social impact
+### 👥 Target Audiences
+- **Corporations** – Small, medium, and large companies seeking ESG and Sustainability projects
+- **Non-Profits/Associations** – Seeking to reach companies with their projects and demonstrate financial transparency
+- **Municipalities & Federations** – Secondary customers who can purchase reports and insights on local Social Impact
+- **Investors/Partners** – Interested in scalable Sustainability Impact
 
-### 💡 Value Propositions
-- **For companies**: Save time, strengthen brand, ensure credibility, report social impact, strengthen compliance (CSRD, ESG)
-- **For organizations**: Reach companies easier, present projects beautifully, get resources faster
-- **For society**: More targeted resources to projects that create real impact
+### 💡 Value Proposition
+- **For Corporations**: Save time, enhance brand reputation, ensure ESG compliance, and report measurable social impact
+- **For Non-Profits**: Easier access to companies, professional project presentation, demonstrate financial transparency, and secure resources faster
+- **For Society**: More targeted resources allocated to projects that create verified impact
 
 ### Tech Stack
 - **Next.js 14.2.33** (App Router)
@@ -217,46 +217,102 @@ jest.setup.js            # Test setup
 
 ---
 
-## Full Vision Roadmap (According to PRD)
+## Functional Requirements (Full Version)
 
-### 🚀 Core Functions (Full Vision)
-- **Project Cards** – visual cards with title, image, short description
-- **Detail Views** – complete information, goals, budget, organization
-- **Verification** – via open APIs (Bolagsverket, RF, municipalities)
-- **AI Matching** – companies get suggestions based on CSR goals
-- **Favorites** – save and follow projects
-- **Notifications/Subscriptions** – alerts for new matching projects
-- **Transaction Handling** – support, sponsorship, donations via platform
+### 🚀 Core Functions
+- **Project Cards & Detail Views** – Visual cards with title, image, short description, and complete information (goals, budget, organization)
+- **Verification** – Via open APIs (Corporate Registry/Bolagsverket, Sports Federations/RF, Municipalities)
+- **AI Matching** – Companies receive proposals based on their defined ESG targets
+- **Financial Transparency** – Non-profits must display their funding model and have the option to link to their Annual Report
+- **Funding Status** – Clear specification of what funds are sought for and a live status against the budget
+- **Favorites and Subscriptions** – Save projects and receive notifications for new matching projects
+- **Transaction Management** – Grants, sponsorships, and donations are processed via the platform
 - **Multi-language Support** – Swedish and English language options for global reach
 
-### 💼 Company Functions
-- **Limited Free Access** (e.g. 5 projects/month)
-- **Premium Accounts** for unlimited access, reports and API
-- **Level 3-4 Verification** requests
-- **AI Analyses & Compliance Reports** linked to sustainability goals
+### 💼 Corporate Features
+- **Limited Free Access** – View limited number of projects without subscription
+- **Premium Accounts** – Unlimited access, advanced reports, and API integration
+- **ESG Compliance Reporting** – Linked to sustainability goals and regulatory requirements (CSRD)
+- **Level 3-4 Verification Requests** – Request enhanced due diligence for non-profits
 
-### 🏢 Organization Functions
-- **Free First Project** upload
-- **Payment/Upgrade** for more projects or "featured" status
-- **Simple Editor** for creating project cards
-- **Social Media Integration**: share projects in different phases
+### 🏢 Non-Profit Features
+- **Free First Project** – Free to post the first project
+- **Payment/Upgrade** – Payment for additional projects or "featured" status
+- **Simple Editor** – For creating project cards
+- **Admin Management** – Via unique, email-administered link (MVP) or logged-in dashboard (Full Version)
+- **Financial Transparency** – Link to Annual Report and display funding model
 
 ### 🔐 Admin/Platform
-- **Dashboard** for revenue, project status, users
-- **Automatic Verification** (org.nr, registers)
-- **Analysis and Report Generation**
+- **Dashboard** – For revenue, project status, and users
+- **Automated Verification** – Organization number (org.nr) and register verification
+- **Analytics and Report Generation** – Platform-wide insights and custom reports
 
 ### 💰 Revenue Models
-- **Company Subscriptions** (free → basic → premium)
-- **Transaction Fees** on payments via platform
-- **Organization Fees** for extra/featured projects
-- **Premium Reports** to municipalities and associations
+- **Corporate Subscriptions** – Free (limited access), Basic Subscription (unlimited viewing), Premium Subscription (Level 3-4 access, CSRD/SDG reporting, payment management)
+- **Transaction Fees** – On payments via platform (grants, sponsorships, donations)
+- **Non-Profit Fees** – Future payment for extra projects or featured placement
+- **Premium Reports** – To municipalities and associations
 
 ### 🛡️ Legal & Compliance
-- **GDPR Compliance**: consent, right to deletion, minimal data, EU storage
-- **AML/KYC**: company verification, sanctions screening
-- **Payment Security**: established PSP (Stripe, Swish), PCI-DSS
-- **ESG/CSRD Reporting**: aligned with EU regulations, UN SDGs
+- **GDPR Compliance**: Consent, right to erasure, minimization of collected data, encrypted communication, storage within the EU/EEA
+- **AML/KYC**: Companies making payments must be verified (org. ID + payment method). Screening against sanction lists
+- **Payment Security**: Use established PSP (Stripe, Swish). PCI-DSS compliance is mandatory
+- **Legal Liability**: Platform is an intermediary, not responsible for project execution. Non-profits are responsible for accurate information, including their financial situation
+- **Reporting / ESG / CSRD**: Platform reports must support the EU's CSRD. Projects must be linked to the UN Sustainable Development Goals (SDGs)
+
+## Design & Interaction Guidelines
+
+### Usability (UX)
+- **Minimalism** – Clean, uncluttered interface
+- **Accessibility** – WCAG 2.1 compliance
+- **Responsiveness** – Mobile First design approach
+
+### Psychological Triggers
+- **Social Proof** – Badges: "VERIFIED," "FINANCIALLY VETTED"
+- **Scarcity/FOMO** – "Views remaining" (implemented via LocalStorage/cookies as teaser)
+- **Progression** – Clear project funding status and milestones
+
+### Legal Design
+- **Transparency** – Clear disclosure of what is verified
+- **No Dark Patterns** – No hidden fees or misleading elements
+- **Active Consent** – Opt-in for all data collection and marketing
+
+## Verification & Revenue Model
+
+### MVP Version
+- **Email Confirmation** (free, mandatory)
+- **Organization ID Check** (free, optional) – Badge: "Org. ID Valid"
+- **Cost**: None for either party
+- **"Views Remaining"** – Implemented only as a teaser via LocalStorage/cookies to encourage future signup
+
+### Full Version (Future)
+
+**Verification Levels**:
+- **Level 1**: Email Verified
+- **Level 2**: Org. ID verified against public registers (Bolagsverket)
+- **Level 3 (Premium)**: Federation/Municipality-affiliated. Basic Financial Vetting (requires link to Annual Report)
+- **Level 4 (Premium)**: AI Analysis & ESG Risk Report (Extra fee per report or via subscription)
+
+**Revenue Model (Corporate Pays)**:
+- Free (limited access)
+- Basic Subscription (unlimited viewing)
+- Premium Subscription (Level 3-4 access, CSRD/SDG reporting, payment management)
+
+**Revenue Model (Non-Profits)**:
+- Free for one project
+- Future payment for extra projects or featured placement
+
+## Technology & Structure
+
+### Tech Stack
+- **Frontend**: Next.js/React/Tailwind
+- **Backend**: Node.js/Express/NestJS
+- **Database**: PostgreSQL (EU/EEA hosted)
+- **AI**: Matching (GPT/custom ML)
+
+### Project Administration
+- **MVP**: Via unique, secure admin link sent via email (no login required)
+- **Full Version**: Dashboard with login, statistics, and roles (Admin, Project Owner)
 
 ---
 
@@ -423,5 +479,6 @@ npm run dev                 # Start local development
 **Development Workflow**: Option 1 (Ultra Simple)
 **Deployment Status**: ✅ LIVE on Vercel with auto-deploy
 **Multi-language Support**: Phase 4 planned (Swedish/English)
+**Security Analysis**: Comprehensive security framework documented (see SECURITY_ANALYSIS.md)
 **Live Demo URL**: https://kollektivly-csr.vercel.app/
-**Last Updated**: 2025-09-26
+**Last Updated**: 2025-09-30

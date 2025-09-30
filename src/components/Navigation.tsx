@@ -17,7 +17,7 @@ const Navigation = () => {
           {/* Logo */}
           <Link href="/" className="flex items-center">
             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
-              <span className="text-white font-bold text-sm">CSR</span>
+              <span className="text-white font-bold text-sm">K</span>
             </div>
             <span className="text-xl font-bold text-gray-900">Kollektivly</span>
           </Link>

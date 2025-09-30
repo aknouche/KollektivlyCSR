@@ -19,7 +19,7 @@ export default function AllaProject() {
             Alla CSR-Projekt
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Utforska vårt kompletta bibliotek med 150+ verifierade CSR-projekt från lokala organisationer
+            Utforska vårt kompletta bibliotek med 150+ verifierade projekt från lokala organisationer som bidrar med samhällsnytta
           </p>
 
           {/* Coming Soon Badge */}

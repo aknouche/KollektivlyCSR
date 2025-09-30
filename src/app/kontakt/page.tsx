@@ -36,8 +36,8 @@ export default function Kontakt() {
               För allmänna frågor, teknisk support och partnerskapsförfrågningar
             </p>
             <div className="space-y-2">
-              <p className="text-blue-600 font-medium">info@kollektivlycsr.se</p>
-              <p className="text-blue-600 font-medium">support@kollektivlycsr.se</p>
+              <p className="text-blue-600 font-medium">info@kollektivly.se</p>
+              <p className="text-blue-600 font-medium">support@kollektivly.se</p>
             </div>
           </div>
 

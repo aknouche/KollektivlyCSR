@@ -30,7 +30,7 @@ export default function Home() {
             {/* Logo */}
             <div className="flex justify-center mb-8">
               <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-2xl">CSR</span>
+                <span className="text-white font-bold text-4xl">K</span>
               </div>
             </div>
 
