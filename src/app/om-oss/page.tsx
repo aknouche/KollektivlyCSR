@@ -27,7 +27,7 @@ export default function OmOss() {
         <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 mb-12">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">Vår Mission</h2>
           <p className="text-lg text-gray-600 leading-relaxed">
-            KollektivlyCSR skapades för att lösa ett verkligt problem: företag vill göra samhällsnytta men vet inte hur,
+            Kollektivly skapades för att lösa ett verkligt problem: företag vill göra samhällsnytta men vet inte hur,
             medan lokala organisationer har fantastiska projekt men når inte fram till företagen. Vi är bryggan som
             kopplar samman dessa två världar på ett trovärdig, datadriven och skalbart sätt.
           </p>
@@ -104,7 +104,7 @@ export default function OmOss() {
             Plattformen under utveckling
           </h3>
           <p className="text-gray-600 mb-6 max-w-2xl mx-auto">
-            Vi bygger KollektivlyCSR med användarfokus och högsta kvalitetsstandard.
+            Vi bygger Kollektivly med användarfokus och högsta kvalitetsstandard.
             Denna demo visar vår vision - den fullständiga plattformen lanseras snart.
           </p>
           <Link

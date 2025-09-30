@@ -36,7 +36,7 @@ export default function Home() {
 
             {/* Title and value proposition */}
             <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              KollektivlyCSR
+              Kollektivly
             </h1>
             <p className="text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed">
               Plattformen som kopplar samman företag med verifierade CSR-projekt från lokala organisationer.

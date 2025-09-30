@@ -19,7 +19,7 @@ const Navigation = () => {
             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
               <span className="text-white font-bold text-sm">CSR</span>
             </div>
-            <span className="text-xl font-bold text-gray-900">KollektivlyCSR</span>
+            <span className="text-xl font-bold text-gray-900">Kollektivly</span>
           </Link>
 
           {/* Navigation Links */}

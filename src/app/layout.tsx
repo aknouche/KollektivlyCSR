@@ -15,8 +15,8 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "KollektivlyCSR",
-  description: "KollektivlyCSR – Svenska CSR-projekt och samhällsinitiativ",
+  title: "Kollektivly",
+  description: "Kollektivly – Svenska CSR-projekt och samhällsinitiativ",
 };
 
 export default function RootLayout({
