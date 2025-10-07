@@ -2,6 +2,8 @@
 // Project Creation API Route
 // SECURITY: Content moderation + validation before saving
 
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';

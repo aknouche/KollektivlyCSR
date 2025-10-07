@@ -2,6 +2,8 @@
 // Organization Registration API Route
 // SECURITY: Sections 3.1, 3.4, 4.1, 5.1 of SECURITY_ANALYSIS.md
 
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';

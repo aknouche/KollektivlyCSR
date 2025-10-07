@@ -2,6 +2,8 @@
 // Email Verification API Route
 // SECURITY: Section 4.1, 4.4 - Token verification
 
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';

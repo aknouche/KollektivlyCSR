@@ -2,6 +2,8 @@
 // Magic Link Authentication API Route
 // SECURITY: Passwordless authentication via email
 
+export const runtime = 'edge';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';
