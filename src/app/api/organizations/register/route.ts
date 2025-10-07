@@ -45,28 +45,6 @@ function generateVerificationToken(): string {
   return crypto.randomUUID();
 }
 
-// SECURITY: Section 4.3 - Send verification email
-async function sendVerificationEmail(email: string, token: string, organizationName: string) {
-  const verifyUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verifiera-epost?token=${token}`;
-
-  await resend.emails.send({
-    from: process.env.RESEND_FROM_EMAIL!,
-    to: email,
-    subject: 'Verifiera din e-post - Kollektivly',
-    html: `
-      <h1>Välkommen till Kollektivly!</h1>
-      <p>Hej ${organizationName}!</p>
-      <p>Tack för att du registrerar dig på Kollektivly. Klicka på länken nedan för att verifiera din e-postadress:</p>
-      <p><a href="${verifyUrl}" style="background: #3b82f6; color: white; padding: 12px 24px; text-decoration: none; border-radius: 6px; display: inline-block;">Verifiera e-post</a></p>
-      <p>Eller kopiera denna länk: ${verifyUrl}</p>
-      <p>Länken är giltig i 24 timmar.</p>
-      <p>Om du inte registrerade dig på Kollektivly, ignorera detta mejl.</p>
-      <br>
-      <p>Med vänliga hälsningar,<br>Kollektivly teamet</p>
-    `
-  });
-}
-
 // SECURITY: Section 3.4 - Rate limiting helper
 // Note: In production, use Redis (Upstash) for distributed rate limiting
 // For MVP, we rely on hCaptcha to prevent abuse
