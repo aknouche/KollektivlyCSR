@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { Project } from '@/types';
 
 interface ProjectCardProps {
@@ -41,11 +42,12 @@ const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
     >
       {/* Project Image */}
       {project.imageUrl && (
-        <div className="h-48 w-full overflow-hidden">
-          <img
+        <div className="h-48 w-full overflow-hidden relative">
+          <Image
             src={project.imageUrl}
             alt={project.projektnamn}
-            className="w-full h-full object-cover"
+            fill
+            className="object-cover"
           />
         </div>
       )}

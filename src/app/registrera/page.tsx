@@ -1,6 +1,114 @@
+'use client';
+
+import { useState } from 'react';
 import Link from 'next/link';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 export default function Registrera() {
+  const [formData, setFormData] = useState({
+    organizationName: '',
+    organizationNumber: '',
+    email: '',
+    contactPerson: '',
+    phoneNumber: '',
+    website: '',
+    city: '',
+    address: '',
+    description: '',
+    gdprConsent: false
+  });
+
+  const [hcaptchaToken, setHcaptchaToken] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value, type } = e.target;
+    const checked = (e.target as HTMLInputElement).checked;
+
+    setFormData(prev => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    if (!hcaptchaToken) {
+      setError('Vänligen slutför captcha-verifieringen');
+      return;
+    }
+
+    if (!formData.gdprConsent) {
+      setError('Du måste godkänna behandling av personuppgifter');
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      const response = await fetch('/api/organizations/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          ...formData,
+          hcaptchaToken
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Registrering misslyckades');
+      }
+
+      setSuccess(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Ett fel uppstod');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (success) {
+    return (
+      <div className="min-h-screen bg-gray-50">
+        <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8 text-center">
+            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+              <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              Registrering lyckades! 🎉
+            </h1>
+            <p className="text-lg text-gray-600 mb-6">
+              Vi har skickat ett verifieringsmejl till <strong>{formData.email}</strong>
+            </p>
+            <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
+              <h3 className="font-semibold text-gray-900 mb-2">Nästa steg:</h3>
+              <ol className="text-left text-gray-700 space-y-2">
+                <li>1. Kolla din inkorg och klicka på verifieringslänken</li>
+                <li>2. Vår admin granskar din ansökan (1-2 arbetsdagar)</li>
+                <li>3. Du får ett mejl när du kan börja lägga upp projekt</li>
+              </ol>
+            </div>
+            <Link
+              href="/"
+              className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
+            >
+              Tillbaka till startsidan
+            </Link>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-2xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
@@ -8,8 +116,6 @@ export default function Registrera() {
         <nav className="mb-8">
           <div className="flex items-center space-x-2 text-sm text-gray-600">
             <Link href="/" className="hover:text-blue-600">Hem</Link>
-            <span>›</span>
-            <Link href="/lagg-till-projekt" className="hover:text-blue-600">Lägg till Projekt</Link>
             <span>›</span>
             <span className="text-gray-900">Registrera</span>
           </div>
@@ -21,94 +127,233 @@ export default function Registrera() {
             Registrera din organisation
           </h1>
           <p className="text-lg text-gray-600">
-            Verifiera er organisation för att börja lägga upp CSR-projekt
+            Fyll i formuläret nedan för att komma igång med Kollektivly
           </p>
         </div>
 
-        {/* Registration Form Preview */}
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
-          <div className="mb-8">
-            <div className="flex items-center justify-center mb-6">
-              <div className="w-16 h-16 bg-yellow-100 rounded-full flex items-center justify-center">
-                <svg className="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
+        {/* Registration Form */}
+        <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+          {error && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
+              {error}
+            </div>
+          )}
+
+          <div className="space-y-6">
+            {/* Organization Name */}
+            <div>
+              <label htmlFor="organizationName" className="block text-sm font-medium text-gray-700 mb-2">
+                Organisationsnamn <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="organizationName"
+                name="organizationName"
+                required
+                value={formData.organizationName}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Ex: Gröna Initiativet"
+              />
+            </div>
+
+            {/* Organization Number */}
+            <div>
+              <label htmlFor="organizationNumber" className="block text-sm font-medium text-gray-700 mb-2">
+                Organisationsnummer <span className="text-gray-400">(valfritt)</span>
+              </label>
+              <input
+                type="text"
+                id="organizationNumber"
+                name="organizationNumber"
+                value={formData.organizationNumber}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="XXXXXX-XXXX"
+                pattern="\d{6}-\d{4}"
+              />
+              <p className="mt-1 text-sm text-gray-500">Format: 123456-7890</p>
+            </div>
+
+            {/* Email */}
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-2">
+                E-postadress <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="info@organisation.se"
+              />
+              <p className="mt-1 text-sm text-gray-500">Vi skickar verifieringslänk hit</p>
+            </div>
+
+            {/* Contact Person */}
+            <div>
+              <label htmlFor="contactPerson" className="block text-sm font-medium text-gray-700 mb-2">
+                Kontaktperson <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="contactPerson"
+                name="contactPerson"
+                required
+                value={formData.contactPerson}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Anna Andersson"
+              />
+            </div>
+
+            {/* Phone */}
+            <div>
+              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-2">
+                Telefonnummer <span className="text-gray-400">(valfritt)</span>
+              </label>
+              <input
+                type="tel"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={formData.phoneNumber}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="070-123 45 67"
+              />
+            </div>
+
+            {/* City */}
+            <div>
+              <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-2">
+                Stad <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                required
+                value={formData.city}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Stockholm"
+              />
+            </div>
+
+            {/* Address */}
+            <div>
+              <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-2">
+                Adress <span className="text-gray-400">(valfritt)</span>
+              </label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Kungsgatan 1, 111 43 Stockholm"
+              />
+            </div>
+
+            {/* Website */}
+            <div>
+              <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-2">
+                Webbplats <span className="text-gray-400">(valfritt)</span>
+              </label>
+              <input
+                type="url"
+                id="website"
+                name="website"
+                value={formData.website}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="https://www.organisation.se"
+              />
+            </div>
+
+            {/* Description */}
+            <div>
+              <label htmlFor="description" className="block text-sm font-medium text-gray-700 mb-2">
+                Beskrivning av verksamhet <span className="text-gray-400">(valfritt)</span>
+              </label>
+              <textarea
+                id="description"
+                name="description"
+                rows={4}
+                value={formData.description}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Berätta kort om er organisation och vad ni arbetar med..."
+                maxLength={1000}
+              />
+              <p className="mt-1 text-sm text-gray-500">{formData.description.length}/1000 tecken</p>
+            </div>
+
+            {/* GDPR Consent */}
+            <div className="bg-gray-50 border border-gray-200 rounded-lg p-6">
+              <div className="flex items-start">
+                <input
+                  type="checkbox"
+                  id="gdprConsent"
+                  name="gdprConsent"
+                  checked={formData.gdprConsent}
+                  onChange={handleChange}
+                  className="mt-1 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                  required
+                />
+                <label htmlFor="gdprConsent" className="ml-3 text-sm text-gray-700">
+                  Jag godkänner att Kollektivly behandlar mina personuppgifter enligt{' '}
+                  <Link href="/integritetspolicy" className="text-blue-600 hover:underline">
+                    integritetspolicyn
+                  </Link>
+                  . Uppgifterna används endast för registrering och kommunikation gällande er organisation och projekt.
+                  <span className="text-red-500 ml-1">*</span>
+                </label>
               </div>
             </div>
-            <div className="text-center">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                Registreringsformulär under utveckling
-              </h3>
-              <p className="text-gray-600 mb-6">
-                Vårt säkra registreringsformulär med e-postverifiering och automatisk org.nr-validering kommer i nästa version.
-              </p>
-            </div>
-          </div>
 
-          {/* Form Fields Preview */}
-          <div className="space-y-6 opacity-60">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Organisationsnamn</label>
-              <div className="w-full h-12 bg-gray-100 rounded-lg"></div>
+            {/* hCaptcha */}
+            <div className="flex justify-center">
+              <HCaptcha
+                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY!}
+                onVerify={(token) => setHcaptchaToken(token)}
+                onExpire={() => setHcaptchaToken('')}
+                onError={() => setHcaptchaToken('')}
+              />
             </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Organisationsnummer</label>
-              <div className="w-full h-12 bg-gray-100 rounded-lg"></div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Kontaktperson</label>
-              <div className="w-full h-12 bg-gray-100 rounded-lg"></div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">E-postadress</label>
-              <div className="w-full h-12 bg-gray-100 rounded-lg"></div>
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">Beskrivning av verksamhet</label>
-              <div className="w-full h-24 bg-gray-100 rounded-lg"></div>
-            </div>
-          </div>
 
-          {/* Features Coming */}
-          <div className="mt-8 pt-8 border-t border-gray-200">
-            <h4 className="font-semibold text-gray-900 mb-4">Inkluderat i registreringen:</h4>
-            <ul className="space-y-2">
-              <li className="flex items-center text-sm text-gray-600">
-                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Automatisk org.nr-validering via Bolagsverket
-              </li>
-              <li className="flex items-center text-sm text-gray-600">
-                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Säker e-postverifiering
-              </li>
-              <li className="flex items-center text-sm text-gray-600">
-                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                Admin-dashboard för projekthantering
-              </li>
-              <li className="flex items-center text-sm text-gray-600">
-                <svg className="w-4 h-4 text-green-500 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                </svg>
-                GDPR-kompatibel datahantering
-              </li>
-            </ul>
+            {/* Submit Button */}
+            <button
+              type="submit"
+              disabled={loading || !hcaptchaToken || !formData.gdprConsent}
+              className="w-full px-6 py-4 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition disabled:bg-gray-300 disabled:cursor-not-allowed"
+            >
+              {loading ? 'Registrerar...' : 'Skicka registrering'}
+            </button>
           </div>
-        </div>
+        </form>
 
-        {/* Back Navigation */}
-        <div className="text-center mt-8">
-          <Link
-            href="/lagg-till-projekt"
-            className="text-blue-600 hover:text-blue-700 font-medium"
-          >
-            ← Tillbaka till projektinformation
-          </Link>
+        {/* Info Box */}
+        <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+          <h3 className="font-semibold text-gray-900 mb-3">Efter registrering:</h3>
+          <ul className="space-y-2 text-sm text-gray-700">
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">1.</span>
+              Du får ett verifieringsmejl - klicka på länken för att verifiera din e-post
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">2.</span>
+              Vår admin granskar din ansökan (tar vanligtvis 1-2 arbetsdagar)
+            </li>
+            <li className="flex items-start">
+              <span className="text-blue-600 mr-2">3.</span>
+              När du är godkänd kan du börja lägga upp CSR-projekt
+            </li>
+          </ul>
         </div>
       </div>
     </div>

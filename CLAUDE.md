@@ -127,50 +127,136 @@ jest.setup.js            # Test setup
 - TDD foundation established
 - Ready for Vercel deployment
 
-### **Phase 1: Functional MVP (2-3 weeks)**
-**Goal**: Transform demo into working prototype with basic project management
+### **Phase 1: Functional MVP (2-3 weeks) - FREE HOSTING**
+**Goal**: Transform demo into working prototype with basic project management using 100% free services
 
-#### **Backend Setup**
-- [ ] **Database Design**: PostgreSQL schema for projects, organizations, contacts
+**Cost Target**: 0 SEK/month (using free tiers only)
+
+#### **Backend Setup (100% Free)**
+- [ ] **Database Design**: Vercel Postgres (free tier: 256MB, 60 hours compute/month)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 2.1: Database encryption at rest (Vercel provides this)
+    - Section 2.2: Prepared statements to prevent SQL injection
+    - Section 2.3: Row-level security policies
+- [ ] **Session Storage**: Vercel KV (free tier: 256MB, 30k commands/month)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 3.2: Secure session management with httpOnly cookies
+    - Section 3.3: Session expiry and rotation
 - [ ] **API Routes**: Next.js API routes for CRUD operations
-- [ ] **Authentication**: Email-based tokens for organization admin links
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 3.1: Input validation on all endpoints (Zod schema validation)
+    - Section 3.4: Rate limiting (5 requests/min per IP for registration)
+    - Section 3.5: CSRF protection via Next.js built-in tokens
 
-#### **Project Administration**
+#### **Project Administration (Free Services)**
 - [ ] **Organization Registration**: Simple email-based signup
-- [ ] **Project Submission Form**: Rich editor for project creation
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 4.1: Email verification required before project submission
+    - Section 4.2: Email domain validation against common spam domains
+    - Section 5.1: GDPR consent checkbox (explicit opt-in)
+    - Section 5.2: Privacy policy link and data processing transparency
+- [ ] **Email Service**: Resend (free tier: 3,000 emails/month, 100/day)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 4.3: Magic link authentication with 24h expiry
+    - Section 6.1: Email content sanitization
+- [ ] **Content Moderation**: Perspective API (free tier: 1M requests/day)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 6.2: Automated spam/toxicity detection
+    - Section 6.3: Manual admin review for flagged content
+- [ ] **Project Submission Form**: Simple textarea editor (no rich text = no XSS risk)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 3.1: Text sanitization before database storage
+    - Section 6.4: Content length limits (5000 chars)
 - [ ] **Admin Dashboard**: Basic CRUD interface for organizations
-- [ ] **Email Integration**: SendGrid/Resend for notification system
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 7.1: Admin-only routes with session verification
+    - Section 7.2: Audit logging of all admin actions
 
-#### **Basic Verification**
+#### **Basic Verification (Free APIs)**
 - [ ] **Email Verification**: Required for all organizations
-- [ ] **Org.nr Validation**: Optional integration with Bolagsverket API
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 4.1: Token-based email verification (crypto.randomUUID)
+    - Section 4.4: One-time use tokens stored in database
+- [ ] **CAPTCHA**: hCaptcha (free tier: unlimited)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 3.6: Bot protection on registration forms
 - [ ] **Manual Review**: Admin approval workflow for new projects
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 6.3: Human verification before publishing
+    - Section 7.3: Admin notification system via email
 
-#### **Legal Foundation**
+#### **Legal Foundation (Free Templates)**
 - [ ] **GDPR Compliance**: Basic consent flows, privacy policy
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 5.1: Explicit consent for data collection
+    - Section 5.2: Right to erasure implementation
+    - Section 5.3: Data minimization (only collect necessary fields)
+    - Section 5.4: Cookie consent banner (no tracking cookies in MVP)
 - [ ] **Terms of Service**: Platform rules and responsibilities
+  - Use free legal templates from Termly.io or similar
 - [ ] **Data Protection**: Secure data handling, EU hosting
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 2.4: All data stored in EU region (Vercel EU servers)
+    - Section 8.1: HTTPS only (Vercel automatic SSL)
+    - Section 8.2: Security headers (CSP, X-Frame-Options, etc.)
 
-### **Phase 2: Enhanced MVP (2-3 weeks)**
-**Goal**: Add core business features for real-world usage
+### **Phase 2: Enhanced MVP (2-3 weeks) - STILL FREE**
+**Goal**: Add core business features for real-world usage while maintaining 0 SEK/month cost
 
-#### **Company Features**
+**Cost Target**: 0 SEK/month (free tiers sufficient for 100-500 users)
+
+#### **Company Features (Free Tier)**
 - [ ] **Contact System**: "Contact Organization" with secure messaging
-- [ ] **Favorites/Bookmarks**: Save interesting projects
-- [ ] **Basic Analytics**: Track project views and engagement
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 6.1: Input sanitization on all messages
+    - Section 3.4: Rate limiting (3 messages/hour per user)
+    - Section 7.4: Message content moderation via Perspective API
+- [ ] **Favorites/Bookmarks**: Save interesting projects (stored in Vercel KV)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 3.2: User session validation required
+    - Section 2.3: User data isolation (can only access own favorites)
+- [ ] **Basic Analytics**: Track project views and engagement (Vercel Analytics free tier)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 5.5: Anonymous analytics only (no PII tracking)
+    - Section 8.3: GDPR-compliant event tracking
 - [ ] **Search & Filter**: By category, location, budget, UN goals
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 3.1: Parameterized queries to prevent SQL injection
+    - Section 3.4: Rate limiting on search endpoint
 
-#### **Organization Features**
+#### **Organization Features (Free Tools)**
 - [ ] **Project Status Updates**: Progress tracking and reporting
-- [ ] **Media Upload**: Images for project cards
-- [ ] **Social Sharing**: LinkedIn, Twitter integration
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 7.1: Organization-only access to own projects
+    - Section 7.2: Audit log of all status changes
+- [ ] **Media Upload**: Images for project cards (Vercel Blob free tier: 500MB)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 6.5: File type validation (only images allowed)
+    - Section 6.6: File size limits (max 5MB per image)
+    - Section 6.7: Image scanning for inappropriate content
+    - Section 8.4: Secure file URLs with expiry tokens
+- [ ] **Social Sharing**: LinkedIn, Twitter integration (free APIs)
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 8.5: No social media tokens stored on server
 - [ ] **Impact Reporting**: Basic metrics and outcomes
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 7.5: Data validation to prevent false reporting
 
-#### **Platform Features**
+#### **Platform Features (Free Services)**
 - [ ] **SEO Optimization**: Meta tags, structured data, sitemap
+  - Use Next.js built-in metadata API (free)
 - [ ] **Performance**: Image optimization, lazy loading, caching
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 8.6: CDN caching with security headers
+    - Use Next.js Image component (automatic optimization)
 - [ ] **Monitoring**: Error tracking, analytics, health checks
+  - Vercel Analytics (free tier: 2,500 events/month)
+  - Sentry free tier (5k events/month) for error tracking
+  - **Security** (SECURITY_ANALYSIS.md):
+    - Section 9.1: Error sanitization (no sensitive data in logs)
+    - Section 9.2: Security event monitoring
 - [ ] **Internationalization (i18n)**: Language switching infrastructure for future English support
+  - Use next-intl (free, open-source)
 
 ### **Phase 3: Revenue MVP (3-4 weeks)**
 **Goal**: Implement subscription model and payment processing
@@ -471,14 +557,45 @@ npm run dev                 # Start local development
 
 ## 🔄 Development Status Reference
 
-**Current Phase**: Demo MVP Complete ✅
-**Next Phase**: Deploy to Vercel, then Planning Phase 1 (Functional MVP)
+**Current Phase**: Demo MVP Complete ✅ → Starting Phase 1 (Free Hosting MVP)
+**Next Phase**: Phase 1 - Backend with 100% free services
 **PRD Alignment**: 100% compliant with Demo MVP requirements
 **Test Coverage**: 100% for UI components
 **Technical Stack**: Stable and production-ready
 **Development Workflow**: Option 1 (Ultra Simple)
 **Deployment Status**: ✅ LIVE on Vercel with auto-deploy
+**Hosting Cost**: 0 SEK/month (target maintained through Phase 2)
+**Security Framework**: All phases reference SECURITY_ANALYSIS.md sections
+**Content Moderation**: Perspective API (free) + manual review
+**Verification Strategy**: Email-only (free), SMS deferred to Phase 3
 **Multi-language Support**: Phase 4 planned (Swedish/English)
-**Security Analysis**: Comprehensive security framework documented (see SECURITY_ANALYSIS.md)
 **Live Demo URL**: https://kollektivly-csr.vercel.app/
-**Last Updated**: 2025-09-30
+**Last Updated**: 2025-10-01
+
+## 🆓 Free Hosting Architecture (Phases 1-2)
+
+### **Service Stack (100% Free)**
+| Service | Free Tier | Usage Estimate | Cost |
+|---------|-----------|----------------|------|
+| **Vercel Hosting** | Unlimited bandwidth | Static + SSR pages | 0 SEK |
+| **Vercel Postgres** | 256MB, 60h compute/mo | ~50 orgs, 200 projects | 0 SEK |
+| **Vercel KV** | 256MB, 30k commands/mo | Sessions + favorites | 0 SEK |
+| **Vercel Blob** | 500MB storage | Project images | 0 SEK |
+| **Resend Email** | 3,000 emails/month | Verification + notifications | 0 SEK |
+| **Perspective API** | 1M requests/day | Content moderation | 0 SEK |
+| **hCaptcha** | Unlimited | Bot protection | 0 SEK |
+| **Vercel Analytics** | 2,500 events/month | Basic tracking | 0 SEK |
+| **Sentry** | 5,000 events/month | Error monitoring | 0 SEK |
+| **Total Monthly Cost** | - | - | **0 SEK** |
+
+### **Scaling Limits (When to Upgrade)**
+- **Users**: Free tiers support 100-500 concurrent users
+- **Projects**: Up to 200 projects comfortably
+- **Emails**: 3,000/month = ~100 emails/day (sufficient for MVP)
+- **Database**: 256MB = ~5,000 projects with images stored externally
+- **Trigger Point**: When you hit 500+ users or 100+ emails/day
+
+### **Cost Projection (Future Phases)**
+- **Phase 3 (Payment Processing)**: +0 SEK (Stripe fees only on transactions)
+- **Phase 4 (Scaling)**: +300-500 SEK/month when exceeding free tiers
+- **First Paying Customer Should Cover**: 500 SEK/month minimum subscription

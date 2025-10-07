@@ -30,7 +30,7 @@ export default function Home() {
             {/* Logo */}
             <div className="flex justify-center mb-8">
               <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-4xl">K</span>
+                <span className="text-white font-bold text-2xl">K</span>
               </div>
             </div>
 
@@ -39,7 +39,7 @@ export default function Home() {
               Kollektivly
             </h1>
             <p className="text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed">
-              Plattformen som kopplar samman företag med verifierade CSR-projekt från lokala organisationer.
+              Plattformen som kopplar samman företag med projekt från lokala organisationer som bidrar med samhällsnytta.
               <span className="block mt-2 text-blue-600 font-semibold">Enkel väg till meningsfull samhällsnytta.</span>
             </p>
 
@@ -70,7 +70,7 @@ export default function Home() {
             Rekommenderade Projekt
           </h2>
           <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            Handplockade CSR-projekt från verifierade organisationer. Alla projekt har genomgått vår kvalitetsgranskning
+            Handplockade projekt från verifierade organisationer. Alla projekt har genomgått vår kvalitetsgranskning
             och matchar företags hållbarhetsmål enligt FN:s globala mål.
           </p>
         </div>
