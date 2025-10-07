@@ -22,6 +22,9 @@ export const metadata: Metadata = {
   description: "Kollektivly – Svenska CSR-projekt och samhällsinitiativ",
 };
 
+// Disable static generation for all pages (required for Cloudflare Pages with client components)
+export const dynamic = 'force-dynamic';
+
 export default function RootLayout({
   children,
 }: Readonly<{
