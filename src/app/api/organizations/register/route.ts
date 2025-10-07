@@ -5,9 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendVerificationEmail } from '@/lib/email';
 
 // SECURITY: Section 3.1 - Input validation with Zod
 const registerSchema = z.object({
@@ -192,36 +190,15 @@ export async function POST(request: NextRequest) {
 
     // Send verification email
     try {
-      await sendVerificationEmail(
-        validated.email,
-        token,
-        validated.organizationName
-      );
+      await sendVerificationEmail({
+        to: validated.email,
+        organizationName: validated.organizationName,
+        verificationToken: token
+      });
     } catch (emailError) {
       console.error('Email sending error:', emailError);
       // Log error but don't fail the registration
       // Admin will be notified and can manually verify
-    }
-
-    // Send notification to admin
-    try {
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL!,
-        to: process.env.ADMIN_EMAIL!,
-        subject: `Ny organisation registrerad: ${validated.organizationName}`,
-        html: `
-          <h2>Ny organisation har registrerats</h2>
-          <p><strong>Organisationsnamn:</strong> ${validated.organizationName}</p>
-          <p><strong>E-post:</strong> ${validated.email}</p>
-          <p><strong>Stad:</strong> ${validated.city}</p>
-          <p><strong>Kontaktperson:</strong> ${validated.contactPerson}</p>
-          <p><strong>Org.nr:</strong> ${validated.organizationNumber || 'Ej angivet'}</p>
-          <p>Logga in på admin-panelen för att godkänna organisationen efter e-postverifiering.</p>
-        `
-      });
-    } catch (adminEmailError) {
-      console.error('Admin notification error:', adminEmailError);
-      // Non-critical, continue
     }
 
     return NextResponse.json({

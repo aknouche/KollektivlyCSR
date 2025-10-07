@@ -3,7 +3,15 @@
 
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// Lazy-load Resend to avoid build-time errors when API key is not set
+let resendInstance: Resend | null = null;
+
+function getResendClient(): Resend | null {
+  if (!resendInstance && process.env.RESEND_API_KEY) {
+    resendInstance = new Resend(process.env.RESEND_API_KEY);
+  }
+  return resendInstance;
+}
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
@@ -19,6 +27,13 @@ export async function sendVerificationEmail({
   organizationName,
   verificationToken,
 }: SendVerificationEmailParams) {
+  const resend = getResendClient();
+
+  if (!resend) {
+    console.warn('Resend not configured, skipping verification email');
+    return { success: false, error: 'Email service not configured' };
+  }
+
   const verificationUrl = `${APP_URL}/verifiera-epost?token=${verificationToken}`;
 
   try {
@@ -102,6 +117,13 @@ export async function sendAdminNotification({
   email,
   city,
 }: SendAdminNotificationParams) {
+  const resend = getResendClient();
+
+  if (!resend) {
+    console.warn('Resend not configured, skipping admin notification');
+    return { success: false, error: 'Email service not configured' };
+  }
+
   const adminEmail = process.env.ADMIN_EMAIL;
 
   if (!adminEmail) {

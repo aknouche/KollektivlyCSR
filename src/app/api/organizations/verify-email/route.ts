@@ -5,9 +5,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';
-import { Resend } from 'resend';
-
-const resend = new Resend(process.env.RESEND_API_KEY);
+import { sendAdminNotification } from '@/lib/email';
 
 const verifySchema = z.object({
   token: z.string().uuid()
@@ -98,58 +96,16 @@ export async function POST(request: NextRequest) {
         .eq('id', tokenData.organization_id);
     }
 
-    // Send welcome email with next steps
+    // Send notification to admin about new verified organization
     try {
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL!,
-        to: tokenData.organizations.email,
-        subject: 'E-post verifierad - Nästa steg | Kollektivly',
-        html: `
-          <h1>E-post verifierad! 🎉</h1>
-          <p>Hej ${tokenData.organizations.organization_name}!</p>
-          <p>Din e-postadress har verifierats. Din ansökan granskas nu av vårt team.</p>
-
-          <h2>Nästa steg:</h2>
-          <ol>
-            <li>Vi granskar din organisation (tar vanligtvis 1-2 arbetsdagar)</li>
-            <li>Du får ett mejl när din organisation är godkänd</li>
-            <li>Då kan du börja lägga upp projekt på Kollektivly</li>
-          </ol>
-
-          <h2>Under tiden:</h2>
-          <ul>
-            <li>Förbered ditt första projekt (beskrivning, budget, mål)</li>
-            <li>Samla bilder och material</li>
-            <li>Tänk på vilka FN:s hållbarhetsmål ni jobbar mot</li>
-          </ul>
-
-          <p>Om du har frågor, svara på detta mejl så hör vi av oss!</p>
-
-          <br>
-          <p>Med vänliga hälsningar,<br>Kollektivly teamet</p>
-        `
-      });
-    } catch (emailError) {
-      console.error('Welcome email error:', emailError);
-      // Non-critical
-    }
-
-    // Notify admin about verification
-    try {
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL!,
-        to: process.env.ADMIN_EMAIL!,
-        subject: `Organisation verifierad: ${tokenData.organizations.organization_name}`,
-        html: `
-          <h2>${tokenData.organizations.organization_name} har verifierat sin e-post</h2>
-          <p><strong>E-post:</strong> ${tokenData.organizations.email}</p>
-          <p><strong>Status:</strong> VERIFIED (väntar på admin-godkännande)</p>
-          <p><strong>Nästa steg:</strong> Godkänn organisationen i admin-panelen så de kan börja lägga upp projekt.</p>
-          <p><a href="${process.env.NEXT_PUBLIC_APP_URL}/admin/organizations">Granska organisation</a></p>
-        `
+      await sendAdminNotification({
+        organizationName: tokenData.organizations.organization_name,
+        email: tokenData.organizations.email,
+        city: tokenData.organizations.city || 'Not provided'
       });
     } catch (adminEmailError) {
       console.error('Admin notification error:', adminEmailError);
+      // Non-critical
     }
 
     return NextResponse.json({
