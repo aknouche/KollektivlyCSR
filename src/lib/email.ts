@@ -1,16 +1,19 @@
 // Email Service using Resend
 // SECURITY: See SECURITY_ANALYSIS.md Section 4.3, 6.1
 
-import { Resend } from 'resend';
-
-// Lazy-load Resend to avoid build-time errors when API key is not set
-let resendInstance: Resend | null = null;
-
-function getResendClient(): Resend | null {
-  if (!resendInstance && process.env.RESEND_API_KEY) {
-    resendInstance = new Resend(process.env.RESEND_API_KEY);
+// Dynamic import to avoid bundling Resend in Edge Runtime
+async function getResendClient() {
+  if (!process.env.RESEND_API_KEY) {
+    return null;
   }
-  return resendInstance;
+
+  try {
+    const { Resend } = await import('resend');
+    return new Resend(process.env.RESEND_API_KEY);
+  } catch (error) {
+    console.error('Failed to load Resend:', error);
+    return null;
+  }
 }
 
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL || 'onboarding@resend.dev';
@@ -27,7 +30,7 @@ export async function sendVerificationEmail({
   organizationName,
   verificationToken,
 }: SendVerificationEmailParams) {
-  const resend = getResendClient();
+  const resend = await getResendClient();
 
   if (!resend) {
     console.warn('Resend not configured, skipping verification email');
@@ -117,7 +120,7 @@ export async function sendAdminNotification({
   email,
   city,
 }: SendAdminNotificationParams) {
-  const resend = getResendClient();
+  const resend = await getResendClient();
 
   if (!resend) {
     console.warn('Resend not configured, skipping admin notification');
