@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import dynamic from 'next/dynamic';
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import Navigation from '@/components/Navigation';
 
-const Navigation = dynamic(() => import('@/components/Navigation'), { ssr: false });
+// Force dynamic rendering for all pages (required for Cloudflare Pages)
+export const dynamic = 'force-dynamic';
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -34,7 +34,6 @@ export default function RootLayout({
       >
         <Navigation />
         {children}
-        <SpeedInsights />
       </body>
     </html>
   );
