@@ -7,7 +7,6 @@ export const runtime = 'edge';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';
-import { sendVerificationEmail } from '@/lib/email';
 
 // SECURITY: Section 3.1 - Input validation with Zod
 const registerSchema = z.object({
@@ -104,11 +103,17 @@ export async function POST(request: NextRequest) {
             user_agent: request.headers.get('user-agent') || 'unknown'
           });
 
-        await sendVerificationEmail(
-          validated.email,
-          token,
-          validated.organizationName
-        );
+        // Send verification email via internal API
+        await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/email/send`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            type: 'VERIFICATION',
+            to: validated.email,
+            organizationName: validated.organizationName,
+            verificationToken: token,
+          }),
+        });
 
         return NextResponse.json({
           message: 'Verifieringsmejl skickat på nytt. Kolla din inkorg.',
@@ -168,12 +173,17 @@ export async function POST(request: NextRequest) {
       // Continue anyway, admin can manually verify
     }
 
-    // Send verification email
+    // Send verification email via internal API
     try {
-      await sendVerificationEmail({
-        to: validated.email,
-        organizationName: validated.organizationName,
-        verificationToken: token
+      await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/email/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'VERIFICATION',
+          to: validated.email,
+          organizationName: validated.organizationName,
+          verificationToken: token,
+        }),
       });
     } catch (emailError) {
       console.error('Email sending error:', emailError);

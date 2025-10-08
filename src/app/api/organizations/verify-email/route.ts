@@ -7,7 +7,6 @@ export const runtime = 'edge';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createAdminClient } from '@/lib/supabase/server';
-import { sendAdminNotification } from '@/lib/email';
 
 const verifySchema = z.object({
   token: z.string().uuid()
@@ -100,10 +99,16 @@ export async function POST(request: NextRequest) {
 
     // Send notification to admin about new verified organization
     try {
-      await sendAdminNotification({
-        organizationName: tokenData.organizations.organization_name,
-        email: tokenData.organizations.email,
-        city: tokenData.organizations.city || 'Not provided'
+      await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/email/send`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'ADMIN_NOTIFICATION',
+          to: process.env.ADMIN_EMAIL || '',
+          organizationName: tokenData.organizations.organization_name,
+          email: tokenData.organizations.email,
+          city: tokenData.organizations.city || 'Not provided',
+        }),
       });
     } catch (adminEmailError) {
       console.error('Admin notification error:', adminEmailError);
