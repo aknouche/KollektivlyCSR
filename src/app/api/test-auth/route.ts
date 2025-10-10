@@ -27,11 +27,11 @@ export async function GET() {
       }
     });
 
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({
       success: false,
       message: 'Auth configuration error',
-      error: error.message,
+      error: error instanceof Error ? error.message : 'Unknown error',
       hint: 'Check your Supabase authentication settings'
     }, { status: 500 });
   }

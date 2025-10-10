@@ -43,7 +43,7 @@ export async function GET() {
     }
 
     // Test 3: Try to list files in bucket (tests read access)
-    const { data: files, error: filesError } = await supabaseAdmin
+    const { error: filesError } = await supabaseAdmin
       .storage
       .from('project-images')
       .list('', { limit: 1 });
@@ -67,11 +67,11 @@ export async function GET() {
       }
     });
 
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({
       success: false,
       message: 'Storage test failed',
-      error: error.message,
+      error: error instanceof Error ? error.message : 'Unknown error',
       hint: 'Check your SUPABASE_SERVICE_ROLE_KEY in .env.local'
     }, { status: 500 });
   }

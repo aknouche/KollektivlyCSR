@@ -45,11 +45,11 @@ export async function GET() {
       }
     });
 
-  } catch (error: any) {
+  } catch (error) {
     return NextResponse.json({
       success: false,
       message: 'Failed to connect to Supabase',
-      error: error.message,
+      error: error instanceof Error ? error.message : 'Unknown error',
       hint: 'Check your NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY in .env.local'
     }, { status: 500 });
   }
