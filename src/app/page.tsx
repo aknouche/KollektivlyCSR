@@ -5,6 +5,27 @@ import { Project } from '@/types';
 
 export const revalidate = 60; // Revalidate every 60 seconds
 
+// Type for database project query result
+type DatabaseProject = {
+  id: string;
+  created_at: string;
+  projektnamn: string;
+  kort_beskrivning: string;
+  full_beskrivning: string;
+  csr_kategori: string;
+  stad: string;
+  budget: string;
+  image_url: string | null;
+  fn_mal: string[];
+  view_count: number;
+  status: string;
+  badges: string[];
+  organizations: {
+    organization_name: string;
+    city: string;
+  } | null;
+};
+
 async function getPublishedProjects(): Promise<Project[]> {
   try {
     const supabase = await createClient();
@@ -33,7 +54,8 @@ async function getPublishedProjects(): Promise<Project[]> {
       `)
       .eq('status', 'PUBLISHED')
       .order('created_at', { ascending: false })
-      .limit(12);
+      .limit(12)
+      .returns<DatabaseProject[]>();
 
     if (error) {
       console.error('Error fetching projects:', error);
@@ -46,29 +68,31 @@ async function getPublishedProjects(): Promise<Project[]> {
     }
 
     // Transform database projects to match frontend Project type
-    const transformedProjects: Project[] = data.map((project, index) => ({
-      id: index + 1, // Use index for frontend display
-      projektnamn: project.projektnamn,
-      kortBeskrivning: project.kort_beskrivning,
-      fullBeskrivning: project.full_beskrivning || project.kort_beskrivning,
-      kategori: project.csr_kategori,
-      organisation: Array.isArray(project.organizations)
-        ? project.organizations[0]?.organization_name
-        : (project.organizations as any)?.organization_name || 'Okänd organisation',
-      plats: project.stad,
-      foreningsnamn: Array.isArray(project.organizations)
-        ? project.organizations[0]?.organization_name
-        : (project.organizations as any)?.organization_name || 'Okänd organisation',
-      stad: project.stad,
-      csrKategori: project.csr_kategori,
-      fnMal: project.fn_mal || [],
-      budget: parseInt(project.budget) || 0,
-      insamlat: 0, // Not tracking current funding in MVP
-      bildUrl: project.image_url || '/placeholder-project.jpg',
-      mal: project.fn_mal || [],
-      badges: project.badges || getBadgesForProject(project),
-      viewsLeft: project.view_count ? Math.max(0, 50 - (project.view_count % 50)) : undefined
-    }));
+    const transformedProjects: Project[] = data.map((project, index) => {
+      const orgName = project.organizations?.organization_name || 'Okänd organisation';
+
+      // Format budget as string with "kr" suffix like the static data
+      const budgetNumber = parseInt(project.budget) || 0;
+      const budgetFormatted = `${budgetNumber.toLocaleString('sv-SE')} kr`;
+
+      return {
+        id: index + 1, // Use index for frontend display
+        projektnamn: project.projektnamn,
+        kortBeskrivning: project.kort_beskrivning,
+        fullBeskrivning: project.full_beskrivning || project.kort_beskrivning,
+        foreningsnamn: orgName,
+        stad: project.stad,
+        budget: budgetFormatted,
+        csrKategori: project.csr_kategori as 'Miljö' | 'Ungdom' | 'Inkludering',
+        fnMal: project.fn_mal,
+        badges: (project.badges.length > 0
+          ? project.badges.filter((b): b is 'NY' | 'POPULÄR' | 'VERIFIERAD' =>
+              ['NY', 'POPULÄR', 'VERIFIERAD'].includes(b))
+          : getBadgesForProject(project)) as Array<'NY' | 'POPULÄR' | 'VERIFIERAD'>,
+        viewsLeft: project.view_count ? Math.max(0, 50 - (project.view_count % 50)) : undefined,
+        imageUrl: project.image_url || undefined
+      };
+    });
 
     return transformedProjects;
 
@@ -79,7 +103,7 @@ async function getPublishedProjects(): Promise<Project[]> {
 }
 
 // Helper function to determine badges based on project data
-function getBadgesForProject(project: any): string[] {
+function getBadgesForProject(project: DatabaseProject): string[] {
   const badges: string[] = [];
 
   // Add "NY" badge if created in last 7 days
@@ -90,7 +114,7 @@ function getBadgesForProject(project: any): string[] {
   }
 
   // Add "POPULÄR" if view count is high
-  if (project.view_count && project.view_count > 100) {
+  if (project.view_count > 100) {
     badges.push('POPULÄR');
   }
 
