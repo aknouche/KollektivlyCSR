@@ -133,7 +133,7 @@ export default function IntegritetspolicyPage() {
             <ul className="list-disc pl-6 text-gray-700 space-y-2">
               <li><strong>Få tillgång</strong> till dina personuppgifter</li>
               <li><strong>Rätta</strong> felaktiga eller ofullständiga uppgifter</li>
-              <li><strong>Radera</strong> dina uppgifter ("rätten att bli glömd")</li>
+              <li><strong>Radera</strong> dina uppgifter (&ldquo;rätten att bli glömd&rdquo;)</li>
               <li><strong>Begränsa</strong> behandlingen av dina uppgifter</li>
               <li><strong>Invända</strong> mot behandling</li>
               <li><strong>Dataportabilitet</strong> - få ut dina uppgifter i strukturerat format</li>
