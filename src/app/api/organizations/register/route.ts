@@ -1,12 +1,10 @@
-// @ts-nocheck - Temporary: Supabase SSR v0.7.0 has type inference issues with Database generic
 // Organization Registration API Route
 // SECURITY: Sections 3.1, 3.4, 4.1, 5.1 of SECURITY_ANALYSIS.md
 
-export const runtime = 'edge';
-
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { createAdminClient } from '@/lib/supabase/server';
+import { createClient } from '@supabase/supabase-js';
+import type { Database } from '@/lib/supabase/database.types';
 
 // SECURITY: Section 3.1 - Input validation with Zod
 const registerSchema = z.object({
@@ -71,7 +69,16 @@ export async function POST(request: NextRequest) {
     }
 
     // Create Supabase client with service role (bypass RLS for registration)
-    const supabase = createAdminClient();
+    const supabase = createClient<Database>(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+      {
+        auth: {
+          autoRefreshToken: false,
+          persistSession: false
+        }
+      }
+    );
 
     // Check if email already exists
     const { data: existingOrg } = await supabase
@@ -91,7 +98,6 @@ export async function POST(request: NextRequest) {
         const token = generateVerificationToken();
         const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-        // @ts-ignore - Supabase Database types inference issue with ssr package
         await supabase
           .from('verification_tokens')
           .insert({
@@ -123,7 +129,6 @@ export async function POST(request: NextRequest) {
     }
 
     // SECURITY: Section 5.1 - Create organization with GDPR consent
-    // @ts-ignore - Supabase Database types inference issue with ssr package
     const { data: organization, error: orgError } = await supabase
       .from('organizations')
       .insert({
@@ -156,7 +161,6 @@ export async function POST(request: NextRequest) {
     const token = generateVerificationToken();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
 
-    // @ts-ignore - Supabase Database types inference issue with ssr package
     const { error: tokenError } = await supabase
       .from('verification_tokens')
       .insert({
