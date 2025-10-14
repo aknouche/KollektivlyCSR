@@ -1,36 +1,71 @@
-This is the repository for **KollektivlyCSR**.
+# Kollektivly - CSR Platform
 
-## Getting Started
+Swedish platform connecting companies with verified non-profit projects for ESG and sustainability initiatives.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Production
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+**Live**: https://kollektivly-csr.vercel.app/
 
-## Learn More
+## Tech Stack
 
-To learn more about Next.js, take a look at the following resources:
+- **Next.js 14** - React framework
+- **Supabase** - Database, auth, storage
+- **Vercel** - Hosting (auto-deploy from main branch)
+- **TypeScript** - Type safety
+- **TailwindCSS** - Styling
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Project Status
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- ✅ Phase 1 Complete: Functional MVP with backend
+- 🚧 Phase 2 Next: Search, contact system, analytics
 
-## Deploy on Vercel
+## Documentation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **CLAUDE.md** - Full development guide, PRD, architecture
+- **docs/SECURITY_ANALYSIS.md** - Security guidelines
+- **docs/SUPABASE_SETUP.md** - Database setup instructions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Commands
+
+```bash
+npm run dev          # Development server
+npm run build        # Production build
+npm test             # Run tests
+npm run lint         # Check code quality
+```
+
+## Environment Variables
+
+Copy `.env.local.example` to `.env.local` and add:
+- Supabase credentials
+- Email service keys (Resend)
+- hCaptcha keys
+
+See `docs/SUPABASE_SETUP.md` for details.
+
+## Development Workflow
+
+```bash
+git pull origin main                    # Get latest
+npm run dev                             # Work locally
+npm test                                # Verify tests pass
+git add . && git commit -m "message"    # Commit changes
+git push origin main                    # Auto-deploy to Vercel
+```
+
+## For AI Assistants
+
+Read **CLAUDE.md** first - contains full context, PRD, and development guidelines.
+
+---
+
+Built with Claude Code | Cost: 0 SEK/month (free tier)
