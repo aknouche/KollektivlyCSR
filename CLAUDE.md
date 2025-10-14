@@ -52,7 +52,7 @@ To create a platform that connects companies focused on driving **Measurable Soc
 
 ### How to Run MVP
 ```bash
-cd KollektivlyCSR
+cd Kollektivly
 npm install
 npm run dev      # Development server
 npm test         # Run tests (TDD)
@@ -71,7 +71,7 @@ npm run build    # Production build
 
 ### 2. **File Structure**
 ```
-KollektivlyCSR/
+Kollektivly/
 ├── src/
 │   ├── app/
 │   │   ├── page.tsx                  # Homepage (dynamic + fallback)
