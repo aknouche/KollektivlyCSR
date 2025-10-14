@@ -1,6 +1,5 @@
-// @ts-nocheck - Supabase type inference issues with direct client creation
-// Organization Registration API Route
-// SECURITY: Sections 3.1, 3.4, 4.1, 5.1 of SECURITY_ANALYSIS.md
+// Simplified Organization Registration with Supabase Auth
+// SECURITY: Sections 3.1, 3.6, 5.1 of docs/SECURITY_ANALYSIS.md
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
@@ -12,6 +11,7 @@ const registerSchema = z.object({
   organizationName: z.string().min(2).max(200).trim(),
   organizationNumber: z.string().regex(/^\d{6}-\d{4}$/).optional().or(z.literal('')),
   email: z.string().email().trim().toLowerCase(),
+  password: z.string().min(8).max(100),
   contactPerson: z.string().min(2).max(100).trim(),
   phoneNumber: z.string().min(7).max(20).trim().optional().or(z.literal('')),
   website: z.string().url().optional().or(z.literal('')),
@@ -40,22 +40,13 @@ async function verifyHCaptcha(token: string, remoteIp: string): Promise<boolean>
   return data.success === true;
 }
 
-// SECURITY: Section 4.1 - Generate verification token
-function generateVerificationToken(): string {
-  return crypto.randomUUID();
-}
-
-// SECURITY: Section 3.4 - Rate limiting helper
-// Note: In production, use Redis (Upstash) for distributed rate limiting
-// For MVP, we rely on hCaptcha to prevent abuse
-
 export async function POST(request: NextRequest) {
   try {
-    // Check environment variables first
+    // Check environment variables
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
       console.error('Missing Supabase environment variables');
       return NextResponse.json(
-        { error: 'Server configuration error. Please contact support.' },
+        { error: 'Server configuration error' },
         { status: 500 }
       );
     }
@@ -63,17 +54,17 @@ export async function POST(request: NextRequest) {
     if (!process.env.HCAPTCHA_SECRET_KEY) {
       console.error('Missing hCaptcha secret key');
       return NextResponse.json(
-        { error: 'Server configuration error. Please contact support.' },
+        { error: 'Server configuration error' },
         { status: 500 }
       );
     }
 
-    // Get client IP for rate limiting and audit
+    // Get client IP
     const clientIp = request.headers.get('x-forwarded-for') ||
                      request.headers.get('x-real-ip') ||
                      'unknown';
 
-    // Parse and validate request body
+    // Parse and validate
     const body = await request.json();
     const validated = registerSchema.parse(body);
 
@@ -86,7 +77,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create Supabase client with service role (bypass RLS for registration)
+    // Create Supabase client with service role
     const supabase = createClient<Database>(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -98,58 +89,39 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    // Check if email already exists
-    const { data: existingOrg, error: checkError } = await supabase
-      .from('organizations')
-      .select('id, email_verified')
-      .eq('email', validated.email)
-      .maybeSingle<{ id: string; email_verified: boolean }>();
+    // Step 1: Create auth user with Supabase Auth
+    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+      email: validated.email,
+      password: validated.password,
+      email_confirm: true, // Auto-confirm email (no verification needed)
+      user_metadata: {
+        organization_name: validated.organizationName,
+        role: 'organization'
+      }
+    });
 
-    if (existingOrg && !checkError) {
-      if (existingOrg.email_verified) {
+    if (authError || !authData.user) {
+      console.error('Auth user creation error:', authError);
+
+      // Check if email already exists
+      if (authError?.message.includes('already registered')) {
         return NextResponse.json(
-          { error: 'En organisation med denna e-post är redan registrerad.' },
+          { error: 'En användare med denna e-post finns redan registrerad.' },
           { status: 409 }
         );
-      } else {
-        // Resend verification email
-        const token = generateVerificationToken();
-        const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-        await supabase
-          .from('verification_tokens')
-          .insert([{
-            token,
-            type: 'EMAIL_VERIFICATION' as const,
-            expires_at: expiresAt.toISOString(),
-            organization_id: existingOrg.id,
-            ip_address: clientIp,
-            user_agent: request.headers.get('user-agent') || 'unknown'
-          }]);
-
-        // Send verification email via internal API
-        await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/email/send`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            type: 'VERIFICATION',
-            to: validated.email,
-            organizationName: validated.organizationName,
-            verificationToken: token,
-          }),
-        });
-
-        return NextResponse.json({
-          message: 'Verifieringsmejl skickat på nytt. Kolla din inkorg.',
-          organizationId: existingOrg.id
-        });
       }
+
+      return NextResponse.json(
+        { error: 'Ett fel uppstod vid registrering. Försök igen.' },
+        { status: 500 }
+      );
     }
 
-    // SECURITY: Section 5.1 - Create organization with GDPR consent
+    // Step 2: Create organization profile linked to auth user
     const { data: organization, error: orgError } = await supabase
       .from('organizations')
       .insert([{
+        id: authData.user.id, // Use auth user ID as organization ID
         organization_name: validated.organizationName,
         organization_number: validated.organizationNumber || null,
         email: validated.email,
@@ -161,67 +133,33 @@ export async function POST(request: NextRequest) {
         description: validated.description || null,
         gdpr_consent: validated.gdprConsent,
         consent_date: new Date().toISOString(),
-        status: 'PENDING' as const,
-        email_verified: false
+        status: 'APPROVED', // Auto-approve for MVP
+        email_verified: true // Auto-verified for MVP
       }])
       .select()
       .single();
 
     if (orgError || !organization) {
       console.error('Organization creation error:', orgError);
+
+      // Clean up auth user if org creation fails
+      await supabase.auth.admin.deleteUser(authData.user.id);
+
       return NextResponse.json(
         { error: 'Ett fel uppstod vid registrering. Försök igen.' },
         { status: 500 }
       );
     }
 
-    // SECURITY: Section 4.1, 4.4 - Create verification token
-    const token = generateVerificationToken();
-    const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000); // 24 hours
-
-    const { error: tokenError } = await supabase
-      .from('verification_tokens')
-      .insert([{
-        token,
-        type: 'EMAIL_VERIFICATION' as const,
-        expires_at: expiresAt.toISOString(),
-        organization_id: organization.id,
-        ip_address: clientIp,
-        user_agent: request.headers.get('user-agent') || 'unknown'
-      }]);
-
-    if (tokenError) {
-      console.error('Token creation error:', tokenError);
-      // Continue anyway, admin can manually verify
-    }
-
-    // Send verification email via internal API
-    try {
-      await fetch(`${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/email/send`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type: 'VERIFICATION',
-          to: validated.email,
-          organizationName: validated.organizationName,
-          verificationToken: token,
-        }),
-      });
-    } catch (emailError) {
-      console.error('Email sending error:', emailError);
-      // Log error but don't fail the registration
-      // Admin will be notified and can manually verify
-    }
-
     return NextResponse.json({
-      message: 'Registrering lyckades! Kolla din e-post för verifieringslänk.',
+      message: 'Registrering lyckades!',
       organizationId: organization.id,
       email: organization.email
     }, { status: 201 });
 
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const errorMessages = error.errors.map((e: { message: string }) => e.message).join(', ');
+      const errorMessages = error.errors.map((e) => e.message).join(', ');
       return NextResponse.json(
         { error: 'Ogiltiga uppgifter', details: errorMessages },
         { status: 400 }

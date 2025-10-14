@@ -9,6 +9,7 @@ export default function Registrera() {
     organizationName: '',
     organizationNumber: '',
     email: '',
+    password: '',
     contactPerson: '',
     phoneNumber: '',
     website: '',
@@ -84,24 +85,24 @@ export default function Registrera() {
               </svg>
             </div>
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Registrering lyckades! 🎉
+              Välkommen till Kollektivly! 🎉
             </h1>
             <p className="text-lg text-gray-600 mb-6">
-              Vi har skickat ett verifieringsmejl till <strong>{formData.email}</strong>
+              Ditt konto är skapat och redo att användas!
             </p>
             <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-8">
-              <h3 className="font-semibold text-gray-900 mb-2">Nästa steg:</h3>
+              <h3 className="font-semibold text-gray-900 mb-2">Nu kan du:</h3>
               <ol className="text-left text-gray-700 space-y-2">
-                <li>1. Kolla din inkorg och klicka på verifieringslänken</li>
-                <li>2. Vår admin granskar din ansökan (1-2 arbetsdagar)</li>
-                <li>3. Du får ett mejl när du kan börja lägga upp projekt</li>
+                <li>✅ Logga in med <strong>{formData.email}</strong></li>
+                <li>✅ Börja skapa och hantera dina CSR-projekt</li>
+                <li>✅ Nå företag som söker hållbarhetsprojekt</li>
               </ol>
             </div>
             <Link
-              href="/"
+              href="/logga-in"
               className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
-              Tillbaka till startsidan
+              Logga in nu
             </Link>
           </div>
         </div>
@@ -190,7 +191,26 @@ export default function Registrera() {
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="info@organisation.se"
               />
-              <p className="mt-1 text-sm text-gray-500">Vi skickar verifieringslänk hit</p>
+              <p className="mt-1 text-sm text-gray-500">Används för inloggning</p>
+            </div>
+
+            {/* Password */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-2">
+                Lösenord <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                required
+                minLength={8}
+                value={formData.password}
+                onChange={handleChange}
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Minst 8 tecken"
+              />
+              <p className="mt-1 text-sm text-gray-500">Minst 8 tecken</p>
             </div>
 
             {/* Contact Person */}
@@ -342,16 +362,16 @@ export default function Registrera() {
           <h3 className="font-semibold text-gray-900 mb-3">Efter registrering:</h3>
           <ul className="space-y-2 text-sm text-gray-700">
             <li className="flex items-start">
-              <span className="text-blue-600 mr-2">1.</span>
-              Du får ett verifieringsmejl - klicka på länken för att verifiera din e-post
+              <span className="text-blue-600 mr-2">✓</span>
+              Du får omedelbar tillgång till ditt konto
             </li>
             <li className="flex items-start">
-              <span className="text-blue-600 mr-2">2.</span>
-              Vår admin granskar din ansökan (tar vanligtvis 1-2 arbetsdagar)
+              <span className="text-blue-600 mr-2">✓</span>
+              Skapa och hantera CSR-projekt direkt från din dashboard
             </li>
             <li className="flex items-start">
-              <span className="text-blue-600 mr-2">3.</span>
-              När du är godkänd kan du börja lägga upp CSR-projekt
+              <span className="text-blue-600 mr-2">✓</span>
+              Nå tusentals företag som söker hållbarhetsprojekt
             </li>
           </ul>
         </div>
