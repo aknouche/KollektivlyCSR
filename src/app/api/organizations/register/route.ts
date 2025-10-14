@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
     const { data: organization, error: orgError } = await supabase
       .from('organizations')
       .insert([{
-        id: authData.user.id, // Use auth user ID as organization ID
+        auth_user_id: authData.user.id, // Link to auth user
         organization_name: validated.organizationName,
         organization_number: validated.organizationNumber || null,
         email: validated.email,
