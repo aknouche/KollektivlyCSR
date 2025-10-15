@@ -40,7 +40,7 @@ export default function AllaProject() {
               </svg>
             </div>
             <h3 className="text-lg font-semibold text-gray-900 mb-2">Avancerad Sökning</h3>
-            <p className="text-gray-600">Filtrera efter kategori, plats, budget, FN-mål och mycket mer</p>
+            <p className="text-gray-600">Filtrera efter kategori, plats, budget, FNs hållbarhetsmål och mycket mer</p>
           </div>
 
           <div className="bg-white p-6 rounded-xl shadow-sm border border-gray-100">

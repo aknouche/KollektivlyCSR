@@ -94,8 +94,8 @@ export default function Registrera() {
               <h3 className="font-semibold text-gray-900 mb-2">Nu kan du:</h3>
               <ol className="text-left text-gray-700 space-y-2">
                 <li>✅ Logga in med <strong>{formData.email}</strong></li>
-                <li>✅ Börja skapa och hantera dina CSR-projekt</li>
-                <li>✅ Nå företag som söker hållbarhetsprojekt</li>
+                <li>✅ Börja skapa och hantera dina projekt</li>
+                <li>✅ Nå företag som vill stötta projekt inom hållbar utveckling och samhällsnytta</li>
               </ol>
             </div>
             <Link
@@ -125,10 +125,10 @@ export default function Registrera() {
         {/* Header */}
         <div className="text-center mb-12">
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
-            Registrera din organisation
+            Registrera din organisation. Det är gratis.
           </h1>
           <p className="text-lg text-gray-600">
-            Fyll i formuläret nedan för att komma igång med Kollektivly
+            Fyll i formuläret nedan för att komma igång med Kollektivly, helt gratis.
           </p>
         </div>
 

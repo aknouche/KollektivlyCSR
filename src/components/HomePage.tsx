@@ -50,8 +50,8 @@ export default function HomePage({ projects }: HomePageProps) {
               Kollektivly
             </h1>
             <p className="text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed">
-              Plattformen som kopplar samman företag med projekt från lokala organisationer som bidrar med samhällsnytta.
-              <span className="block mt-2 text-blue-600 font-semibold">Enkel väg till meningsfull samhällsnytta.</span>
+              Plattformen som kopplar samman företag med projekt från lokala organisationer som bidrar till hållbar utveckling och samhällsnytta.
+              <span className="block mt-2 text-blue-600 font-semibold">Enkel väg till hållbar utveckling och meningsfull samhällsnytta.</span>
             </p>
 
             {/* Action Buttons */}
@@ -66,7 +66,7 @@ export default function HomePage({ projects }: HomePageProps) {
                 href="/lagg-till-projekt"
                 className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-colors"
               >
-                Lägg till ditt projekt
+                Lägg till ditt projekt, helt gratis!
               </Link>
             </div>
           </div>
@@ -100,12 +100,12 @@ export default function HomePage({ projects }: HomePageProps) {
           </div>
         ) : (
           <div className="text-center py-16">
-            <p className="text-gray-500 mb-6">Inga projekt har publicerats ännu.</p>
+            <p className="text-gray-500 mb-6">Inga projekt eller event har publicerats ännu.</p>
             <Link
               href="/lagg-till-projekt"
               className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
             >
-              Lägg till första projektet
+              Lägg till första projektet eller eventet. Det är helt gratis.
             </Link>
           </div>
         )}
@@ -116,17 +116,17 @@ export default function HomePage({ projects }: HomePageProps) {
           <div className="flex justify-center space-x-8 mb-8">
             <div className="text-center">
               <div className="text-3xl font-bold text-blue-600">{totalProjects}</div>
-              <div className="text-sm text-gray-600">Publicerade Projekt</div>
+              <div className="text-sm text-gray-600">Publicerade Projekt och Event</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-green-600">
                 {(totalBudget / 1000000).toFixed(1)}M kr
               </div>
-              <div className="text-sm text-gray-600">Totalt Projektbudget</div>
+              <div className="text-sm text-gray-600">Total budget</div>
             </div>
             <div className="text-center">
               <div className="text-3xl font-bold text-purple-600">{verifiedProjects}</div>
-              <div className="text-sm text-gray-600">Verifierade Projekt</div>
+              <div className="text-sm text-gray-600">Verifierade Projekt och Event</div>
             </div>
           </div>
 
@@ -136,7 +136,7 @@ export default function HomePage({ projects }: HomePageProps) {
               Trovärdig, datadriven och skalbar samhällsnytta
             </p>
             <p className="text-gray-600 max-w-2xl mx-auto">
-              Alla projekt är verifierade, handplockade och matchade enligt FN:s globala mål.
+              Alla projekt och event är verifierade, handplockade och matchade enligt FN:s globala mål.
               Gör skillnad genom vårt kvalitetssäkrade nätverk av organisationer.
             </p>
           </div>
@@ -147,13 +147,13 @@ export default function HomePage({ projects }: HomePageProps) {
               href="/alla-projekt"
               className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
             >
-              Se alla {totalProjects} projekt
+              Se alla {totalProjects} projekt och event
             </Link>
             <Link
               href="/registrera"
               className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-colors"
             >
-              Registrera din organisation
+              Kom igång idag. Registrera din organisation och lägg upp era projekt. Det är helt gratis.
             </Link>
           </div>
         </div>

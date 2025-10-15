@@ -1,11 +1,10 @@
-// @ts-nocheck - Supabase type inference issues with direct client creation
+// @ts-nocheck
 // Simplified Organization Registration with Supabase Auth
 // SECURITY: Sections 3.1, 3.6, 5.1 of docs/SECURITY_ANALYSIS.md
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { createClient } from '@supabase/supabase-js';
-import type { Database } from '@/lib/supabase/database.types';
 
 // SECURITY: Section 3.1 - Input validation with Zod
 const registerSchema = z.object({
@@ -27,18 +26,23 @@ const registerSchema = z.object({
 
 // SECURITY: Section 3.6 - hCaptcha verification
 async function verifyHCaptcha(token: string, remoteIp: string): Promise<boolean> {
-  const response = await fetch('https://api.hcaptcha.com/siteverify', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-    body: new URLSearchParams({
-      secret: process.env.HCAPTCHA_SECRET_KEY!,
-      response: token,
-      remoteip: remoteIp
-    })
-  });
+  try {
+    const response = await fetch('https://api.hcaptcha.com/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        secret: process.env.HCAPTCHA_SECRET_KEY!,
+        response: token,
+        remoteip: remoteIp
+      })
+    });
 
-  const data = await response.json();
-  return data.success === true;
+    const data = await response.json();
+    return data.success === true;
+  } catch (error) {
+    console.error('hCaptcha verification error:', error);
+    return false;
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -78,8 +82,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create Supabase client with service role
-    const supabase = createClient<Database>(
+    // Create admin Supabase client
+    const supabaseAdmin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
       {
@@ -90,39 +94,61 @@ export async function POST(request: NextRequest) {
       }
     );
 
-    // Step 1: Create auth user with Supabase Auth
-    const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+    // Check if email already exists in organizations table
+    const { data: existingOrg } = await supabaseAdmin
+      .from('organizations')
+      .select('id, email')
+      .eq('email', validated.email)
+      .maybeSingle();
+
+    if (existingOrg) {
+      return NextResponse.json(
+        { error: 'En organisation med denna e-post är redan registrerad.' },
+        { status: 409 }
+      );
+    }
+
+    // Step 1: Create auth user using admin API
+    const { data: authData, error: authError } = await supabaseAdmin.auth.admin.createUser({
       email: validated.email,
       password: validated.password,
-      email_confirm: true, // Auto-confirm email (no verification needed)
+      email_confirm: true, // Auto-confirm email
       user_metadata: {
         organization_name: validated.organizationName,
         role: 'organization'
       }
     });
 
-    if (authError || !authData.user) {
+    if (authError) {
       console.error('Auth user creation error:', authError);
 
-      // Check if email already exists
-      if (authError?.message.includes('already registered')) {
+      // Check if user already exists in auth
+      if (authError.message?.includes('already') || authError.message?.includes('exists')) {
         return NextResponse.json(
-          { error: 'En användare med denna e-post finns redan registrerad.' },
+          { error: 'En användare med denna e-post finns redan.' },
           { status: 409 }
         );
       }
 
       return NextResponse.json(
-        { error: 'Ett fel uppstod vid registrering. Försök igen.' },
+        { error: 'Ett fel uppstod vid skapande av konto. Försök igen.' },
         { status: 500 }
       );
     }
 
-    // Step 2: Create organization profile linked to auth user
-    const { data: organization, error: orgError } = await supabase
+    if (!authData?.user) {
+      console.error('No user data returned from auth creation');
+      return NextResponse.json(
+        { error: 'Ett fel uppstod vid skapande av konto. Försök igen.' },
+        { status: 500 }
+      );
+    }
+
+    // Step 2: Create organization profile
+    const { data: organization, error: orgError } = await supabaseAdmin
       .from('organizations')
-      .insert([{
-        auth_user_id: authData.user.id, // Link to auth user
+      .insert({
+        auth_user_id: authData.user.id,
         organization_name: validated.organizationName,
         organization_number: validated.organizationNumber || null,
         email: validated.email,
@@ -134,23 +160,37 @@ export async function POST(request: NextRequest) {
         description: validated.description || null,
         gdpr_consent: validated.gdprConsent,
         consent_date: new Date().toISOString(),
-        status: 'APPROVED', // Auto-approve for MVP
-        email_verified: true // Auto-verified for MVP
-      }])
+        status: 'APPROVED',
+        email_verified: true
+      })
       .select()
       .single();
 
-    if (orgError || !organization) {
+    if (orgError) {
       console.error('Organization creation error:', orgError);
 
       // Clean up auth user if org creation fails
-      await supabase.auth.admin.deleteUser(authData.user.id);
+      try {
+        await supabaseAdmin.auth.admin.deleteUser(authData.user.id);
+      } catch (cleanupError) {
+        console.error('Error cleaning up auth user:', cleanupError);
+      }
 
       return NextResponse.json(
         { error: 'Ett fel uppstod vid registrering. Försök igen.' },
         { status: 500 }
       );
     }
+
+    if (!organization) {
+      console.error('No organization data returned');
+      return NextResponse.json(
+        { error: 'Ett fel uppstod vid registrering. Försök igen.' },
+        { status: 500 }
+      );
+    }
+
+    console.log('Registration successful:', organization.id);
 
     return NextResponse.json({
       message: 'Registrering lyckades!',
@@ -160,7 +200,7 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     if (error instanceof z.ZodError) {
-      const errorMessages = error.errors.map((e) => e.message).join(', ');
+      const errorMessages = error.issues?.map((e) => e.message).join(', ') || 'Validation error';
       return NextResponse.json(
         { error: 'Ogiltiga uppgifter', details: errorMessages },
         { status: 400 }
