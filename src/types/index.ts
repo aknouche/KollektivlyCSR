@@ -11,4 +11,6 @@ export interface Project {
   badges?: Array<'NY' | 'POPULÄR' | 'VERIFIERAD'>;
   viewsLeft?: number;
   imageUrl?: string;
+  start_date?: string | null;
+  end_date?: string | null;
 }

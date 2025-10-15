@@ -65,6 +65,27 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
 
             {/* Content */}
             <div className="p-6 space-y-6">
+              {/* Project Dates */}
+              {(project.start_date || project.end_date) && (
+                <div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-3">
+                    Projektperiod
+                  </h3>
+                  <div className="flex items-center gap-2 text-gray-700">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    {project.start_date && project.end_date ? (
+                      <span>{new Date(project.start_date).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })} - {new Date(project.end_date).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    ) : project.start_date ? (
+                      <span>Startar: {new Date(project.start_date).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    ) : (
+                      <span>Slutar: {new Date(project.end_date!).toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })}</span>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Description */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">

@@ -95,6 +95,8 @@ export type Database = {
           reviewed_by: string | null
           reviewed_at: string | null
           review_notes: string | null
+          start_date: string | null
+          end_date: string | null
         }
         Insert: {
           id?: string
@@ -119,6 +121,8 @@ export type Database = {
           reviewed_by?: string | null
           reviewed_at?: string | null
           review_notes?: string | null
+          start_date?: string | null
+          end_date?: string | null
         }
         Update: {
           id?: string
@@ -143,6 +147,8 @@ export type Database = {
           reviewed_by?: string | null
           reviewed_at?: string | null
           review_notes?: string | null
+          start_date?: string | null
+          end_date?: string | null
         }
       }
       verification_tokens: {
