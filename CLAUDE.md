@@ -1,261 +1,160 @@
 # Kollektivly - Development Guide
 
-## 🎯 Core Purpose
-Platform connecting Swedish companies with verified non-profit organizations running samhällsprojekt (social impact projects). Focus on hållbar utveckling and measurable samhällsnytta.
+## 🎯 What We Do
+Platform connecting Swedish companies with verified föreningar. Companies support samhällsprojekt with guaranteed impact reporting through AI-verified escrow payments.
+
+**Core Value**: "No Report, No Payment" - We hold grant money and only release it when AI verifies impact reports.
+
+---
 
 ## Current Status
 
-**Phase 1: ✅ COMPLETE**
-- **Production**: https://kollektivly-csr.vercel.app/
-- **Stack**: Next.js 14 + Supabase + Vercel
-- **Cost**: 0 SEK/month (free tier)
-- **Features**: Dynamic homepage, organization registration, hCaptcha, GDPR compliant
+**Production**: https://kollektivly-csr.vercel.app/
+**Stack**: Next.js 14 + Supabase + Vercel
+**Cost**: 0 SEK/month (free tier)
 
-**Phase 2: IN PROGRESS**
-- [ ] Search and filtering
-- [ ] Contact system
-- [ ] Organization dashboard
-- [ ] Project submission form
+**Phase 1**: ✅ Complete (registration, authentication, homepage)
+**Phase 2**: 🔄 In progress (search, contact, dashboards, project submission)
+**Phase 3**: ⏳ Next (payment escrow, AI verification, reporting)
 
 ---
 
-## 💰 Business Model (UPDATED)
+## 💰 Business Model
 
-### **Free for Everyone (Browsing & Communication)**
-- ✅ Companies browse all projects **FREE**
-- ✅ Companies contact organizations **FREE**
-- ✅ Organizations register and list projects **FREE**
-- ✅ No subscription fees
+### Free Platform
+- Companies browse/contact föreningar: **FREE**
+- Föreningar list projects: **FREE**
 
-### **Revenue: Transaction-Based (Companies Pay When Supporting Projects)**
+### Revenue: Escrow + Verification Service
+Companies pay **service fee ON TOP of grant amount** (not deducted from it).
 
-**Payment flow**: Company finds project → Decides to support → **Checkout with add-on services** → Payment goes to förening
+**How it works**:
+1. Company commits 50,000 SEK grant to förening
+2. Adds 3,500 SEK service fee (7%)
+3. Total charged: **53,500 SEK**
+4. Kollektivly receives: **3,500 SEK** (immediately)
+5. Grant held in **escrow**: **50,000 SEK**
+6. Förening submits milestone reports
+7. **AI verifies** reports (completeness, quality, impact claims)
+8. **Payment released** only when verified
+9. Company gets **auto-generated ESG report**
 
-**Base Transaction**:
-- Stripe payment processing (3-5% fee)
-- Secure transfer to organization
+**Verification Tiers**:
+- **Basic (4%)**: Simple escrow + format checks - 2,000 SEK on 50K grant
+- **Standard (7%)**: AI verification + ESG reports - 3,500 SEK on 50K grant ✅ Recommended
+- **Enhanced (10%)**: + Legitimacy checks + custom support - 5,000 SEK on 50K grant
 
-**Optional Add-On Services at Checkout**:
-1. **Milestone Payments** (pay in phases)
-   - Set payment milestones
-   - Require progress reports before each payment
-   - Automatic payment release after approval
-   - **Price**: +2% of transaction or 500 SEK minimum
-
-2. **Simple ESG Report** (NOT CSRD)
-   - Professional PDF with company branding
-   - SDG alignment, project details, impact summary
-   - Suitable for LinkedIn, website, stakeholder presentations
-   - **Price**: 299 SEK per report
-
-3. **Social Media Material**
-   - Branded graphics for LinkedIn, Facebook, Instagram
-   - Ready-to-share announcement posts
-   - "We support [project]" templates
-   - **Price**: 199 SEK per project
-
-4. **AI Verification** (Enhanced due diligence)
-   - Automated check of organization's stadgar
-   - Analysis of årsredovisning
-   - Legitimacy verification report
-   - **Price**: 499 SEK per organization
-
-**Example Revenue**:
-```
-Company pays 50,000 SEK to support project:
-- Base fee (4%): 2,000 SEK
-- Milestone payments addon: +500 SEK
-- ESG report: +299 SEK
-- Social media pack: +199 SEK
-- AI verification: +499 SEK
-
-Total platform revenue: 3,497 SEK (7% of transaction)
-Förening receives: 46,503 SEK (93%)
-```
-
-### **Revenue Projections**
-```
-Target: 100 transactions/month at average 25,000 SEK
-
-Conservative estimate:
-- 50% add milestone payments: 50 × 500 = 25,000 SEK
-- 30% add ESG report: 30 × 299 = 8,970 SEK
-- 20% add social media: 20 × 199 = 3,980 SEK
-- 40% add AI verification: 40 × 499 = 19,960 SEK
-- Base fees (4%): 100 × 1,000 = 100,000 SEK
-
-Monthly revenue: ~158,000 SEK
-Annual revenue: ~1,900,000 SEK
-Operating cost: ~5,000 SEK/month
-```
-
-**Path to Profitability**: Clear and transaction-driven ✅
+**Revenue Example**:
+- 100 grants/month at avg 50,000 SEK
+- 70% choose Standard (7%)
+- Monthly: 245,000 SEK
+- Annual: **2,940,000 SEK**
+- Break-even: 4 grants/month
 
 ---
 
-## 🗺️ Development Roadmap
+## 🗺️ Roadmap
 
-### **Phase 2: Core Features (4-6 weeks) - FREE HOSTING**
-- [ ] **Search & Filter**: By category, location, budget, UN goals, dates
-- [ ] **Contact System**: Companies contact organizations directly
-- [ ] **Organization Dashboard**: See project views, contact requests
-- [ ] **Project Submission Form**: Organizations create projects
-- [ ] **Company Dashboard**: Track viewed projects, contacts sent
+**Phase 2 (4-6 weeks)**: Core Features
+- Search & filter (category, location, UN goals, dates)
+- Contact system (companies ↔ föreningar)
+- Organization dashboard (views, contacts)
+- Project submission form
+- Company dashboard (tracking)
 
-### **Phase 3: Payment System (6-8 weeks)**
-- [ ] **Stripe Integration**: Secure payment processing
-- [ ] **Checkout Flow**: Base payment + optional add-on services
-- [ ] **Milestone System**: Pay in phases with reporting requirements
-- [ ] **ESG Report Generator**: Simple PDF with SDG alignment
-- [ ] **Social Media Generator**: Branded graphics and templates
-- [ ] **AI Verification**: Automated legitimacy checks
+**Phase 3 (6-8 weeks)**: Payment & Verification
+- Stripe escrow integration
+- Milestone payment system
+- AI report verification (OpenAI API)
+- Auto ESG report generation (PDF)
+- Förening verification (stadgar, årsredovisning via AI)
 
-### **Phase 4: Advanced Features (Optional)**
-- [ ] **Multi-language**: Swedish/English support
-- [ ] **Mobile App**: Native iOS/Android apps
-- [ ] **Advanced Analytics**: Detailed impact tracking
-- [ ] **CSRD-Lite**: Data export for companies needing ESRS Social (S) evidence
+**Phase 4 (Optional)**: Advanced
+- Multi-language (Swedish/English)
+- Mobile app
+- Advanced analytics
 
 ---
 
 ## Tech Stack
 
-**Frontend**: Next.js 14, React 18, TypeScript, TailwindCSS, Framer Motion
+**Frontend**: Next.js 14, TypeScript, TailwindCSS
 **Backend**: Supabase (PostgreSQL, Auth, Storage)
-**Payments**: Stripe
-**AI**: OpenAI API for verification
-**PDF Generation**: Pdfmonkey.io or similar
-**Hosting**: Vercel (0 SEK/month on free tier)
-
-**File Structure**:
-```
-src/
-├── app/
-│   ├── page.tsx              # Homepage
-│   ├── registrera/           # Organization registration
-│   ├── alla-projekt/         # Project browsing
-│   └── api/                  # API routes
-├── components/               # React components
-├── lib/supabase/            # Database client
-└── types/                    # TypeScript types
-```
+**Payments**: Stripe Connect (escrow)
+**AI**: OpenAI GPT-4 for report verification
+**PDF**: Pdfmonkey.io
+**Hosting**: Vercel (0 SEK/month)
 
 ---
 
 ## Commands
 
 ```bash
-npm run dev          # Development server (localhost:3000)
+npm run dev          # localhost:3000
 npm run build        # Production build
 npm test             # Run tests
-npm run lint         # ESLint check
+git push origin main # Auto-deploy to Vercel
 ```
 
 ---
 
-## Development Workflow
+## Key Decisions
 
-```bash
-1. npm run dev              # Work locally
-2. npm test                 # Verify tests pass
-3. git add . && git commit -m "description"
-4. git push origin main     # Auto-deploys to Vercel
-```
+**✅ What We Do**:
+- Transaction-based (not subscriptions)
+- AI-verified escrow (not just payments)
+- Fee ON TOP of grant (not deducted)
+- Simple tiers (not complex add-ons)
+- Self-service (not enterprise sales)
 
-**Philosophy**: Keep it simple. Add complexity only when needed.
-
----
-
-## Key Technical Decisions
-
-### ✅ What We Use
-- **Next.js 14.x** (avoid 15.x - Turbopack issues)
-- **TailwindCSS 3.x** (avoid v4 - PostCSS conflicts)
-- **Supabase** for database/auth (free tier, 0 SEK/month)
-- **TypeScript** for type safety
-- **Simple Stats** over CSRD compliance (95% of target market doesn't need CSRD)
-
-### ❌ What We Avoid
-- Complex subscription tiers (use transaction-based revenue instead)
-- Full CSRD compliance software (too complex, wrong market)
-- Enterprise sales (focus on self-service SMEs)
-- Rich text editors (security risk, use simple textareas)
+**❌ What We Avoid**:
+- Subscriptions (barrier to entry)
+- CSRD compliance software (too complex)
+- Deducting fees from grant (bad optics)
+- Manual verification (doesn't scale)
 
 ---
 
-## Business Strategy
+## Competitive Advantage
 
-### **Why Transaction-Based Model Works**
-- ✅ **No barrier to entry**: Free browsing removes friction
-- ✅ **Pay when value is clear**: Companies only pay when committing to support
-- ✅ **Higher conversion**: Easier to convert than monthly subscriptions
-- ✅ **Scalable**: Revenue grows with platform usage
-- ✅ **Add-on upsells**: Optional services increase average transaction value
+**Without Kollektivly** (traditional grants):
+- No verification → risk of misuse
+- Manual follow-up → 10-20 hours/grant
+- No ESG docs → hard to report impact
+- Inconsistent reporting → wasted time
 
-### **Target Market**
-- **Companies**: Swedish SMEs (0-250 employees) seeking samhällsnytta
-- **Organizations**: Non-profits, föreningar, ideella organisationer
-- **Geography**: Sweden-focused, expand to Nordics later
+**With Kollektivly**:
+- AI-verified reports → guaranteed impact
+- Zero follow-up → automated process
+- Auto ESG reports → ready for stakeholders
+- Standard format → clean data
+- **Time saved**: 15 hours = 3,000+ SEK value
+- **Cost**: 7% fee on 50K = 3,500 SEK
 
-### **Competitive Advantage**
-- 🎯 **Transaction-based** (not subscription burden)
-- 🎯 **Swedish-focused** (local föreningar, local companies)
-- 🎯 **Affordable add-ons** (299-499 SEK vs 50,000+ SEK consultants)
-- 🎯 **Self-service** (no sales team needed)
-- 🎯 **Action-oriented** (real projects, real impact, not just paperwork)
+**Value delivered > Price charged** ✅
 
 ---
 
-## Security & Compliance
+## Progress
 
-- ✅ **GDPR**: Privacy policy, consent flows, EU data storage
-- ✅ **PCI-DSS**: Stripe handles all payment data
-- ✅ **AML/KYC**: Organization number verification via Bolagsverket API
-- ✅ **Content Moderation**: Perspective API for spam/toxicity detection
-- ✅ **Rate Limiting**: Prevent abuse (registration, contact forms)
-
-See `docs/SECURITY_ANALYSIS.md` for detailed security guidelines.
-
----
-
-## Cost Structure
-
-### **Current (Phase 1-2)**: 0 SEK/month
-- Vercel hosting (free tier)
-- Supabase database (free tier)
-- Supabase storage (free tier)
-
-### **Phase 3 (Payment System)**: ~2,500 SEK/month
-- Stripe fees: 3-5% per transaction only
-- PDF generation: ~500 SEK/month
-- OpenAI API: ~1,000 SEK/month
-- Buffer for scaling: ~1,000 SEK/month
-
-**Break-even**: ~20 transactions/month
-
----
-
-## Progress Tracker
-
-**COMPLETED** ✅
-- [x] Demo MVP (2025-09-25)
-- [x] Supabase integration (2025-10-09)
-- [x] Phase 1 complete (2025-10-10)
-- [x] Production deployment (2025-10-10)
+**DONE** ✅
+- [x] MVP with Supabase (2025-10-10)
 - [x] Privacy policy (2025-10-13)
 - [x] UI cleanup: CSR → Samhällsnytta (2025-10-16)
+- [x] Business model: Transaction-based (2025-10-16)
 
-**NEXT UP** ⏳
-- [ ] Phase 2: Search and filtering
-- [ ] Phase 2: Contact system
-- [ ] Phase 2: Dashboards
+**NEXT** ⏳
+- [ ] Search & filter
+- [ ] Contact system
+- [ ] Dashboards
+- [ ] Project submission
 
-**FUTURE** 🔮
-- [ ] Phase 3: Payment system with add-ons
-- [ ] Phase 4: Multi-language support
+**LATER** 🔮
+- [ ] Stripe escrow
+- [ ] AI verification
+- [ ] ESG reports
 
 ---
 
 **Last Updated**: 2025-10-16
-**Current Phase**: Phase 2 (Core Features)
-**Goal**: Keep development simple, smooth, and transaction-driven while building a meaningful platform for Swedish samhällsnytta.
+**Philosophy**: Keep it simple. Build what scales. Charge for real value.

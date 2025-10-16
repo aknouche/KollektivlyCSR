@@ -1,71 +1,68 @@
-# Kollektivly - CSR Platform
+# Kollektivly
 
-Swedish platform connecting companies with verified non-profit projects for ESG and sustainability initiatives.
+Swedish platform connecting companies with verified föreningar through AI-verified escrow payments.
+
+**Core Value**: "No Report, No Payment" - We guarantee impact by holding grant money until AI verifies förening reports.
 
 ## Quick Start
 
 ```bash
 npm install
-npm run dev
+npm run dev  # Open http://localhost:3000
 ```
 
-Open http://localhost:3000
+## Live Site
 
-## Production
+**Production**: https://kollektivly-csr.vercel.app/
 
-**Live**: https://kollektivly-csr.vercel.app/
+## What We Do
+
+**For Companies**: Support samhällsprojekt with zero risk. We hold payment until AI verifies impact reports.
+
+**For Föreningar**: Get guaranteed funding access. Submit verified reports, receive payment.
+
+**Revenue**: Service fee (4-10%) charged ON TOP of grant amount for escrow + AI verification.
 
 ## Tech Stack
 
-- **Next.js 14** - React framework
-- **Supabase** - Database, auth, storage
-- **Vercel** - Hosting (auto-deploy from main branch)
-- **TypeScript** - Type safety
-- **TailwindCSS** - Styling
+- **Next.js 14** + TypeScript
+- **Supabase** (database, auth, storage)
+- **Stripe Connect** (escrow)
+- **OpenAI** (report verification)
+- **Vercel** (hosting, 0 SEK/month)
 
-## Project Status
+## Status
 
-- ✅ Phase 1 Complete: Functional MVP with backend
-- 🚧 Phase 2 Next: Search, contact system, analytics
-
-## Documentation
-
-- **CLAUDE.md** - Full development guide, PRD, architecture
-- **docs/SECURITY_ANALYSIS.md** - Security guidelines
-- **docs/SUPABASE_SETUP.md** - Database setup instructions
+- ✅ Phase 1: MVP complete
+- 🔄 Phase 2: Search, contact, dashboards
+- ⏳ Phase 3: Escrow + AI verification
 
 ## Commands
 
 ```bash
-npm run dev          # Development server
+npm run dev          # Development
 npm run build        # Production build
 npm test             # Run tests
-npm run lint         # Check code quality
+git push origin main # Auto-deploy
 ```
+
+## Documentation
+
+- **CLAUDE.md** - Development guide & business model
+- **docs/SECURITY_ANALYSIS.md** - Security guidelines
+- **docs/SUPABASE_SETUP.md** - Database setup
 
 ## Environment Variables
 
-Copy `.env.local.example` to `.env.local` and add:
-- Supabase credentials
-- Email service keys (Resend)
-- hCaptcha keys
+Required in `.env.local`:
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- `NEXT_PUBLIC_HCAPTCHA_SITE_KEY`
+- `HCAPTCHA_SECRET_KEY`
 
-See `docs/SUPABASE_SETUP.md` for details.
-
-## Development Workflow
-
-```bash
-git pull origin main                    # Get latest
-npm run dev                             # Work locally
-npm test                                # Verify tests pass
-git add . && git commit -m "message"    # Commit changes
-git push origin main                    # Auto-deploy to Vercel
-```
-
-## For AI Assistants
-
-Read **CLAUDE.md** first - contains full context, PRD, and development guidelines.
+See docs for details.
 
 ---
 
-Built with Claude Code | Cost: 0 SEK/month (free tier)
+**Last Updated**: 2025-10-16 | Built with Claude Code
