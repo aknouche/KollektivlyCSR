@@ -12,7 +12,7 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project, onClick }: ProjectCardProps) => {
   const [showAuthPrompt, setShowAuthPrompt] = useState(false);
-  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [isBookmarked] = useState(false);
 
   const getCategoryColor = (category: Project['csrKategori']) => {
     switch (category) {
