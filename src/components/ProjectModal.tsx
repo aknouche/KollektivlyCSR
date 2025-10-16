@@ -1,8 +1,10 @@
 'use client';
 
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Project } from '@/types';
+import AuthPrompt from './AuthPrompt';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -11,6 +13,8 @@ interface ProjectModalProps {
 }
 
 const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
+  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+
   const getCategoryColor = (category: Project['csrKategori']) => {
     switch (category) {
       case 'Miljö':
@@ -22,6 +26,10 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
       default:
         return 'bg-gray-100 text-gray-800';
     }
+  };
+
+  const handleContactClick = () => {
+    setShowAuthPrompt(true);
   };
 
   return (
@@ -136,13 +144,27 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
 
             {/* Footer */}
             <div className="p-6 bg-gray-50 rounded-b-2xl">
+              <button
+                onClick={handleContactClick}
+                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors mb-3"
+              >
+                Kontakta {project.foreningsnamn} →
+              </button>
               <p className="text-sm text-gray-600 text-center">
-                Kontakta {project.foreningsnamn} för mer information om detta projekt
+                Få direkt kontakt med föreningen för att diskutera samarbete
               </p>
             </div>
           </motion.div>
         </motion.div>
       )}
+
+      {/* Auth Prompt Modal */}
+      <AuthPrompt
+        isOpen={showAuthPrompt}
+        onClose={() => setShowAuthPrompt(false)}
+        action="contact"
+        projectName={project?.projektnamn}
+      />
     </AnimatePresence>
   );
 };
