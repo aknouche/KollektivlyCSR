@@ -37,20 +37,20 @@ export default function HomePage({ projects }: HomePageProps) {
               Stötta sociala projekt från lokala föreningar
             </h1>
             <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
-              Kollektivly kopplar företag med verifierade samhällsprojekt. Snabbt, enkelt och modernt.
+              AI-driven matchning mellan företag och verifierade samhällsprojekt. Snabbt, enkelt och modernt.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
                 href="/hitta-projekt"
                 className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
               >
-                Jag är ett Företag
+                Hitta projekt →
               </Link>
               <Link
-                href="#foreningar"
+                href="/registrera"
                 className="bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-400 transition-colors border-2 border-white"
               >
-                Jag är en Förening
+                Registrera förening →
               </Link>
             </div>
           </div>
@@ -73,6 +73,13 @@ export default function HomePage({ projects }: HomePageProps) {
               <div className="flex items-start gap-3">
                 <div className="text-green-500 text-xl">✓</div>
                 <div>
+                  <h3 className="font-semibold text-gray-900">Hitta projekt gratis med AI</h3>
+                  <p className="text-gray-600 text-sm">AI matchar era hållbarhetsmål med rätt projekt - ingen kostnad</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="text-green-500 text-xl">✓</div>
+                <div>
                   <h3 className="font-semibold text-gray-900">AI-verifierade rapporter</h3>
                   <p className="text-gray-600 text-sm">Ingen manuell uppföljning behövs</p>
                 </div>
@@ -80,15 +87,15 @@ export default function HomePage({ projects }: HomePageProps) {
               <div className="flex items-start gap-3">
                 <div className="text-green-500 text-xl">✓</div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Escrow-skydd</h3>
+                  <h3 className="font-semibold text-gray-900">Säker betalning</h3>
                   <p className="text-gray-600 text-sm">Pengarna släpps endast vid godkänd rapport</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <div className="text-green-500 text-xl">✓</div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Automatiska ESG-rapporter</h3>
-                  <p className="text-gray-600 text-sm">Färdiga underlag för hållbarhetsredovisning</p>
+                  <h3 className="font-semibold text-gray-900">Nå ut genom föreningar</h3>
+                  <p className="text-gray-600 text-sm">Syns i föreningarnas kanaler - sociala medier och hemsidor</p>
                 </div>
               </div>
             </div>
@@ -131,7 +138,7 @@ export default function HomePage({ projects }: HomePageProps) {
                 <div className="text-purple-500 text-xl">✓</div>
                 <div>
                   <h3 className="font-semibold text-gray-900">Garanterad betalning</h3>
-                  <p className="text-gray-600 text-sm">Pengarna finns i escrow från dag 1</p>
+                  <p className="text-gray-600 text-sm">Pengarna säkras från dag 1</p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
@@ -176,9 +183,9 @@ export default function HomePage({ projects }: HomePageProps) {
               <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                 1
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Företag väljer projekt</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">AI matchar era mål</h3>
               <p className="text-gray-600">
-                Bläddra bland verifierade projekt som matchar era hållbarhetsmål
+                Berätta vilka FN-mål ni vill stötta - AI hittar perfekta projekt automatiskt
               </p>
             </div>
 
@@ -186,9 +193,9 @@ export default function HomePage({ projects }: HomePageProps) {
               <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
                 2
               </div>
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">Pengarna går i escrow</h3>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Pengarna säkras</h3>
               <p className="text-gray-600">
-                Bidraget säkras direkt - föreningen kan starta projektet med trygghet
+                Bidraget reserveras direkt - föreningen kan starta projektet med trygghet
               </p>
             </div>
 
@@ -206,7 +213,10 @@ export default function HomePage({ projects }: HomePageProps) {
           <div className="text-center mt-12">
             <div className="inline-block bg-white rounded-lg shadow-md px-8 py-4 border-2 border-blue-600">
               <p className="text-lg font-semibold text-gray-900">
-                ⚡ Resultat: Ingen rapport = ingen betalning. Full kontroll för företag, snabb process för föreningar.
+                🤖 AI-driven från början till slut: Matchning → Verifiering → Rapportering
+              </p>
+              <p className="text-sm text-gray-600 mt-2">
+                Ingen rapport = ingen betalning. Full kontroll för företag, snabb process för föreningar.
               </p>
             </div>
           </div>
