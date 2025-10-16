@@ -196,10 +196,12 @@ Kollektivly/
     - Section 8.1: HTTPS only (Vercel automatic SSL)
     - Section 8.2: Security headers (CSP, X-Frame-Options, etc.)
 
-### **Phase 2: Enhanced MVP (2-3 weeks) - STILL FREE**
-**Goal**: Add core business features for real-world usage while maintaining 0 SEK/month cost
+### **Phase 2: Enhanced MVP (2-3 weeks) - SIMPLE STATS & DASHBOARDS**
+**Goal**: Add core business features with simple analytics (NOT full CSRD compliance)
 
 **Cost Target**: 0 SEK/month (free tiers sufficient for 100-500 users)
+
+**Philosophy**: Build simple, actionable stats that help organizations see engagement and companies track their samhällsnytta. Focus on volume of SME customers (99-299 SEK/month) rather than enterprise CSRD compliance.
 
 #### **Company Features (Free Tier)**
 - [ ] **Contact System**: "Contact Organization" with secure messaging
@@ -207,36 +209,37 @@ Kollektivly/
     - Section 6.1: Input sanitization on all messages
     - Section 3.4: Rate limiting (3 messages/hour per user)
     - Section 7.4: Message content moderation via Perspective API
-- [ ] **Favorites/Bookmarks**: Save interesting projects (stored in Vercel KV)
-  - **Security** (SECURITY_ANALYSIS.md):
-    - Section 3.2: User session validation required
-    - Section 2.3: User data isolation (can only access own favorites)
-- [ ] **Basic Analytics**: Track project views and engagement (Vercel Analytics free tier)
-  - **Security** (SECURITY_ANALYSIS.md):
-    - Section 5.5: Anonymous analytics only (no PII tracking)
-    - Section 8.3: GDPR-compliant event tracking
-- [ ] **Search & Filter**: By category, location, budget, UN goals
+- [ ] **Simple Company Dashboard**: Track your hållbarhet activity
+  - Projects viewed
+  - Projects favorited
+  - Contact messages sent
+  - Föreningar connected with
+  - Export: Simple CSV of activity
+- [ ] **Search & Filter**: By category, location, budget, UN goals, dates
   - **Security** (SECURITY_ANALYSIS.md):
     - Section 3.1: Parameterized queries to prevent SQL injection
     - Section 3.4: Rate limiting on search endpoint
 
 #### **Organization Features (Free Tools)**
-- [ ] **Project Status Updates**: Progress tracking and reporting
+- [ ] **Simple Organization Dashboard**: See project engagement
+  - Project views (last 30 days)
+  - Company contact requests (count + details)
+  - Project status tracking (Active/Completed)
+  - Basic impact metrics (manual input):
+    - Budget raised
+    - People helped
+    - Project duration (using start_date/end_date)
+- [ ] **Project Submission Form**: Create and edit projects
+  - Simple textarea editor (no rich text = no XSS risk)
   - **Security** (SECURITY_ANALYSIS.md):
-    - Section 7.1: Organization-only access to own projects
-    - Section 7.2: Audit log of all status changes
+    - Section 3.1: Text sanitization before database storage
+    - Section 6.4: Content length limits (5000 chars)
 - [ ] **Media Upload**: Images for project cards (Vercel Blob free tier: 500MB)
   - **Security** (SECURITY_ANALYSIS.md):
     - Section 6.5: File type validation (only images allowed)
     - Section 6.6: File size limits (max 5MB per image)
     - Section 6.7: Image scanning for inappropriate content
     - Section 8.4: Secure file URLs with expiry tokens
-- [ ] **Social Sharing**: LinkedIn, Twitter integration (free APIs)
-  - **Security** (SECURITY_ANALYSIS.md):
-    - Section 8.5: No social media tokens stored on server
-- [ ] **Impact Reporting**: Basic metrics and outcomes
-  - **Security** (SECURITY_ANALYSIS.md):
-    - Section 7.5: Data validation to prevent false reporting
 
 #### **Platform Features (Free Services)**
 - [ ] **SEO Optimization**: Meta tags, structured data, sitemap
@@ -245,35 +248,49 @@ Kollektivly/
   - **Security** (SECURITY_ANALYSIS.md):
     - Section 8.6: CDN caching with security headers
     - Use Next.js Image component (automatic optimization)
-- [ ] **Monitoring**: Error tracking, analytics, health checks
-  - Vercel Analytics (free tier: 2,500 events/month)
-  - Sentry free tier (5k events/month) for error tracking
+- [ ] **Basic Analytics**: Track platform-wide engagement (Vercel Analytics free tier)
   - **Security** (SECURITY_ANALYSIS.md):
-    - Section 9.1: Error sanitization (no sensitive data in logs)
-    - Section 9.2: Security event monitoring
-- [ ] **Internationalization (i18n)**: Language switching infrastructure for future English support
-  - Use next-intl (free, open-source)
+    - Section 5.5: Anonymous analytics only (no PII tracking)
+    - Section 8.3: GDPR-compliant event tracking
 
-### **Phase 3: Revenue MVP (3-4 weeks)**
-**Goal**: Implement subscription model and payment processing
+### **Phase 3: Revenue MVP (3-4 weeks) - ESG-ALIGNED REPORTS (NOT CSRD)**
+**Goal**: Add premium reporting features that justify subscription pricing
+
+**Cost Target**: ~500 SEK/month (PDF generation service)
+
+**Target Market**: Swedish SMEs (0-250 employees) who want simple ESG proof for stakeholders, NOT large companies needing full CSRD compliance reports.
+
+#### **Pricing Tiers**
+- [ ] **Free**: Basic project listing + simple dashboard
+- [ ] **Basic (99 SEK/month)**: Enhanced dashboard + 5 PDF reports/month
+- [ ] **Pro (299 SEK/month)**: Unlimited reports + SDG branding + timeline views
+- [ ] **Premium (999 SEK/month)**: Custom branding + geographic impact maps + priority support
+
+#### **Enhanced Reporting Features**
+- [ ] **SDG Impact Alignment**: Leverage existing FN Mål data
+  - Show which UN Sustainable Development Goals each company supports
+  - Category breakdown (Miljö, Ungdom, Inkludering)
+  - Timeline view using start_date/end_date fields
+  - Geographic spread (stad field)
+- [ ] **Simple PDF Export**: Professional reports (50-200 SEK each or included in subscription)
+  - Company logo + branding
+  - All projects supported with SDG logos
+  - Total budget allocated
+  - Geographic impact map
+  - Suitable for website, LinkedIn, or stakeholder presentations
+- [ ] **Export Options**: CSV, JSON for companies' own reporting needs
 
 #### **Payment Integration**
-- [ ] **Stripe Setup**: Secure payment processing
-- [ ] **Subscription Management**: Free/Premium tiers
-- [ ] **Featured Projects**: Premium placement for organizations
-- [ ] **Transaction Fees**: Revenue from donations/sponsorships
+- [ ] **Stripe Setup**: Secure subscription payment processing
+- [ ] **Subscription Management**: Handle upgrades, downgrades, cancellations
+- [ ] **Usage Tracking**: Monitor report generation limits per tier
+- [ ] **Invoicing**: Automatic Swedish invoices (F-skatt support)
 
-#### **Advanced Verification**
-- [ ] **Multi-level System**: Levels 1-4 as per PRD
-- [ ] **API Integrations**: RF (Riksförbund), municipality databases
-- [ ] **Automated Checks**: Background verification processes
-- [ ] **Trust Badges**: Enhanced credibility indicators
-
-#### **Compliance & Reporting**
-- [ ] **ESG Reporting**: Basic sustainability metrics
-- [ ] **Data Export**: PDF/Excel reports for companies
-- [ ] **AML/KYC**: Basic compliance for payment processing
-- [ ] **CSRD Alignment**: EU sustainability reporting standards
+#### **Advanced Verification (Simple)**
+- [ ] **Level 1**: Email Verified (automatic)
+- [ ] **Level 2**: Organization Number Check via Bolagsverket API (free, automatic badge)
+- [ ] **Level 3**: Manual review + Annual Report link (premium organizations only)
+- [ ] **Trust Badges**: Display verification level on project cards
 
 ### **Phase 4: International Expansion (2-3 weeks)**
 **Goal**: Add English language support for global market reach
@@ -299,6 +316,49 @@ Kollektivly/
 
 ---
 
+### **Phase 4+: CSRD-Lite (OPTIONAL - Only If Customers Request)**
+**Goal**: Provide CSRD-compatible data export for companies that need it
+
+**⚠️ IMPORTANT**: Only build this if you have paying customers explicitly asking for it. Do NOT build full CSRD compliance software.
+
+**Cost Target**: ~2,000 SEK/month (CSRD taxonomy API, enhanced storage)
+
+**Positioning**: "Evidence for Social Impact" NOT "Full CSRD Compliance Tool"
+
+#### **CSRD-Ready Features (Enterprise Tier: 1,999 SEK/month)**
+- [ ] **ESRS Data Point Mapping**: Structure data according to ESRS Social (S) standards only
+  - Map project data to ESRS S1 (Own Workforce) - volunteering hours
+  - Map project data to ESRS S2 (Workers in Value Chain)
+  - Map project data to ESRS S3 (Affected Communities) - primary focus
+  - Map project data to ESRS S4 (Consumers and End-users)
+- [ ] **Audit Trail Enhancement**: Timestamped records of all project interactions
+  - Who viewed which projects (anonymized)
+  - Contact message history
+  - Donation/sponsorship records (if payment feature added)
+- [ ] **Data Export Package**: Structured data they can import into CSRD software
+  - JSON format aligned with ESRS taxonomy
+  - CSV with CSRD data point IDs
+  - NOT a full report, just clean structured data
+- [ ] **Documentation**: Clear explanation of what data can/cannot be used for CSRD
+  - Disclaimer: "This is evidence of social impact activities, not a complete CSRD report"
+  - Guidance: "Consult with your ESG advisor on how to incorporate this data"
+
+#### **What We DON'T Build**
+- ❌ **No full CSRD compliance software** (too complex, wrong market)
+- ❌ **No audit-grade reports** (legal liability nightmare)
+- ❌ **No double materiality assessment tools** (requires consulting expertise)
+- ❌ **No Scope 1-3 emissions tracking** (different product entirely)
+- ❌ **No financial systems integration** (enterprise complexity)
+- ❌ **No XBRL tagging** (regulatory filing format, too specialized)
+
+#### **Strategic Positioning**
+- ✅ Position as **data provider** for Social (S) pillar of ESRS
+- ✅ Partner with ESG consultants (they use our platform for client data)
+- ✅ "CSRD-Ready" badge (your data can feed into their reports)
+- ✅ Focus on evidence, not compliance (let their consultants do the hard work)
+
+---
+
 ## Functional Requirements (Full Version)
 
 ### 🚀 Core Functions
@@ -311,11 +371,13 @@ Kollektivly/
 - **Transaction Management** – Grants, sponsorships, and donations are processed via the platform
 - **Multi-language Support** – Swedish and English language options for global reach
 
-### 💼 Corporate Features
-- **Limited Free Access** – View limited number of projects without subscription
-- **Premium Accounts** – Unlimited access, advanced reports, and API integration
-- **ESG Compliance Reporting** – Linked to sustainability goals and regulatory requirements (CSRD)
-- **Level 3-4 Verification Requests** – Request enhanced due diligence for non-profits
+### 💼 Corporate Features (Updated - Simple Approach)
+- **Free Browsing** – View all projects without subscription (no artificial limits)
+- **Simple Activity Dashboard** – Track viewed projects, contacts, föreningar connections
+- **SDG Impact Reports** – Professional PDF reports showing samhällsnytta aligned with UN goals
+- **ESG Evidence Export** – CSV/JSON export of activity for use in companies' own sustainability reports
+- **NOT Full CSRD Compliance** – Platform provides evidence of social impact activities, not complete regulatory reports
+- **Optional CSRD-Ready Data** – Enterprise tier only, structured data export for ESRS Social (S) pillar
 
 ### 🏢 Non-Profit Features
 - **Free First Project** – Free to post the first project
@@ -329,18 +391,38 @@ Kollektivly/
 - **Automated Verification** – Organization number (org.nr) and register verification
 - **Analytics and Report Generation** – Platform-wide insights and custom reports
 
-### 💰 Revenue Models
-- **Corporate Subscriptions** – Free (limited access), Basic Subscription (unlimited viewing), Premium Subscription (Level 3-4 access, CSRD/SDG reporting, payment management)
-- **Transaction Fees** – On payments via platform (grants, sponsorships, donations)
-- **Non-Profit Fees** – Future payment for extra projects or featured placement
-- **Premium Reports** – To municipalities and associations
+### 💰 Revenue Models (Updated - Simple Approach)
 
-### 🛡️ Legal & Compliance
+**Target Market**: Swedish SMEs (0-250 employees) who want simple ESG proof, NOT enterprise CSRD compliance.
+
+#### **Company Subscriptions (Primary Revenue)**
+- **Free**: Browse all projects, basic filtering
+- **Basic (99 SEK/month)**: Enhanced dashboard + 5 PDF reports/month + contact organizations
+- **Pro (299 SEK/month)**: Unlimited reports + SDG branding + timeline views + priority support
+- **Premium (999 SEK/month)**: Custom branding + geographic impact maps + dedicated account manager
+- **Enterprise (1,999 SEK/month)**: CSRD-ready data export + audit trails (OPTIONAL, only if requested)
+
+#### **Organization Subscriptions (Secondary Revenue)**
+- **Free**: 1 active project + basic dashboard
+- **Basic (49 SEK/month)**: 3 active projects + analytics
+- **Pro (149 SEK/month)**: Unlimited projects + featured placement + media uploads
+
+#### **Future Revenue Streams (Phase 3+)**
+- **Transaction Fees** – On payments via platform (grants, sponsorships, donations)
+- **Premium Reports** – Sell aggregated impact data to municipalities and associations
+- **Verification Services** – Charge for Level 3 manual verification (299 SEK/organization)
+
+### 🛡️ Legal & Compliance (Updated)
 - **GDPR Compliance**: Consent, right to erasure, minimization of collected data, encrypted communication, storage within the EU/EEA
 - **AML/KYC**: Companies making payments must be verified (org. ID + payment method). Screening against sanction lists
 - **Payment Security**: Use established PSP (Stripe, Swish). PCI-DSS compliance is mandatory
 - **Legal Liability**: Platform is an intermediary, not responsible for project execution. Non-profits are responsible for accurate information, including their financial situation
-- **Reporting / ESG / CSRD**: Platform reports must support the EU's CSRD. Projects must be linked to the UN Sustainable Development Goals (SDGs)
+- **ESG / CSRD Positioning**:
+  - Platform provides **evidence of social impact activities**, NOT full CSRD compliance reports
+  - Reports show alignment with UN SDGs and ESRS Social (S) data points
+  - Clear disclaimers: "Consult with your ESG advisor for complete CSRD reporting"
+  - No liability for companies' regulatory reporting obligations
+  - Focus on data accuracy and verifiability, not regulatory interpretation
 
 ## Design & Interaction Guidelines
 
@@ -567,6 +649,78 @@ npm run dev                 # Start local development
 - **Trigger Point**: When you hit 500+ users or 100+ emails/day
 
 ### **Cost Projection (Future Phases)**
-- **Phase 3 (Payment Processing)**: +0 SEK (Stripe fees only on transactions)
-- **Phase 4 (Scaling)**: +300-500 SEK/month when exceeding free tiers
-- **First Paying Customer Should Cover**: 500 SEK/month minimum subscription
+- **Phase 2 (Dashboards & Stats)**: 0 SEK/month (database queries only)
+- **Phase 3 (PDF Reports)**: ~500 SEK/month (PDF generation service like Pdfmonkey.io)
+- **Phase 3 (Payment Processing)**: +0 SEK (Stripe fees ~3% per transaction only)
+- **Phase 4 (Scaling)**: +300-500 SEK/month when exceeding free tiers (200-500 users)
+- **Phase 4+ (CSRD-Lite)**: +2,000 SEK/month (ONLY if customers explicitly request it)
+- **First Paying Customer Should Cover**: 99-299 SEK/month (much more achievable for SMEs)
+
+---
+
+## 💰 Business Model & Revenue Projections
+
+### **Strategic Decision: Simple Stats vs CSRD Compliance**
+
+**Decision Made**: Focus on **Simple Stats & SDG-Aligned Reports** for Swedish SMEs, NOT full CSRD compliance software.
+
+**Why This Approach**:
+- ✅ **Target market reality**: 95% of Swedish SMEs (0-250 employees) are NOT required to do CSRD reporting until 2026-2027, if at all
+- ✅ **Lower complexity**: Simple aggregation & PDF generation vs complex regulatory software
+- ✅ **Faster time-to-market**: 2-3 weeks vs 6-12 months development
+- ✅ **Lower cost**: 50,000 SEK development vs 1,000,000+ SEK
+- ✅ **Volume business model**: 1,000s of customers at 99-299 SEK/month vs 10s of enterprises at 50,000+ SEK/year
+- ✅ **Lower support burden**: FAQ & email support vs consulting services
+- ✅ **Competitive advantage**: Affordable pricing, Swedish-focused, action-based (not just paperwork)
+
+### **Revenue Projection (Simple Stats Approach)**
+```
+Target Market: 5,000-10,000 Swedish SMEs (0-250 employees)
+Marketing: Content marketing, LinkedIn, word-of-mouth
+Conversion Rate: 2% paid conversion (realistic for B2B SaaS)
+Expected Paid Customers (Year 1): 100-200 subscribers
+
+Revenue Mix:
+├── Basic (99 SEK/month): 60% = 60-120 customers = 5,940-11,880 SEK/month
+├── Pro (299 SEK/month): 30% = 30-60 customers = 8,970-17,940 SEK/month
+└── Premium (999 SEK/month): 10% = 10-20 customers = 9,990-19,980 SEK/month
+
+Monthly Revenue (Year 1): 24,900-49,800 SEK/month
+Annual Revenue (Year 1): 298,800-597,600 SEK/year
+Total Development Cost: ~50,000 SEK (Phase 2-3)
+Monthly Operating Cost: ~1,000 SEK (hosting, services)
+Break-even: 3-6 months from launching Phase 3
+```
+
+**Path to Profitability**: Clear and achievable ✅
+
+### **Comparison: Why NOT Full CSRD Compliance**
+
+**IF we built Full CSRD Software** (NOT recommended):
+```
+Target Market: 500-1,000 Swedish large companies (250+ employees)
+Marketing: Enterprise sales, consultants, trade shows
+Conversion Rate: 1% (enterprise sales cycles are long & expensive)
+Expected Customers (Year 1): 5-10 enterprise customers
+
+Revenue:
+└── Enterprise (50,000-200,000 SEK/year) = 5-10 customers = 250,000-2,000,000 SEK/year
+
+Development Cost: 1,000,000-2,000,000 SEK (12+ months, specialized developers)
+Monthly Operating Cost: ~10,000 SEK (regulatory APIs, compliance consultants, insurance)
+Sales Cost: 50,000-100,000 SEK per customer (6-12 month sales cycles)
+Break-even: 18-36 months (IF you survive)
+Competition: SAP, Workiva, Bloomberg ESG (billion-dollar products)
+```
+
+**Path to Profitability**: Risky and capital-intensive ⚠️
+
+### **Business Model Advantages (Simple Stats)**
+- ✅ **Volume-based**: Target 1,000s of SMEs, not 10s of enterprises
+- ✅ **Affordable pricing**: 99-999 SEK vs 50,000+ SEK enterprise tools
+- ✅ **Self-service**: No enterprise sales team needed
+- ✅ **Scalable**: Same product for all customers, minimal customization
+- ✅ **Simple support**: FAQ and email, not consulting services
+- ✅ **Quick value**: Companies see immediate value (engagement tracking, simple reports)
+- ✅ **Emotional appeal**: Support real föreningar, not just regulatory checkbox
+- ✅ **Positioning**: "ESG evidence" not "compliance software" (lower liability)
