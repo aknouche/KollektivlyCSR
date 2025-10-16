@@ -16,10 +16,10 @@ export default function AllaProject() {
         {/* Header */}
         <div className="text-center mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-6">
-            Alla CSR-Projekt
+            Alla Samhällsprojekt
           </h1>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            Utforska vårt kompletta bibliotek med 150+ verifierade projekt från lokala organisationer som bidrar med samhällsnytta
+            Utforska vårt kompletta bibliotek med verifierade projekt från lokala organisationer som bidrar till hållbar utveckling och samhällsnytta
           </p>
 
           {/* Coming Soon Badge */}

@@ -106,10 +106,10 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                 </p>
               </div>
 
-              {/* CSR Category */}
+              {/* Category */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                  CSR-kategori
+                  Samhällskategori
                 </h3>
                 <span className={`px-4 py-2 rounded-full text-sm font-medium ${getCategoryColor(project.csrKategori)}`}>
                   {project.csrKategori}

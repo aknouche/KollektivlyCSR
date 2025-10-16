@@ -367,11 +367,11 @@ export default function Registrera() {
             </li>
             <li className="flex items-start">
               <span className="text-blue-600 mr-2">✓</span>
-              Skapa och hantera CSR-projekt direkt från din dashboard
+              Skapa och hantera samhällsprojekt direkt från din dashboard
             </li>
             <li className="flex items-start">
               <span className="text-blue-600 mr-2">✓</span>
-              Nå tusentals företag som söker hållbarhetsprojekt
+              Nå företag som söker hållbarhetsprojekt och samhällsnytta
             </li>
           </ul>
         </div>
