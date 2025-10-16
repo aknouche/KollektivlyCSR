@@ -24,49 +24,33 @@ export default function HomePage({ projects }: HomePageProps) {
     setSelectedProject(null);
   };
 
-  // Calculate real metrics from projects
-  const totalProjects = projects.length;
-  const totalBudget = projects.reduce((sum, p) => {
-    const budget = typeof p.budget === 'string' ? parseInt(p.budget) : p.budget;
-    return sum + (budget || 0);
-  }, 0);
-  const verifiedProjects = projects.filter(p => p.badges?.includes('VERIFIERAD')).length;
+  // Show only first 3 projects
+  const featuredProjects = projects.slice(0, 3);
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Enhanced Hero Section */}
-      <header className="bg-gradient-to-br from-blue-50 to-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      {/* Hero Section */}
+      <header className="bg-gradient-to-br from-blue-600 to-blue-700 text-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
           <div className="text-center">
-            {/* Logo */}
-            <div className="flex justify-center mb-8">
-              <div className="w-20 h-20 bg-blue-600 rounded-full flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-2xl">K</span>
-              </div>
-            </div>
-
-            {/* Title and value proposition */}
-            <h1 className="text-5xl font-bold text-gray-900 mb-6">
-              Kollektivly
+            <h1 className="text-5xl font-bold mb-6">
+              Stötta sociala projekt från lokala föreningar
             </h1>
-            <p className="text-xl text-gray-700 max-w-4xl mx-auto mb-8 leading-relaxed">
-              Plattformen som kopplar samman företag med projekt från lokala organisationer som bidrar till hållbar utveckling och samhällsnytta.
-              <span className="block mt-2 text-blue-600 font-semibold">Enkel väg till hållbar utveckling och meningsfull samhällsnytta.</span>
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto mb-8">
+              Kollektivly kopplar företag med verifierade samhällsprojekt. Snabbt, enkelt och modernt.
             </p>
-
-            {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
-                href="/alla-projekt"
-                className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
+                href="#foretag"
+                className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
               >
-                Bläddra bland alla projekt
+                Jag är ett Företag
               </Link>
               <Link
-                href="/lagg-till-projekt"
-                className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-colors"
+                href="#foreningar"
+                className="bg-blue-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-400 transition-colors border-2 border-white"
               >
-                Lägg till ditt projekt, helt gratis!
+                Jag är en Förening
               </Link>
             </div>
           </div>
@@ -74,87 +58,235 @@ export default function HomePage({ projects }: HomePageProps) {
       </header>
 
       {/* Main content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        {/* Featured Projects Section */}
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">
-            {projects.length > 0 ? 'Rekommenderade Projekt' : 'Inga projekt ännu'}
-          </h2>
-          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-            {projects.length > 0
-              ? 'Handplockade projekt från verifierade organisationer. Alla projekt har genomgått vår kvalitetsgranskning och matchar företags hållbarhetsmål enligt FN:s globala mål.'
-              : 'Bli den första att lägga till ett projekt på plattformen!'}
-          </p>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* Split Value Prop Section */}
+        <div className="py-16 grid md:grid-cols-2 gap-12">
+          {/* For Företag */}
+          <div id="foretag" className="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-green-500">
+            <div className="text-4xl mb-4">🏢</div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">För Företag</h2>
+            <p className="text-lg text-gray-700 mb-6">
+              Stötta lokala projekt med full kontroll och transparens
+            </p>
+
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start gap-3">
+                <div className="text-green-500 text-xl">✓</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">AI-verifierade rapporter</h3>
+                  <p className="text-gray-600 text-sm">Ingen manuell uppföljning behövs</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="text-green-500 text-xl">✓</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Escrow-skydd</h3>
+                  <p className="text-gray-600 text-sm">Pengarna släpps endast vid godkänd rapport</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="text-green-500 text-xl">✓</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Automatiska ESG-rapporter</h3>
+                  <p className="text-gray-600 text-sm">Färdiga underlag för hållbarhetsredovisning</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-red-900 mb-2">Problem med traditionella bidrag:</h4>
+              <ul className="space-y-1 text-sm text-red-800">
+                <li>❌ Risk för missbruk av bidrag</li>
+                <li>❌ Tidskrävande manuell uppföljning</li>
+                <li>❌ Ingen garanti för resultat</li>
+                <li>❌ Svårt att rapportera impact</li>
+              </ul>
+            </div>
+
+            <Link
+              href="/alla-projekt"
+              className="block w-full text-center bg-green-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
+            >
+              Hitta projekt att stötta →
+            </Link>
+          </div>
+
+          {/* For Föreningar */}
+          <div id="foreningar" className="bg-white rounded-2xl shadow-lg p-8 border-t-4 border-purple-500">
+            <div className="text-4xl mb-4">🎯</div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">För Föreningar</h2>
+            <p className="text-lg text-gray-700 mb-6">
+              Nå företag snabbt och få finansiering till era projekt
+            </p>
+
+            <div className="space-y-4 mb-8">
+              <div className="flex items-start gap-3">
+                <div className="text-purple-500 text-xl">✓</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Blixtsnabb process</h3>
+                  <p className="text-gray-600 text-sm">2 veckor istället för 6-12 månader</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="text-purple-500 text-xl">✓</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Garanterad betalning</h3>
+                  <p className="text-gray-600 text-sm">Pengarna finns i escrow från dag 1</p>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <div className="text-purple-500 text-xl">✓</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">Helt gratis att lista</h3>
+                  <p className="text-gray-600 text-sm">Ingen kostnad för att publicera projekt</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+              <h4 className="font-semibold text-yellow-900 mb-2">Problem med kommunbidrag:</h4>
+              <ul className="space-y-1 text-sm text-yellow-800">
+                <li>⏰ Tar 6-12 månader att få svar</li>
+                <li>📋 Krångliga ansökningsprocesser</li>
+                <li>❓ Osäker finansiering år för år</li>
+                <li>🐌 Långsam handläggning</li>
+              </ul>
+            </div>
+
+            <Link
+              href="/registrera"
+              className="block w-full text-center bg-purple-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-purple-700 transition-colors"
+            >
+              Registrera er förening (gratis) →
+            </Link>
+          </div>
         </div>
 
-        {/* Projects grid */}
-        {projects.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-            {projects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                onClick={handleCardClick}
-              />
-            ))}
+        {/* How It Works Section */}
+        <div className="py-16 bg-gradient-to-br from-blue-50 to-white rounded-2xl">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Så funkar det</h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              En modern och snabb väg till verifierad samhällsnytta
+            </p>
           </div>
-        ) : (
-          <div className="text-center py-16">
-            <p className="text-gray-500 mb-6">Inga projekt eller event har publicerats ännu.</p>
+
+          <div className="grid md:grid-cols-3 gap-8 px-8">
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                1
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Företag väljer projekt</h3>
+              <p className="text-gray-600">
+                Bläddra bland verifierade projekt som matchar era hållbarhetsmål
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                2
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">Pengarna går i escrow</h3>
+              <p className="text-gray-600">
+                Bidraget säkras direkt - föreningen kan starta projektet med trygghet
+              </p>
+            </div>
+
+            <div className="text-center">
+              <div className="w-16 h-16 bg-blue-600 text-white rounded-full flex items-center justify-center text-2xl font-bold mx-auto mb-4">
+                3
+              </div>
+              <h3 className="text-xl font-semibold text-gray-900 mb-2">AI verifierar rapport</h3>
+              <p className="text-gray-600">
+                När projektet är klart verifieras rapporten automatiskt - betalning släpps
+              </p>
+            </div>
+          </div>
+
+          <div className="text-center mt-12">
+            <div className="inline-block bg-white rounded-lg shadow-md px-8 py-4 border-2 border-blue-600">
+              <p className="text-lg font-semibold text-gray-900">
+                ⚡ Resultat: Ingen rapport = ingen betalning. Full kontroll för företag, snabb process för föreningar.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Featured Projects Section */}
+        {featuredProjects.length > 0 && (
+          <div className="py-16">
+            <div className="text-center mb-12">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">
+                Utvalda projekt just nu
+              </h2>
+              <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+                Upptäck lokala projekt som väntar på finansiering
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+              {featuredProjects.map((project) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  onClick={handleCardClick}
+                />
+              ))}
+            </div>
+
+            <div className="text-center">
+              <Link
+                href="/alla-projekt"
+                className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
+              >
+                Se alla {projects.length} projekt →
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* No Projects State */}
+        {projects.length === 0 && (
+          <div className="py-16 text-center">
+            <div className="text-6xl mb-6">🚀</div>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">
+              Inga projekt ännu - bli först!
+            </h2>
+            <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+              Plattformen är redo. Lägg upp ert första projekt helt gratis och nå företag som vill göra skillnad.
+            </p>
             <Link
-              href="/lagg-till-projekt"
-              className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
+              href="/registrera"
+              className="inline-block bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-lg"
             >
-              Lägg till första projektet eller eventet. Det är helt gratis.
+              Registrera er förening (gratis) →
             </Link>
           </div>
         )}
 
-        {/* Bottom Call-to-Action with Metrics */}
-        <div className="bg-gradient-to-br from-blue-50 to-white rounded-2xl p-8 text-center border border-blue-100">
-          {/* Trust Metrics - Real data from database */}
-          <div className="flex justify-center space-x-8 mb-8">
-            <div className="text-center">
-              <div className="text-3xl font-bold text-blue-600">{totalProjects}</div>
-              <div className="text-sm text-gray-600">Publicerade Projekt och Event</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-green-600">
-                {(totalBudget / 1000000).toFixed(1)}M kr
-              </div>
-              <div className="text-sm text-gray-600">Total budget</div>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-bold text-purple-600">{verifiedProjects}</div>
-              <div className="text-sm text-gray-600">Verifierade Projekt och Event</div>
-            </div>
-          </div>
-
-          {/* Trust Statement */}
-          <div className="mb-6">
-            <p className="text-lg font-semibold text-gray-900 mb-2">
-              Trovärdig, datadriven och skalbar samhällsnytta
+        {/* Final CTA Section */}
+        <div className="py-16 mb-16">
+          <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-2xl p-12 text-center text-white">
+            <h2 className="text-4xl font-bold mb-4">
+              Redo att göra skillnad?
+            </h2>
+            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              Gå med i Kollektivly idag och var med i den moderna vägen till samhällsnytta
             </p>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Alla projekt och event är verifierade, handplockade och matchade enligt FN:s globala mål.
-              Gör skillnad genom vårt kvalitetssäkrade nätverk av organisationer.
-            </p>
-          </div>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link
-              href="/alla-projekt"
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors shadow-md"
-            >
-              Se alla {totalProjects} projekt och event
-            </Link>
-            <Link
-              href="/registrera"
-              className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition-colors"
-            >
-              Kom igång idag. Registrera din organisation och lägg upp era projekt. Det är helt gratis.
-            </Link>
+            <div className="flex flex-col sm:flex-row justify-center gap-4">
+              <Link
+                href="/alla-projekt"
+                className="bg-white text-gray-900 px-8 py-4 rounded-lg font-semibold hover:bg-gray-100 transition-colors"
+              >
+                Företag: Hitta projekt
+              </Link>
+              <Link
+                href="/registrera"
+                className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              >
+                Förening: Kom igång gratis
+              </Link>
+            </div>
           </div>
         </div>
       </main>
