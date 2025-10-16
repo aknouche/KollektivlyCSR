@@ -41,7 +41,7 @@ export default function HomePage({ projects }: HomePageProps) {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
-                href="#foretag"
+                href="/hitta-projekt"
                 className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold hover:bg-blue-50 transition-colors shadow-lg"
               >
                 Jag är ett Företag
