@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Project } from '@/types';
-import AuthPrompt from './AuthPrompt';
+import ContactForm from './ContactForm';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -13,7 +13,8 @@ interface ProjectModalProps {
 }
 
 const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
-  const [showAuthPrompt, setShowAuthPrompt] = useState(false);
+  const [showContactForm, setShowContactForm] = useState(false);
+  const [contactSuccess, setContactSuccess] = useState(false);
 
   const getCategoryColor = (category: Project['csrKategori']) => {
     switch (category) {
@@ -29,7 +30,22 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
   };
 
   const handleContactClick = () => {
-    setShowAuthPrompt(true);
+    setShowContactForm(true);
+  };
+
+  const handleContactSuccess = () => {
+    setContactSuccess(true);
+    setTimeout(() => {
+      setContactSuccess(false);
+      setShowContactForm(false);
+      onClose();
+    }, 2000);
+  };
+
+  const handleCloseModal = () => {
+    setShowContactForm(false);
+    setContactSuccess(false);
+    onClose();
   };
 
   return (
@@ -40,7 +56,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black bg-opacity-50"
-          onClick={onClose}
+          onClick={handleCloseModal}
         >
           <motion.div
             initial={{ scale: 0.8, opacity: 0 }}
@@ -70,6 +86,15 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                 </button>
               </div>
             </div>
+
+            {/* Success Message */}
+            {contactSuccess && (
+              <div className="p-6 bg-green-50 border-b border-green-200">
+                <p className="text-green-800 font-medium text-center">
+                  Meddelande skickat! Föreningen kontaktar dig inom kort.
+                </p>
+              </div>
+            )}
 
             {/* Content */}
             <div className="p-6 space-y-6">
@@ -144,27 +169,33 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
 
             {/* Footer */}
             <div className="p-6 bg-gray-50 rounded-b-2xl">
-              <button
-                onClick={handleContactClick}
-                className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors mb-3"
-              >
-                Kontakta {project.foreningsnamn} →
-              </button>
-              <p className="text-sm text-gray-600 text-center">
-                Få direkt kontakt med föreningen för att diskutera samarbete
-              </p>
+              {!showContactForm && !contactSuccess && (
+                <>
+                  <button
+                    onClick={handleContactClick}
+                    className="w-full bg-gray-900 text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors mb-3"
+                  >
+                    Kontakta {project.foreningsnamn}
+                  </button>
+                  <p className="text-sm text-gray-600 text-center">
+                    Få direkt kontakt med föreningen
+                  </p>
+                </>
+              )}
+
+              {showContactForm && !contactSuccess && (
+                <ContactForm
+                  projectId={project.id}
+                  projectName={project.projektnamn}
+                  organizationName={project.foreningsnamn}
+                  onSuccess={handleContactSuccess}
+                  onCancel={() => setShowContactForm(false)}
+                />
+              )}
             </div>
           </motion.div>
         </motion.div>
       )}
-
-      {/* Auth Prompt Modal */}
-      <AuthPrompt
-        isOpen={showAuthPrompt}
-        onClose={() => setShowAuthPrompt(false)}
-        action="contact"
-        projectName={project?.projektnamn}
-      />
     </AnimatePresence>
   );
 };
