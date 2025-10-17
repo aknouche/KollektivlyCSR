@@ -88,25 +88,27 @@ export async function POST(request: NextRequest) {
     }
 
     // Create project with PENDING_REVIEW status
+    const projectData = {
+      projektnamn: validated.title,
+      kort_beskrivning: validated.description.substring(0, 200),
+      full_beskrivning: validated.description,
+      csr_kategori: validated.category,
+      stad: validated.location,
+      budget: validated.budget,
+      fn_mal: validated.un_goals,
+      image_url: validated.image_url || null,
+      organization_id: validated.organization_id,
+      status: moderationResult.flagged ? 'FLAGGED' : 'PENDING_REVIEW',
+      review_notes: moderationResult.flagged ? `Auto-flagged: ${moderationResult.reason}` : null,
+      view_count: 0,
+      contact_count: 0,
+      badges: []
+    };
+
     const { data: project, error: projectError } = await supabase
       .from('projects')
-      .insert({
-        title: validated.title,
-        description: validated.description,
-        category: validated.category,
-        location: validated.location,
-        budget: parseInt(validated.budget),
-        goal: validated.goal,
-        un_goals: validated.un_goals,
-        image_url: validated.image_url || null,
-        organization_id: validated.organization_id,
-        organization_name: organization.organization_name,
-        status: moderationResult.flagged ? 'FLAGGED' : 'PENDING_REVIEW',
-        moderation_notes: moderationResult.flagged ? `Auto-flagged: ${moderationResult.reason}` : null,
-        views: 0,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .insert(projectData as any)
       .select()
       .single() as { data: { id: string } | null; error: { message: string } | null };
 
