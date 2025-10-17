@@ -10,7 +10,7 @@ export default function StodProjekt() {
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     grantAmount: '50000',
-    serviceT ier: 'standard',
+    serviceTier: 'standard',
     companyName: '',
     companyEmail: '',
     contactPerson: '',

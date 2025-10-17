@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { createBrowserClient } from '@supabase/ssr';
 
@@ -29,19 +29,7 @@ export default function ForetagDashboard() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  useEffect(() => {
-    // In a real implementation, this would use company authentication
-    // For MVP, we'll use localStorage to store company email from contact forms
-    const storedEmail = localStorage.getItem('company_email');
-    if (storedEmail) {
-      setCompanyEmail(storedEmail);
-      loadDashboardData(storedEmail);
-    } else {
-      setLoading(false);
-    }
-  }, []);
-
-  const loadDashboardData = async (email: string) => {
+  const loadDashboardData = useCallback(async (email: string) => {
     try {
       // Get bookmarked projects from localStorage
       const bookmarksStr = localStorage.getItem('bookmarked_projects');
@@ -57,12 +45,13 @@ export default function ForetagDashboard() {
               csr_kategori,
               stad,
               budget,
-              organizations (organization_name)
+              organizations!inner (organization_name)
             `)
             .in('id', bookmarkIds)
             .eq('status', 'PUBLISHED');
 
-          setBookmarkedProjects(projects || []);
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          setBookmarkedProjects(projects as any || []);
         }
       }
 
@@ -74,19 +63,32 @@ export default function ForetagDashboard() {
           company_name,
           message,
           created_at,
-          projects (projektnamn)
+          projects!inner (projektnamn)
         `)
         .eq('company_email', email)
         .order('created_at', { ascending: false })
         .limit(10);
 
-      setContacts(contactsData || []);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      setContacts(contactsData as any || []);
     } catch (error) {
       console.error('Error loading dashboard:', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [supabase]);
+
+  useEffect(() => {
+    // In a real implementation, this would use company authentication
+    // For MVP, we'll use localStorage to store company email from contact forms
+    const storedEmail = localStorage.getItem('company_email');
+    if (storedEmail) {
+      setCompanyEmail(storedEmail);
+      loadDashboardData(storedEmail);
+    } else {
+      setLoading(false);
+    }
+  }, [loadDashboardData]);
 
   const handleEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

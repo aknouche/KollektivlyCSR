@@ -1,19 +1,36 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createBrowserClient } from '@supabase/ssr';
-import ProjectCard from '@/components/ProjectCard';
 import ProjectModal from '@/components/ProjectModal';
 import { Project } from '@/types';
 
+interface MatchingPreferences {
+  companyName: string;
+  companyEmail: string;
+  categories: string[];
+  unGoals: string[];
+  budget: string;
+  location: string;
+  preferences: {
+    localFocus: boolean;
+    impactReporting: boolean;
+    quickStart: boolean;
+  };
+}
+
+interface ProjectWithScore extends Project {
+  matchScore: number;
+}
+
 export default function MatchadeProjekt() {
   const router = useRouter();
-  const [matchedProjects, setMatchedProjects] = useState<Project[]>([]);
+  const [matchedProjects, setMatchedProjects] = useState<ProjectWithScore[]>([]);
   const [allProjects, setAllProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const [preferences, setPreferences] = useState<any>(null);
+  const [preferences, setPreferences] = useState<MatchingPreferences | null>(null);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -22,11 +39,7 @@ export default function MatchadeProjekt() {
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  useEffect(() => {
-    loadMatchingResults();
-  }, []);
-
-  const loadMatchingResults = async () => {
+  const loadMatchingResults = useCallback(async () => {
     // Get preferences from localStorage
     const prefsStr = localStorage.getItem('matching_preferences');
     if (!prefsStr) {
@@ -52,13 +65,14 @@ export default function MatchadeProjekt() {
         badges,
         view_count,
         image_url,
-        organizations (organization_name)
+        organizations!inner (organization_name)
       `)
       .eq('status', 'PUBLISHED')
       .order('created_at', { ascending: false });
 
     if (projects) {
-      const transformed = projects.map((p, idx) => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const transformed = projects.map((p: any, idx: number) => ({
         id: idx + 1,
         projektnamn: p.projektnamn,
         kortBeskrivning: p.kort_beskrivning,
@@ -81,9 +95,13 @@ export default function MatchadeProjekt() {
     }
 
     setLoading(false);
-  };
+  }, [router, supabase]);
 
-  const matchProjects = (projects: Project[], prefs: any) => {
+  useEffect(() => {
+    loadMatchingResults();
+  }, [loadMatchingResults]);
+
+  const matchProjects = (projects: Project[], prefs: MatchingPreferences) => {
     return projects
       .map(project => {
         let score = 0;
@@ -187,7 +205,7 @@ export default function MatchadeProjekt() {
         {/* Matched Projects */}
         {matchedProjects.length > 0 ? (
           <div className="space-y-6">
-            {matchedProjects.map((project: any) => (
+            {matchedProjects.map((project) => (
               <div key={project.id} className="bg-white rounded-lg border border-gray-200 p-6 hover:shadow-md transition-shadow">
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex-1">
