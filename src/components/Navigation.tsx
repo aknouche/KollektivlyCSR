@@ -7,7 +7,7 @@ const Navigation = () => {
   const pathname = usePathname();
 
   const isActive = (path: string) => {
-    return pathname === path ? 'text-blue-600 font-semibold' : 'text-gray-700 hover:text-blue-600';
+    return pathname === path ? 'text-gray-900 font-semibold' : 'text-gray-600 hover:text-gray-900';
   };
 
   return (
@@ -16,7 +16,7 @@ const Navigation = () => {
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
           <Link href="/" className="flex items-center">
-            <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center mr-3">
+            <div className="w-8 h-8 bg-gray-900 rounded-full flex items-center justify-center mr-3">
               <span className="text-white font-bold text-sm">K</span>
             </div>
             <span className="text-xl font-bold text-gray-900">Kollektivly</span>
@@ -25,22 +25,30 @@ const Navigation = () => {
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-8">
             <Link href="/alla-projekt" className={`transition-colors ${isActive('/alla-projekt')}`}>
-              Alla Projekt
-            </Link>
-            <Link href="/lagg-till-projekt" className={`transition-colors ${isActive('/lagg-till-projekt')}`}>
-              Lägg till Projekt
+              Projekt
             </Link>
             <Link href="/om-oss" className={`transition-colors ${isActive('/om-oss')}`}>
               Om Oss
             </Link>
-            <Link href="/kontakt" className={`transition-colors ${isActive('/kontakt')}`}>
-              Kontakt
-            </Link>
+            <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-200">
+              <Link
+                href="/logga-in"
+                className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+              >
+                Logga in
+              </Link>
+              <Link
+                href="/registrera"
+                className="bg-gray-900 text-white px-4 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors"
+              >
+                Registrera
+              </Link>
+            </div>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <button className="text-gray-700 hover:text-blue-600">
+            <button className="text-gray-700 hover:text-gray-900">
               <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
