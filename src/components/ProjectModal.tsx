@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Project } from '@/types';
@@ -171,14 +172,22 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
             <div className="p-6 bg-gray-50 rounded-b-2xl">
               {!showContactForm && !contactSuccess && (
                 <>
-                  <button
-                    onClick={handleContactClick}
-                    className="w-full bg-gray-900 text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors mb-3"
-                  >
-                    Kontakta {project.foreningsnamn}
-                  </button>
+                  <div className="flex gap-3 mb-3">
+                    <Link
+                      href={`/stod-projekt/${project.id}`}
+                      className="flex-1 text-center bg-gray-900 text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors"
+                    >
+                      Stöd detta projekt
+                    </Link>
+                    <button
+                      onClick={handleContactClick}
+                      className="flex-1 bg-white text-gray-900 border-2 border-gray-300 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors"
+                    >
+                      Kontakta
+                    </button>
+                  </div>
                   <p className="text-sm text-gray-600 text-center">
-                    Få direkt kontakt med föreningen
+                    Bidra med escrow-betalning eller kontakta föreningen
                   </p>
                 </>
               )}
