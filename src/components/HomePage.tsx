@@ -10,36 +10,43 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Säkra samhällsprojekt med AI-verifierad impact
+              Samhällsnytta som faktiskt händer
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-              Ingen rapport, ingen betalning. Automatisk verifiering. Noll administration.
+              AI verifierar. Pengarna är säkra. Du sparar 15 timmar per projekt.
             </p>
 
             {/* Primary CTAs */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-8">
               <Link
                 href="/matcha-projekt"
                 className="bg-white text-gray-900 px-8 py-4 rounded-md font-semibold hover:bg-gray-100 transition-colors text-lg"
               >
-                Hitta matchande projekt
+                Hitta ditt projekt
               </Link>
               <Link
                 href="/logga-in"
                 className="bg-gray-700 text-white px-8 py-4 rounded-md font-semibold hover:bg-gray-600 transition-colors text-lg border-2 border-gray-600"
               >
-                Lägg upp ert projekt
+                Publicera projekt
               </Link>
             </div>
 
             {/* Helper text */}
-            <div className="flex flex-col sm:flex-row justify-center gap-6 text-sm text-gray-400">
-              <Link href="/alla-projekt" className="hover:text-white transition-colors">
-                Eller bläddra bland alla projekt →
-              </Link>
-              <Link href="/foretag-logga-in" className="hover:text-white transition-colors">
-                Företag: Logga in →
-              </Link>
+            <div className="text-sm text-gray-400 space-y-2">
+              <div>
+                <Link href="/alla-projekt" className="hover:text-white transition-colors">
+                  Bläddra bland projekt
+                </Link>
+                <span className="mx-2">·</span>
+                <Link href="/foretag-logga-in" className="hover:text-white transition-colors">
+                  Logga in (Företag)
+                </Link>
+                <span className="mx-2">·</span>
+                <Link href="/registrera" className="hover:text-white transition-colors">
+                  Registrera (Förening)
+                </Link>
+              </div>
             </div>
           </div>
         </div>
