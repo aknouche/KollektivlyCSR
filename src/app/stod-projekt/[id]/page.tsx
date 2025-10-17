@@ -34,6 +34,10 @@ export default function StodProjekt() {
   };
 
   const handleSubmit = () => {
+    // Save company email for login
+    localStorage.setItem('company_email', formData.companyEmail);
+    localStorage.setItem('company_name', formData.companyName);
+
     // Mock submission - in real app would create Stripe payment intent
     router.push(`/betalning-bekraftelse?projectId=${params.id}&amount=${formData.grantAmount}`);
   };

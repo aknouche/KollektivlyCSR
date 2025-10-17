@@ -9,6 +9,14 @@ export default function BetalningBekraftelse() {
   const [transactionId] = useState(() => `TXN-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`);
   const amount = searchParams.get('amount') || '0';
 
+  // Auto-login företag after payment
+  useState(() => {
+    const companyEmail = localStorage.getItem('company_email');
+    if (companyEmail) {
+      localStorage.setItem('company_logged_in', 'true');
+    }
+  });
+
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
       <div className="bg-white rounded-lg border border-gray-200 p-8 max-w-2xl w-full">

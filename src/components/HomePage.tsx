@@ -60,12 +60,20 @@ export default function HomePage() {
                 <p className="text-gray-600">Medel frigörs endast vid godkänd rapport</p>
               </div>
             </div>
-            <Link
-              href="/alla-projekt"
-              className="inline-block mt-8 text-gray-900 font-medium hover:underline"
-            >
-              Bläddra bland projekt →
-            </Link>
+            <div className="mt-8 flex gap-4">
+              <Link
+                href="/foretag-logga-in"
+                className="text-gray-900 font-medium hover:underline"
+              >
+                Logga in →
+              </Link>
+              <Link
+                href="/alla-projekt"
+                className="text-gray-900 font-medium hover:underline"
+              >
+                Bläddra projekt →
+              </Link>
+            </div>
           </div>
 
           {/* For Föreningar */}
