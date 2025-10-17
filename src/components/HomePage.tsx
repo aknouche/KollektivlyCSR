@@ -17,10 +17,16 @@ export default function HomePage() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
-                href="/alla-projekt"
+                href="/matcha-projekt"
                 className="bg-white text-gray-900 px-8 py-3 rounded-md font-medium hover:bg-gray-100 transition-colors"
               >
-                Hitta projekt
+                Matcha med projekt
+              </Link>
+              <Link
+                href="/alla-projekt"
+                className="bg-gray-800 text-white px-8 py-3 rounded-md font-medium hover:bg-gray-700 transition-colors border border-gray-600"
+              >
+                Bläddra projekt
               </Link>
               <Link
                 href="/registrera"
