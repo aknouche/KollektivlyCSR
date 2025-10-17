@@ -7,66 +7,39 @@ export default function HomePage() {
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <header className="bg-gray-900 text-white">
-        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
-          <div className="text-center mb-16">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
+          <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
               Säkra samhällsprojekt med AI-verifierad impact
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
               Ingen rapport, ingen betalning. Automatisk verifiering. Noll administration.
             </p>
-          </div>
 
-          {/* Two-Column CTA */}
-          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            {/* Företag */}
-            <div className="bg-gray-800 rounded-lg p-8 border-2 border-gray-700 hover:border-gray-600 transition-colors">
-              <h2 className="text-2xl font-bold mb-3">För Företag</h2>
-              <p className="text-gray-300 mb-6">
-                Hitta verifierade projekt. Betala säkert. Få ESG-rapporter automatiskt.
-              </p>
-              <div className="space-y-3">
-                <Link
-                  href="/alla-projekt"
-                  className="block text-center bg-white text-gray-900 px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-colors"
-                >
-                  Hitta projekt
-                </Link>
-                <Link
-                  href="/foretag-logga-in"
-                  className="block text-center bg-gray-700 text-white px-6 py-3 rounded-md font-medium hover:bg-gray-600 transition-colors"
-                >
-                  Logga in
-                </Link>
-              </div>
-              <p className="text-sm text-gray-400 mt-4">
-                ✓ Ingen registrering behövs för att bläddra
-              </p>
+            {/* Primary CTAs */}
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-12">
+              <Link
+                href="/matcha-projekt"
+                className="bg-white text-gray-900 px-8 py-4 rounded-md font-semibold hover:bg-gray-100 transition-colors text-lg"
+              >
+                Hitta matchande projekt
+              </Link>
+              <Link
+                href="/logga-in"
+                className="bg-gray-700 text-white px-8 py-4 rounded-md font-semibold hover:bg-gray-600 transition-colors text-lg border-2 border-gray-600"
+              >
+                Lägg upp ert projekt
+              </Link>
             </div>
 
-            {/* Föreningar */}
-            <div className="bg-gray-800 rounded-lg p-8 border-2 border-gray-700 hover:border-gray-600 transition-colors">
-              <h2 className="text-2xl font-bold mb-3">För Föreningar</h2>
-              <p className="text-gray-300 mb-6">
-                Lista projekt gratis. Få finansiering snabbt. Garanterad betalning.
-              </p>
-              <div className="space-y-3">
-                <Link
-                  href="/registrera"
-                  className="block text-center bg-white text-gray-900 px-6 py-3 rounded-md font-medium hover:bg-gray-100 transition-colors"
-                >
-                  Registrera förening
-                </Link>
-                <Link
-                  href="/logga-in"
-                  className="block text-center bg-gray-700 text-white px-6 py-3 rounded-md font-medium hover:bg-gray-600 transition-colors"
-                >
-                  Logga in
-                </Link>
-              </div>
-              <p className="text-sm text-gray-400 mt-4">
-                ✓ 100% gratis att använda
-              </p>
+            {/* Helper text */}
+            <div className="flex flex-col sm:flex-row justify-center gap-6 text-sm text-gray-400">
+              <Link href="/alla-projekt" className="hover:text-white transition-colors">
+                Eller bläddra bland alla projekt →
+              </Link>
+              <Link href="/foretag-logga-in" className="hover:text-white transition-colors">
+                Företag: Logga in →
+              </Link>
             </div>
           </div>
         </div>
