@@ -10,10 +10,10 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Samhällsnytta som faktiskt händer
+              Föreningar och företag möts för samhällsnytta!
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
-              AI verifierar. Pengarna är säkra. Du sparar 15 timmar per projekt.
+              Verifierade projekt och event för samhällsnytta och hållbar utveckling. Där pengar gör som mest nytta. Automatiserade processer och minimal administration.
             </p>
 
             {/* Primary CTAs */}
@@ -22,7 +22,7 @@ export default function HomePage() {
                 href="/matcha-projekt"
                 className="bg-white text-gray-900 px-8 py-4 rounded-md font-semibold hover:bg-gray-100 transition-colors text-lg"
               >
-                Hitta ditt projekt
+                Hitta projekt
               </Link>
               <Link
                 href="/logga-in"
@@ -45,14 +45,14 @@ export default function HomePage() {
               <div className="text-4xl mb-4">🏢</div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">För Företag</h3>
               <p className="text-gray-600">
-                Spara 15+ timmar per projekt. Automatiska ESG-rapporter. Noll risk för missbruk.
+                Hitta rätt samhällsprojekt via automatisk matchning. Trygg betalning och återrapportering. Stärk ert varumärke och arbeta mer datadrivet med ESG-projekt.
               </p>
             </div>
             <div className="bg-gray-50 rounded-lg p-8">
               <div className="text-4xl mb-4">🤝</div>
               <h3 className="text-xl font-bold text-gray-900 mb-3">För Föreningar</h3>
               <p className="text-gray-600">
-                Finansiering på 2 veckor istället för 6 månader. Garanterad betalning från dag 1.
+                Låt företag hitta er. Bidra till samhället och utveckla er förening. Rätt stöd på rätt plats.
               </p>
             </div>
             <div className="bg-gray-50 rounded-lg p-8">
@@ -74,23 +74,23 @@ export default function HomePage() {
                 <div className="text-4xl font-bold text-gray-600 mb-3">01</div>
                 <h3 className="text-lg font-semibold mb-2">Matchning</h3>
                 <p className="text-gray-300">
-                  Företag hittar projekt via AI-matchning eller bläddrar fritt
+                  Företag hittar projekt via automatisk matchning eller bläddrar fritt
                 </p>
               </div>
 
               <div>
                 <div className="text-4xl font-bold text-gray-600 mb-3">02</div>
-                <h3 className="text-lg font-semibold mb-2">Säker betalning</h3>
+                <h3 className="text-lg font-semibold mb-2">Säker betalning och rapportering</h3>
                 <p className="text-gray-300">
-                  Bidraget läggs i escrow. Föreningen kan starta direkt.
+                  Bidraget hålls inne i väntan på rapportering. Föreningen kan starta direkt.
                 </p>
               </div>
 
               <div>
                 <div className="text-4xl font-bold text-gray-600 mb-3">03</div>
-                <h3 className="text-lg font-semibold mb-2">AI-verifiering</h3>
+                <h3 className="text-lg font-semibold mb-2">Verifiering</h3>
                 <p className="text-gray-300">
-                  Rapport verifieras automatiskt. Betalning frigörs. ESG-rapport genereras.
+                  Föreningens rapporter verifieras automatiskt. Betalning frigörs. ESG-rapport genereras.
                 </p>
               </div>
             </div>
