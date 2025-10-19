@@ -10,14 +10,14 @@ export default function HomePage() {
         <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Föreningar och företag möts för samhällsnytta!
+              Föreningar och företag möts för samhällsnytta
             </h1>
             <p className="text-xl text-gray-300 max-w-3xl mx-auto mb-12">
               Verifierade projekt och event för samhällsnytta och hållbar utveckling. Där pengar gör som mest nytta. Automatiserade processer och minimal administration.
             </p>
 
             {/* Primary CTAs */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
               <Link
                 href="/matcha-projekt"
                 className="bg-white text-gray-900 px-8 py-4 rounded-md font-semibold hover:bg-gray-100 transition-colors text-lg"
@@ -25,10 +25,20 @@ export default function HomePage() {
                 Hitta projekt
               </Link>
               <Link
-                href="/logga-in"
+                href="/dashboard"
                 className="bg-gray-700 text-white px-8 py-4 rounded-md font-semibold hover:bg-gray-600 transition-colors text-lg border-2 border-gray-600"
               >
                 Publicera projekt
+              </Link>
+            </div>
+
+            {/* Discrete link to all projects */}
+            <div className="text-center">
+              <Link
+                href="/alla-projekt"
+                className="text-gray-400 text-sm hover:text-gray-300 transition-colors"
+              >
+                Alla projekt
               </Link>
             </div>
           </div>
@@ -96,6 +106,7 @@ export default function HomePage() {
             </div>
           </div>
         </div>
+
       </main>
     </div>
   );

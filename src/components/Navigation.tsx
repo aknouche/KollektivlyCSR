@@ -27,6 +27,9 @@ const Navigation = () => {
             <Link href="/alla-projekt" className={`transition-colors ${isActive('/alla-projekt')}`}>
               Projekt
             </Link>
+            <Link href="/faq" className={`transition-colors ${isActive('/faq')}`}>
+              FAQ
+            </Link>
             <Link href="/om-oss" className={`transition-colors ${isActive('/om-oss')}`}>
               Om Oss
             </Link>
