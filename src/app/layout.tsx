@@ -4,9 +4,6 @@ import "./globals.css";
 import Navigation from '@/components/Navigation';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-// Force dynamic rendering for all pages
-export const dynamic = 'force-dynamic';
-
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",

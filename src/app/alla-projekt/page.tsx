@@ -3,7 +3,7 @@ import { projects as fallbackProjects } from '@/data/projects';
 import AllaProjectPage from '@/components/AllaProjectPage';
 import { Project } from '@/types';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
 
 type DatabaseProject = {
   id: string;

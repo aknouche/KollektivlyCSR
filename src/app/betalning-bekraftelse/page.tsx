@@ -3,8 +3,9 @@
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { Suspense } from 'react';
 
-export default function BetalningBekraftelse() {
+function BetalningBekraftelseContent() {
   const searchParams = useSearchParams();
   const [transactionId] = useState(() => `TXN-${Date.now()}-${Math.random().toString(36).substring(7).toUpperCase()}`);
   const amount = searchParams.get('amount') || '0';
@@ -129,5 +130,24 @@ export default function BetalningBekraftelse() {
         </p>
       </div>
     </div>
+  );
+}
+
+export default function BetalningBekraftelse() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4 animate-pulse">
+            <svg className="w-8 h-8 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+            </svg>
+          </div>
+          <p className="text-gray-600">Laddar...</p>
+        </div>
+      </div>
+    }>
+      <BetalningBekraftelseContent />
+    </Suspense>
   );
 }
