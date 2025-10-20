@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     // Test 1: Check if Supabase client is initialized
     const { data: { session }, error: sessionError } = await supabase.auth.getSession();

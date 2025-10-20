@@ -27,7 +27,7 @@ type DatabaseProject = {
 
 async function getPublishedProjects(): Promise<Project[]> {
   try {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     const { data, error } = await supabase
       .from('projects')

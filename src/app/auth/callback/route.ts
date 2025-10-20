@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
   console.log('Auth callback params:', { code, token_hash, type, url: request.url });
 
   if (token_hash && type) {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     // Verify OTP for magic link
     const { error } = await supabase.auth.verifyOtp({
@@ -35,7 +35,7 @@ export async function GET(request: NextRequest) {
   }
 
   if (code) {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     // Exchange code for session (PKCE flow)
     const { error } = await supabase.auth.exchangeCodeForSession(code);

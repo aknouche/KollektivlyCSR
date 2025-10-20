@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = await createClient();
+    const supabase = createClient();
 
     // Get project and organization info
     const { data: project, error: projectError } = await supabase

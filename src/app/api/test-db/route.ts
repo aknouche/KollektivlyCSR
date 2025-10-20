@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 
 export async function GET() {
   try {
-    const supabase = await createClient();
+    const supabase = createClient();
 
     // Test 1: Check if organizations table exists
     const { data: orgs, error: orgError } = await supabase
