@@ -338,7 +338,7 @@ Looking at your `.env.local`:
 
 ✅ **Supabase** - All keys present
 ✅ **Stripe** - Test keys present (live keys needed for production)
-✅ **Google Gemini** - API key present (`AIzaSyBrQSH2NetU8tUcydGWt4VgNYCsGdyHPFs`)
+✅ **Google Gemini** - API key present (configured)
 ⚠️ **Stripe Webhook** - Says "will_add_this_later" (OK for local testing)
 
 **You're 95% ready!** Just need to apply migrations.
