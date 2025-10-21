@@ -16,7 +16,9 @@ export default function FAQPage() {
             <div className="space-y-6">
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Vad kostar det?</h3>
-                <p className="text-gray-600 text-sm">Plattformen är gratis. Avgift tillkommer endast vid bidrag.</p>
+                <p className="text-gray-600 text-sm">
+                  Plattformen är gratis att använda. Avgift (7%) tillkommer endast vid bidragsbetalningar för verifiering och ESG-rapportering.
+                </p>
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Hur fungerar verifieringen?</h3>
@@ -47,7 +49,7 @@ export default function FAQPage() {
               </div>
               <div>
                 <h3 className="font-semibold text-gray-900 mb-2">Kostar det att publicera?</h3>
-                <p className="text-gray-600 text-sm">Nej, det är helt gratis att lägga upp projekt.</p>
+                <p className="text-gray-600 text-sm">Nej, det är helt gratis att lägga upp och visa projekt på plattformen.</p>
               </div>
             </div>
           </div>

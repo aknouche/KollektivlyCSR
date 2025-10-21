@@ -26,10 +26,13 @@ export default function OmOss() {
         {/* Mission */}
         <div className="bg-white rounded-xl p-8 shadow-sm border border-gray-100 mb-12">
           <h2 className="text-2xl font-semibold text-gray-900 mb-6">Vår Mission</h2>
-          <p className="text-lg text-gray-600 leading-relaxed">
+          <p className="text-lg text-gray-600 leading-relaxed mb-4">
             Kollektivly skapades för att lösa ett verkligt problem: företag vill göra samhällsnytta men vet inte hur,
             medan lokala organisationer har fantastiska projekt men når inte fram till företagen. Vi är bryggan som
             kopplar samman dessa två världar på ett trovärdig, datadriven och skalbart sätt.
+          </p>
+          <p className="text-gray-600 italic">
+            Plattformen är gratis att använda. Avgift tillkommer endast vid bidragsbetalningar för verifiering och rapportering.
           </p>
         </div>
 

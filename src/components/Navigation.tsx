@@ -1,10 +1,69 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { createBrowserClient } from '@supabase/ssr';
 
 const Navigation = () => {
   const pathname = usePathname();
+  const router = useRouter();
+  const [user, setUser] = useState<any>(null);
+  const [userType, setUserType] = useState<'company' | 'organization' | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  useEffect(() => {
+    checkUser();
+  }, []);
+
+  async function checkUser() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (session?.user) {
+        setUser(session.user);
+
+        // Check if company
+        const { data: companies } = await supabase
+          .from('companies')
+          .select('id')
+          .eq('auth_user_id', session.user.id)
+          .limit(1);
+
+        if (companies && companies.length > 0) {
+          setUserType('company');
+        } else {
+          // Check if organization
+          const { data: orgs } = await supabase
+            .from('organizations')
+            .select('id')
+            .eq('email', session.user.email)
+            .limit(1);
+
+          if (orgs && orgs.length > 0) {
+            setUserType('organization');
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error checking user:', error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    setUser(null);
+    setUserType(null);
+    router.push('/');
+    router.refresh();
+  }
 
   const isActive = (path: string) => {
     return pathname === path ? 'text-gray-900 font-semibold' : 'text-gray-600 hover:text-gray-900';
@@ -34,18 +93,39 @@ const Navigation = () => {
               Om Oss
             </Link>
             <div className="flex items-center space-x-4 ml-4 pl-4 border-l border-gray-200">
-              <Link
-                href="/logga-in"
-                className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
-              >
-                Logga in
-              </Link>
-              <Link
-                href="/registrera"
-                className="bg-gray-900 text-white px-4 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors"
-              >
-                Registrera
-              </Link>
+              {loading ? (
+                <div className="text-gray-400 text-sm">...</div>
+              ) : user ? (
+                <>
+                  <Link
+                    href={userType === 'company' ? '/foretag-dashboard' : '/dashboard'}
+                    className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+                  >
+                    Dashboard
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+                  >
+                    Logga ut
+                  </button>
+                </>
+              ) : (
+                <>
+                  <Link
+                    href="/logga-in"
+                    className="text-gray-600 hover:text-gray-900 font-medium transition-colors"
+                  >
+                    Logga in
+                  </Link>
+                  <Link
+                    href="/registrera"
+                    className="bg-gray-900 text-white px-4 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors"
+                  >
+                    Registrera
+                  </Link>
+                </>
+              )}
             </div>
           </div>
 

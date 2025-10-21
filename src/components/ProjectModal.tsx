@@ -1,11 +1,13 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Project } from '@/types';
 import ContactForm from './ContactForm';
+import { createBrowserClient } from '@supabase/ssr';
 
 interface ProjectModalProps {
   project: Project | null;
@@ -14,8 +16,31 @@ interface ProjectModalProps {
 }
 
 const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
+  const router = useRouter();
   const [showContactForm, setShowContactForm] = useState(false);
   const [contactSuccess, setContactSuccess] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  async function checkAuth() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      setIsLoggedIn(!!session);
+    } catch (error) {
+      console.error('Error checking auth:', error);
+    } finally {
+      setCheckingAuth(false);
+    }
+  }
 
   const getCategoryColor = (category: Project['csrKategori']) => {
     switch (category) {
@@ -31,7 +56,22 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
   };
 
   const handleContactClick = () => {
+    if (!isLoggedIn) {
+      // Redirect to login page with return URL
+      router.push(`/logga-in?redirect=/alla-projekt`);
+      return;
+    }
     setShowContactForm(true);
+  };
+
+  const handleSupportClick = () => {
+    if (!isLoggedIn) {
+      // Redirect to login page with return URL
+      router.push(`/logga-in?redirect=/stod-projekt/${project?.id}`);
+      return;
+    }
+    // If logged in, proceed to support page
+    router.push(`/stod-projekt/${project?.id}`);
   };
 
   const handleContactSuccess = () => {
@@ -172,23 +212,48 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
             <div className="p-6 bg-gray-50 rounded-b-2xl">
               {!showContactForm && !contactSuccess && (
                 <>
+                  {!isLoggedIn && !checkingAuth && (
+                    <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                      <p className="text-sm text-blue-900 font-medium mb-2 text-center">
+                        🔒 Logga in för att kontakta eller stödja detta projekt
+                      </p>
+                      <button
+                        onClick={() => router.push('/logga-in?redirect=/alla-projekt')}
+                        className="w-full bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition-colors"
+                      >
+                        Logga in
+                      </button>
+                    </div>
+                  )}
                   <div className="flex gap-3 mb-3">
-                    <Link
-                      href={`/stod-projekt/${project.id}`}
-                      className="flex-1 text-center bg-gray-900 text-white px-6 py-3 rounded-md font-medium hover:bg-gray-800 transition-colors"
+                    <button
+                      onClick={handleSupportClick}
+                      disabled={!isLoggedIn && !checkingAuth}
+                      className={`flex-1 text-center px-6 py-3 rounded-md font-medium transition-colors ${
+                        isLoggedIn || checkingAuth
+                          ? 'bg-gray-900 text-white hover:bg-gray-800'
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
                     >
                       Stöd detta projekt
-                    </Link>
+                    </button>
                     <button
                       onClick={handleContactClick}
-                      className="flex-1 bg-white text-gray-900 border-2 border-gray-300 px-6 py-3 rounded-md font-medium hover:bg-gray-50 transition-colors"
+                      disabled={!isLoggedIn && !checkingAuth}
+                      className={`flex-1 border-2 px-6 py-3 rounded-md font-medium transition-colors ${
+                        isLoggedIn || checkingAuth
+                          ? 'bg-white text-gray-900 border-gray-300 hover:bg-gray-50'
+                          : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
+                      }`}
                     >
                       Kontakta
                     </button>
                   </div>
-                  <p className="text-sm text-gray-600 text-center">
-                    Bidra med escrow-betalning eller kontakta föreningen
-                  </p>
+                  {isLoggedIn && (
+                    <p className="text-sm text-gray-600 text-center">
+                      Bidra med escrow-betalning eller kontakta föreningen
+                    </p>
+                  )}
                 </>
               )}
 

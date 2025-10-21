@@ -99,7 +99,7 @@ export default function Registrera() {
               </ol>
             </div>
             <Link
-              href="/dashboard"
+              href="/forening-logga-in"
               className="inline-block px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition"
             >
               Logga in nu

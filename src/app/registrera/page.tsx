@@ -14,7 +14,7 @@ export default function Registrera() {
         <div className="grid md:grid-cols-2 gap-6">
           {/* Företag */}
           <Link
-            href="/registrera-foretag"
+            href="/foretag-logga-in?tab=register"
             className="bg-white rounded-lg border-2 border-gray-200 p-8 hover:border-gray-900 transition-colors text-center group"
           >
             <div className="text-5xl mb-4">🏢</div>
@@ -29,7 +29,7 @@ export default function Registrera() {
 
           {/* Förening */}
           <Link
-            href="/registrera-forening"
+            href="/forening-logga-in?tab=register"
             className="bg-white rounded-lg border-2 border-gray-200 p-8 hover:border-gray-900 transition-colors text-center group"
           >
             <div className="text-5xl mb-4">🤝</div>

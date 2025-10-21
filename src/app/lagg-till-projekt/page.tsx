@@ -40,11 +40,13 @@ function ProjectForm() {
       }
 
       // Get organization
-      const { data: org } = await supabase
+      const { data: orgResults } = await supabase
         .from('organizations')
         .select('*')
         .eq('email', session.user.email)
-        .single();
+        .limit(1);
+
+      const org = orgResults && orgResults.length > 0 ? orgResults[0] : null;
 
       if (!org) {
         router.push('/registrera');
@@ -233,13 +235,16 @@ function ProjectForm() {
               id="title"
               name="title"
               required
+              minLength={5}
               maxLength={100}
               value={formData.title}
               onChange={handleInputChange}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="T.ex. Återplantering av lokal skog"
             />
-            <p className="mt-1 text-sm text-gray-500">{formData.title.length}/100 tecken</p>
+            <p className={`mt-1 text-sm ${formData.title.length < 5 && formData.title.length > 0 ? 'text-orange-600' : 'text-gray-500'}`}>
+              {formData.title.length}/100 tecken {formData.title.length < 5 && formData.title.length > 0 && `(minst 5 tecken krävs)`}
+            </p>
           </div>
 
           {/* Description */}
@@ -251,6 +256,7 @@ function ProjectForm() {
               id="description"
               name="description"
               required
+              minLength={50}
               maxLength={5000}
               rows={8}
               value={formData.description}
@@ -258,7 +264,9 @@ function ProjectForm() {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="Beskriv projektets syfte, aktiviteter, mål och förväntad påverkan..."
             />
-            <p className="mt-1 text-sm text-gray-500">{formData.description.length}/5000 tecken</p>
+            <p className={`mt-1 text-sm ${formData.description.length < 50 ? 'text-orange-600' : 'text-gray-500'}`}>
+              {formData.description.length}/5000 tecken {formData.description.length < 50 && `(minst 50 tecken krävs)`}
+            </p>
           </div>
 
           {/* Category */}
@@ -325,6 +333,7 @@ function ProjectForm() {
               id="goal"
               name="goal"
               required
+              minLength={10}
               maxLength={500}
               rows={3}
               value={formData.goal}
@@ -332,7 +341,9 @@ function ProjectForm() {
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               placeholder="T.ex. Plantera 1000 träd och engagera 100 volontärer"
             />
-            <p className="mt-1 text-sm text-gray-500">{formData.goal.length}/500 tecken</p>
+            <p className={`mt-1 text-sm ${formData.goal.length < 10 && formData.goal.length > 0 ? 'text-orange-600' : 'text-gray-500'}`}>
+              {formData.goal.length}/500 tecken {formData.goal.length < 10 && formData.goal.length > 0 && `(minst 10 tecken krävs)`}
+            </p>
           </div>
 
           {/* UN Goals */}

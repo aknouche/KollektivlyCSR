@@ -12,6 +12,7 @@
     "test:coverage": "jest --coverage"
   },
   "dependencies": {
+    "@google/generative-ai": "^0.24.1",
     "@hcaptcha/react-hcaptcha": "^1.12.1",
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.7.0",
@@ -20,9 +21,11 @@
     "framer-motion": "^12.23.20",
     "lucide-react": "^0.544.0",
     "next": "14.2.33",
+    "openai": "^6.5.0",
     "react": "^18",
     "react-dom": "^18",
     "resend": "^6.1.1",
+    "stripe": "^19.1.0",
     "zod": "^4.1.11"
   },
   "devDependencies": {

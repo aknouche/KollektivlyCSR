@@ -17,7 +17,7 @@ export default function HomePage() {
             </p>
 
             {/* Primary CTAs */}
-            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row justify-center gap-4 mb-2">
               <Link
                 href="/matcha-projekt"
                 className="bg-white text-gray-900 px-8 py-4 rounded-md font-semibold hover:bg-gray-100 transition-colors text-lg"
@@ -32,11 +32,12 @@ export default function HomePage() {
               </Link>
             </div>
 
-            {/* Discrete link to all projects */}
-            <div className="text-center">
+            {/* Discrete info */}
+            <div className="text-center space-y-1">
+              <p className="text-gray-500 text-sm">Gratis att publicera och söka projekt</p>
               <Link
                 href="/alla-projekt"
-                className="text-gray-400 text-sm hover:text-gray-300 transition-colors"
+                className="text-gray-400 text-sm hover:text-gray-300 transition-colors block"
               >
                 Alla projekt
               </Link>

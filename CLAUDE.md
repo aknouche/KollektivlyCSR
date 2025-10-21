@@ -14,8 +14,8 @@ Platform connecting Swedish companies with verified föreningar. Companies suppo
 **Cost**: 0 SEK/month (free tier)
 
 **Phase 1**: ✅ Complete (registration, authentication, homepage)
-**Phase 2**: 🔄 In progress (search, contact, dashboards, project submission)
-**Phase 3**: ⏳ Next (payment escrow, AI verification, reporting)
+**Phase 2**: ✅ Complete (search, contact, dashboards, project submission, company auth, goals assessment)
+**Phase 3**: 🔄 In progress (payment escrow, AI verification, reporting)
 
 ---
 
@@ -137,24 +137,38 @@ git push origin main # Auto-deploy to Vercel
 
 ## Progress
 
-**DONE** ✅
+**Phase 1 - DONE** ✅
 - [x] MVP with Supabase (2025-10-10)
 - [x] Privacy policy (2025-10-13)
 - [x] UI cleanup: CSR → Samhällsnytta (2025-10-16)
 - [x] Business model: Transaction-based (2025-10-16)
+- [x] Organization registration & auth
+- [x] Homepage & core pages
 
-**NEXT** ⏳
-- [ ] Search & filter
-- [ ] Contact system
-- [ ] Dashboards
-- [ ] Project submission
+**Phase 2 - DONE** ✅
+- [x] Search & filter (category, city, UN goals)
+- [x] Contact system (companies → föreningar)
+- [x] Organization dashboard (projects, contacts, stats)
+- [x] Project submission form
+- [x] Company authentication (proper Supabase Auth, no more localStorage!)
+- [x] Company dashboard
+- [x] Goals assessment form (5-step questionnaire)
+- [x] Expert consultation recommendations (CSRD/Marketing)
 
-**LATER** 🔮
-- [ ] Stripe escrow
-- [ ] AI verification
-- [ ] ESG reports
+**Phase 3 - IN PROGRESS** 🔄
+- [x] Database schema for payments/milestones/AI verifications (2025-01-21)
+- [ ] Stripe Connect integration
+- [ ] Milestone submission UI (föreningar upload documents/reports)
+- [ ] AI verification system (legitimacy + impact reports)
+- [ ] ESG report auto-generation
+
+**Phase 4 - LATER** 🔮
+- [ ] Multi-language (Swedish/English)
+- [ ] Mobile app
+- [ ] Advanced analytics
+- [ ] Email notifications system
 
 ---
 
-**Last Updated**: 2025-10-16
+**Last Updated**: 2025-01-21
 **Philosophy**: Keep it simple. Build what scales. Charge for real value.

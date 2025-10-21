@@ -1,11 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import { createBrowserClient } from '@supabase/ssr';
 
 export default function MatchaProjekt() {
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [checkingAuth, setCheckingAuth] = useState(true);
+  const [userEmail, setUserEmail] = useState('');
+  const [companyName, setCompanyName] = useState('');
+
   const [formData, setFormData] = useState({
     companyName: '',
     companyEmail: '',
@@ -19,6 +26,47 @@ export default function MatchaProjekt() {
       quickStart: false
     }
   });
+
+  const supabase = createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  );
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  async function checkAuth() {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (session?.user) {
+        setIsLoggedIn(true);
+        setUserEmail(session.user.email || '');
+
+        // Get company data
+        const { data: companies } = await supabase
+          .from('companies')
+          .select('company_name, email')
+          .eq('auth_user_id', session.user.id)
+          .limit(1);
+
+        if (companies && companies.length > 0) {
+          setCompanyName(companies[0].company_name);
+          // Pre-fill form with user data
+          setFormData(prev => ({
+            ...prev,
+            companyName: companies[0].company_name,
+            companyEmail: companies[0].email
+          }));
+        }
+      }
+    } catch (error) {
+      console.error('Error checking auth:', error);
+    } finally {
+      setCheckingAuth(false);
+    }
+  }
 
   const categories = ['Miljö', 'Ungdom', 'Inkludering'];
   const unGoals = [
@@ -66,6 +114,37 @@ export default function MatchaProjekt() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Login CTA for non-logged in users */}
+        {!checkingAuth && !isLoggedIn && (
+          <div className="mb-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="text-sm text-blue-900 font-medium mb-1">
+                  Redan registrerad?
+                </p>
+                <p className="text-sm text-blue-700">
+                  Logga in för att spara dina preferenser och få personliga matchningar.
+                </p>
+              </div>
+              <Link
+                href="/foretag-logga-in"
+                className="ml-4 px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 transition-colors whitespace-nowrap"
+              >
+                Logga in
+              </Link>
+            </div>
+          </div>
+        )}
+
+        {/* Welcome message for logged in users */}
+        {!checkingAuth && isLoggedIn && (
+          <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4">
+            <p className="text-sm text-green-900">
+              <span className="font-medium">Välkommen, {companyName}!</span> Fyll i dina preferenser nedan för att hitta projekt som passar er.
+            </p>
+          </div>
+        )}
+
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-2">

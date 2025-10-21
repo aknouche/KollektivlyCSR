@@ -29,7 +29,7 @@ export default function LoggaIn() {
 
           {/* Förening */}
           <Link
-            href="/dashboard"
+            href="/forening-logga-in"
             className="bg-white rounded-lg border-2 border-gray-200 p-8 hover:border-gray-900 transition-colors text-center group"
           >
             <div className="text-5xl mb-4">🤝</div>

@@ -2,9 +2,11 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
 
 export default function ForetagDashboard() {
+  const router = useRouter();
   const [bookmarkedProjects, setBookmarkedProjects] = useState<Array<{
     id: string;
     projektnamn: string;
@@ -19,19 +21,48 @@ export default function ForetagDashboard() {
     company_name: string;
     message: string;
     created_at: string;
-    projects: { projektnamn: string };
+    project_id: string;
   }>>([]);
   const [loading, setLoading] = useState(true);
-  const [companyEmail, setCompanyEmail] = useState('');
+  const [company, setCompany] = useState<{
+    id: string;
+    company_name: string;
+    email: string;
+    contact_person: string;
+    assessment_completed: boolean;
+  } | null>(null);
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   );
 
-  const loadDashboardData = useCallback(async (email: string) => {
+  const checkAuth = useCallback(async () => {
     try {
-      // Get bookmarked projects from localStorage
+      const { data: { session } } = await supabase.auth.getSession();
+
+      if (!session) {
+        router.push('/foretag-logga-in');
+        return;
+      }
+
+      // Get company data
+      const { data: companyResults } = await supabase
+        .from('companies')
+        .select('id, company_name, email, contact_person, assessment_completed')
+        .eq('auth_user_id', session.user.id)
+        .limit(1);
+
+      const companyData = companyResults && companyResults.length > 0 ? companyResults[0] : null;
+
+      if (!companyData) {
+        router.push('/foretag-logga-in');
+        return;
+      }
+
+      setCompany(companyData);
+
+      // Get bookmarked projects from localStorage (keep this for now)
       const bookmarksStr = localStorage.getItem('bookmarked_projects');
       if (bookmarksStr) {
         const bookmarkIds = JSON.parse(bookmarksStr);
@@ -56,49 +87,35 @@ export default function ForetagDashboard() {
       }
 
       // Get contact messages sent by this company
-      const { data: contactsData } = await supabase
+      const { data: contactsData, error: contactsError } = await supabase
         .from('contact_messages')
-        .select(`
-          id,
-          company_name,
-          message,
-          created_at,
-          projects!inner (projektnamn)
-        `)
-        .eq('company_email', email)
+        .select('id, company_name, message, created_at, project_id')
+        .eq('company_email', companyData.email)
         .order('created_at', { ascending: false })
         .limit(10);
 
+      if (contactsError) {
+        console.error('Error fetching contacts:', contactsError);
+      }
+
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       setContacts(contactsData as any || []);
+
     } catch (error) {
-      console.error('Error loading dashboard:', error);
+      console.error('Auth error:', error);
+      router.push('/foretag-logga-in');
     } finally {
       setLoading(false);
     }
-  }, [supabase]);
+  }, [supabase, router]);
 
   useEffect(() => {
-    // In a real implementation, this would use company authentication
-    // For MVP, we'll use localStorage to store company email from contact forms
-    const storedEmail = localStorage.getItem('company_email');
-    if (storedEmail) {
-      setCompanyEmail(storedEmail);
-      loadDashboardData(storedEmail);
-    } else {
-      setLoading(false);
-    }
-  }, [loadDashboardData]);
+    checkAuth();
+  }, [checkAuth]);
 
-  const handleEmailSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const emailInput = form.elements.namedItem('email') as HTMLInputElement;
-    const email = emailInput.value;
-
-    localStorage.setItem('company_email', email);
-    setCompanyEmail(email);
-    loadDashboardData(email);
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push('/');
   };
 
   if (loading) {
@@ -109,53 +126,59 @@ export default function ForetagDashboard() {
     );
   }
 
-  if (!companyEmail) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg border border-gray-200 p-8 max-w-md w-full">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Företagsdashboard</h1>
-          <p className="text-gray-600 mb-6">
-            Ange din företagsepost för att se dina kontakter och sparade projekt.
-          </p>
-          <form onSubmit={handleEmailSubmit}>
-            <input
-              type="email"
-              name="email"
-              required
-              placeholder="foretagsnamn@exempel.se"
-              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900 mb-4"
-            />
-            <button
-              type="submit"
-              className="w-full bg-gray-900 text-white px-4 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors"
-            >
-              Visa dashboard
-            </button>
-          </form>
-          <p className="text-xs text-gray-500 mt-4">
-            Observera: Detta är en förenklad version. Fullständig autentisering kommer i nästa version.
-          </p>
-        </div>
-      </div>
-    );
+  if (!company) {
+    return null;
   }
 
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Företagsdashboard</h1>
-          <p className="text-gray-600">{companyEmail}</p>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">Företagsdashboard</h1>
+            <p className="text-gray-600">{company.company_name}</p>
+            <p className="text-sm text-gray-500">{company.email}</p>
+          </div>
           <button
-            onClick={() => {
-              localStorage.removeItem('company_email');
-              setCompanyEmail('');
-            }}
-            className="text-sm text-gray-600 hover:text-gray-900 mt-2"
+            onClick={handleLogout}
+            className="px-4 py-2 text-gray-600 hover:text-gray-900 transition"
           >
             Logga ut
           </button>
+        </div>
+
+        {/* Goals Assessment Banner */}
+        <div className="mb-8 bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-lg p-6">
+          <div className="flex items-start justify-between">
+            <div className="flex-1">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                📊 {company.assessment_completed ? 'Din målbedömning' : 'Få personlig rådgivning för era samhällsmål'}
+              </h3>
+              <p className="text-gray-700 mb-4">
+                {company.assessment_completed
+                  ? 'Se era resultat och rekommendationer, eller gör om bedömningen för att uppdatera.'
+                  : 'Besvara några snabba frågor om era mål med samhällsengagemang och få skräddarsydda rekommendationer från våra experter.'
+                }
+              </p>
+              <div className="flex gap-3">
+                <Link
+                  href={company.assessment_completed ? "/foretag-matningsfragor/resultat" : "/foretag-matningsfragor"}
+                  className="inline-block bg-blue-600 text-white px-6 py-3 rounded-md font-medium hover:bg-blue-700 transition-colors"
+                >
+                  {company.assessment_completed ? 'Se resultat' : 'Starta bedömning (2 min)'}
+                </Link>
+                {company.assessment_completed && (
+                  <Link
+                    href="/foretag-matningsfragor"
+                    className="inline-block bg-white text-blue-600 border-2 border-blue-600 px-6 py-3 rounded-md font-medium hover:bg-blue-50 transition-colors"
+                  >
+                    Gör om bedömning
+                  </Link>
+                )}
+              </div>
+            </div>
+          </div>
         </div>
 
         {/* Stats */}
@@ -169,6 +192,12 @@ export default function ForetagDashboard() {
             <p className="text-2xl font-bold text-gray-900">{contacts.length}</p>
           </div>
           <div className="bg-white rounded-lg border border-gray-200 p-4">
+            <Link
+              href="/matcha-projekt"
+              className="block text-center bg-blue-600 text-white px-4 py-2 rounded-md font-medium hover:bg-blue-700 transition-colors mb-2"
+            >
+              🎯 Matcha projekt
+            </Link>
             <Link
               href="/alla-projekt"
               className="block text-center bg-gray-900 text-white px-4 py-2 rounded-md font-medium hover:bg-gray-800 transition-colors"
@@ -216,7 +245,7 @@ export default function ForetagDashboard() {
               {contacts.map((contact) => (
                 <div key={contact.id} className="p-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900">{contact.projects?.projektnamn}</h3>
+                    <h3 className="font-semibold text-gray-900">Kontakt skickad</h3>
                     <span className="text-xs text-gray-500">
                       {new Date(contact.created_at).toLocaleDateString('sv-SE')}
                     </span>

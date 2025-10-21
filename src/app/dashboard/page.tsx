@@ -57,17 +57,19 @@ export default function Dashboard() {
       const { data: { session } } = await supabase.auth.getSession();
 
       if (!session) {
-        router.push('/logga-in');
+        router.push('/forening-logga-in');
         return;
       }
 
 
       // Get organization data
-      const { data: org } = await supabase
+      const { data: orgResults } = await supabase
         .from('organizations')
         .select('*')
         .eq('email', session.user.email)
-        .single();
+        .limit(1);
+
+      const org = orgResults && orgResults.length > 0 ? orgResults[0] : null;
 
       setOrganization(org);
 
@@ -106,7 +108,7 @@ export default function Dashboard() {
       }
     } catch (error) {
       console.error('Auth check error:', error);
-      router.push('/logga-in');
+      router.push('/forening-logga-in');
     } finally {
       setLoading(false);
     }

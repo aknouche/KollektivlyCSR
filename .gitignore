@@ -42,3 +42,4 @@ next-env.d.ts
 .cursor\rules\codacy.mdc
 
 /src/generated/prisma
+nul
