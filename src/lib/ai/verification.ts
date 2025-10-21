@@ -242,8 +242,7 @@ Var kritisk om beskrivningen är alltför vag eller fotona ser fabricerade ut.`;
 export async function saveVerificationResult(
   milestoneId: string,
   verificationType: 'LEGITIMACY_CHECK' | 'IMPACT_REPORT',
-  result: VerificationResult,
-  prompt: string
+  result: VerificationResult
 ): Promise<void> {
   // This would save to ai_verifications table
   // Implementation depends on your database client setup

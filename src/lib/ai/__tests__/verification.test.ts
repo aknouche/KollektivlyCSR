@@ -64,7 +64,7 @@ describe('AI Verification System', () => {
 
     it('should flag mismatched organization names', async () => {
       // Mock a response with mismatch
-      const OpenAI = require('openai').default;
+      const OpenAI = jest.requireMock('openai').default;
       OpenAI.mockImplementationOnce(() => ({
         chat: {
           completions: {
@@ -143,7 +143,7 @@ describe('AI Verification System', () => {
     });
 
     it('should fail for incomplete descriptions', async () => {
-      const OpenAI = require('openai').default;
+      const OpenAI = jest.requireMock('openai').default;
       OpenAI.mockImplementationOnce(() => ({
         chat: {
           completions: {

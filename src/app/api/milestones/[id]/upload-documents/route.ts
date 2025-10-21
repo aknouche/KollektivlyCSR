@@ -75,7 +75,7 @@ export async function POST(
     const stadgarBuffer = await stadgarFile.arrayBuffer();
     const ekonomiskBuffer = await ekonomiskFile.arrayBuffer();
 
-    const { data: stadgarUpload, error: stadgarError } = await supabase.storage
+    const { error: stadgarError } = await supabase.storage
       .from('documents')
       .upload(stadgarPath, stadgarBuffer, {
         contentType: 'application/pdf',
@@ -90,7 +90,7 @@ export async function POST(
       );
     }
 
-    const { data: ekonomiskUpload, error: ekonomiskError } = await supabase.storage
+    const { error: ekonomiskError } = await supabase.storage
       .from('documents')
       .upload(ekonomiskPath, ekonomiskBuffer, {
         contentType: 'application/pdf',

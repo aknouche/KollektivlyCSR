@@ -101,7 +101,7 @@ export async function POST(
       const photoPath = `photos/${orgId}/milestone-${milestoneId}-photo-${i}-${timestamp}.${photo.type.split('/')[1]}`;
       const photoBuffer = await photo.arrayBuffer();
 
-      const { data: photoUpload, error: photoError } = await supabase.storage
+      const { error: photoError } = await supabase.storage
         .from('photos')
         .upload(photoPath, photoBuffer, {
           contentType: photo.type,

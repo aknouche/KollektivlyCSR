@@ -14,6 +14,7 @@ export interface VerificationResult {
   passed: boolean;
   confidence: number;
   checks: Record<string, boolean | string>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   details: Record<string, any>;
   reasoning: string;
   flags: string[];
@@ -219,8 +220,7 @@ VIKTIGT: Svara ENDAST med JSON i exakt detta format:
 export async function saveVerificationResult(
   milestoneId: string,
   verificationType: 'LEGITIMACY_CHECK' | 'IMPACT_REPORT',
-  result: VerificationResult,
-  prompt: string
+  result: VerificationResult
 ): Promise<void> {
   console.log('Saving verification result:', {
     milestoneId,

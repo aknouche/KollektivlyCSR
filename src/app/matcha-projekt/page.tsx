@@ -10,7 +10,6 @@ export default function MatchaProjekt() {
   const [step, setStep] = useState(1);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [checkingAuth, setCheckingAuth] = useState(true);
-  const [userEmail, setUserEmail] = useState('');
   const [companyName, setCompanyName] = useState('');
 
   const [formData, setFormData] = useState({
@@ -34,6 +33,7 @@ export default function MatchaProjekt() {
 
   useEffect(() => {
     checkAuth();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function checkAuth() {
@@ -42,7 +42,6 @@ export default function MatchaProjekt() {
 
       if (session?.user) {
         setIsLoggedIn(true);
-        setUserEmail(session.user.email || '');
 
         // Get company data
         const { data: companies } = await supabase

@@ -1,5 +1,4 @@
 // Test utilities for Kollektivly
-import { createClient } from '@supabase/supabase-js';
 
 // Mock Supabase client for testing
 export const createMockSupabaseClient = () => {
@@ -112,6 +111,7 @@ export const mockOrganization = {
 };
 
 // Helper to create mock request
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const createMockRequest = (body: any, headers: Record<string, string> = {}) => {
   return {
     json: async () => body,
@@ -119,6 +119,7 @@ export const createMockRequest = (body: any, headers: Record<string, string> = {
     nextUrl: {
       origin: 'http://localhost:3000',
     },
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } as any;
 };
 
@@ -126,11 +127,13 @@ export const createMockRequest = (body: any, headers: Record<string, string> = {
 export const createMockResponse = () => {
   const response = {
     status: 200,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     json: null as any,
     headers: new Headers(),
   };
 
   return {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     json: (data: any) => {
       response.json = data;
       return response;

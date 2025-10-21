@@ -8,7 +8,7 @@ import { createBrowserClient } from '@supabase/ssr';
 const Navigation = () => {
   const pathname = usePathname();
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<{ id: string; email?: string } | null>(null);
   const [userType, setUserType] = useState<'company' | 'organization' | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -19,6 +19,7 @@ const Navigation = () => {
 
   useEffect(() => {
     checkUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function checkUser() {
