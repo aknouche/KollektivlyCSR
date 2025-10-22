@@ -5,8 +5,13 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { verifyLegitimacy, verifyImpactReport } from '@/lib/ai/verification-gemini';
 import { transferToOrganization } from '@/lib/stripe/payment';
+
+// Dynamic import to avoid build-time initialization of Google AI SDK
+import type { VerificationResult } from '@/lib/ai/verification-gemini';
+
+// Mark as dynamic to prevent static optimization during build
+export const dynamic = 'force-dynamic';
 
 export async function POST(
   request: NextRequest,
@@ -50,7 +55,10 @@ export async function POST(
       );
     }
 
-    let verificationResult;
+    let verificationResult: VerificationResult;
+
+    // Dynamically import verification functions to avoid build-time initialization
+    const { verifyLegitimacy, verifyImpactReport } = await import('@/lib/ai/verification-gemini');
 
     // Milestone 1: Legitimacy Check
     if (milestone.milestone_number === 1) {
