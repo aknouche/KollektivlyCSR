@@ -18,11 +18,21 @@ export type Database = {
           created_at: string
           updated_at: string
           company_name: string
+          org_number: string | null
           email: string
           email_verified: boolean
           contact_person: string
           phone_number: string | null
+          website: string | null
           city: string | null
+          address: string | null
+          industry: string | null
+          employee_count: string | null
+          sponsorship_goals: string[] | null
+          current_csr_maturity: string | null
+          assessment_completed: boolean
+          assessment_completed_at: string | null
+          recommended_services: string[] | null
           gdpr_consent: boolean
           consent_date: string | null
           auth_user_id: string | null
@@ -32,11 +42,21 @@ export type Database = {
           created_at?: string
           updated_at?: string
           company_name: string
+          org_number?: string | null
           email: string
           email_verified?: boolean
           contact_person: string
           phone_number?: string | null
+          website?: string | null
           city?: string | null
+          address?: string | null
+          industry?: string | null
+          employee_count?: string | null
+          sponsorship_goals?: string[] | null
+          current_csr_maturity?: string | null
+          assessment_completed?: boolean
+          assessment_completed_at?: string | null
+          recommended_services?: string[] | null
           gdpr_consent?: boolean
           consent_date?: string | null
           auth_user_id?: string | null
@@ -46,11 +66,21 @@ export type Database = {
           created_at?: string
           updated_at?: string
           company_name?: string
+          org_number?: string | null
           email?: string
           email_verified?: boolean
           contact_person?: string
           phone_number?: string | null
+          website?: string | null
           city?: string | null
+          address?: string | null
+          industry?: string | null
+          employee_count?: string | null
+          sponsorship_goals?: string[] | null
+          current_csr_maturity?: string | null
+          assessment_completed?: boolean
+          assessment_completed_at?: string | null
+          recommended_services?: string[] | null
           gdpr_consent?: boolean
           consent_date?: string | null
           auth_user_id?: string | null

@@ -88,7 +88,7 @@ export async function POST(request: NextRequest) {
     // Create company record
     const { error: dbError } = await supabase
       .from('companies')
-      .insert({
+      .insert([{
         company_name,
         email,
         contact_person,
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
         consent_date: new Date().toISOString(),
         auth_user_id: authData.user.id,
         email_verified: true // Auto-verified for testing
-      });
+      }]);
 
     if (dbError) {
       console.error('Database error:', dbError);
