@@ -45,8 +45,9 @@ export async function POST(
     const supabase = createClient();
 
     // Get milestone to verify it exists and belongs to org
-    const { data: milestone, error: milestoneError } = await supabase
-      .from('milestones')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: milestone, error: milestoneError } = await (supabase
+      .from('milestones') as any)
       .select('*, payment_cases!inner(organization_id)')
       .eq('id', milestoneId)
       .single();
@@ -117,8 +118,9 @@ export async function POST(
       .getPublicUrl(ekonomiskPath);
 
     // Update milestone with document URLs
-    const { error: updateError } = await supabase
-      .from('milestones')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: updateError } = await (supabase
+      .from('milestones') as any)
       .update({
         stadgar_url: stadgarUrl.publicUrl,
         ekonomisk_redovisning_url: ekonomiskUrl.publicUrl,

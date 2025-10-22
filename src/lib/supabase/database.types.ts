@@ -316,6 +316,248 @@ export type Database = {
           sender_ip?: string | null
         }
       }
+      payment_cases: {
+        Row: {
+          id: string
+          created_at: string
+          updated_at: string
+          project_id: string
+          organization_id: string
+          company_id: string | null
+          company_email: string
+          grant_amount: number
+          service_fee: number
+          total_charged: number
+          service_tier: string
+          stripe_payment_intent_id: string | null
+          stripe_payment_status: string | null
+          status: string
+          paid_at: string | null
+          completed_at: string | null
+          company_name: string
+          company_contact_person: string | null
+          notes: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          project_id: string
+          organization_id: string
+          company_id?: string | null
+          company_email: string
+          grant_amount: number
+          service_fee: number
+          total_charged: number
+          service_tier: string
+          stripe_payment_intent_id?: string | null
+          stripe_payment_status?: string | null
+          status?: string
+          paid_at?: string | null
+          completed_at?: string | null
+          company_name: string
+          company_contact_person?: string | null
+          notes?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          project_id?: string
+          organization_id?: string
+          company_id?: string | null
+          company_email?: string
+          grant_amount?: number
+          service_fee?: number
+          total_charged?: number
+          service_tier?: string
+          stripe_payment_intent_id?: string | null
+          stripe_payment_status?: string | null
+          status?: string
+          paid_at?: string | null
+          completed_at?: string | null
+          company_name?: string
+          company_contact_person?: string | null
+          notes?: string | null
+        }
+      }
+      milestones: {
+        Row: {
+          id: string
+          created_at: string
+          updated_at: string
+          payment_case_id: string
+          milestone_number: number
+          amount: number
+          status: string
+          stadgar_url: string | null
+          ekonomisk_redovisning_url: string | null
+          legitimacy_documents_uploaded_at: string | null
+          social_media_link: string | null
+          uploaded_photo_urls: string[] | null
+          impact_description: string | null
+          impact_report_uploaded_at: string | null
+          ai_verification_status: string | null
+          ai_verified_at: string | null
+          ai_confidence_score: number | null
+          admin_approved: boolean
+          admin_override_reason: string | null
+          admin_email: string | null
+          admin_reviewed_at: string | null
+          paid_at: string | null
+          stripe_transfer_id: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          payment_case_id: string
+          milestone_number: number
+          amount: number
+          status?: string
+          stadgar_url?: string | null
+          ekonomisk_redovisning_url?: string | null
+          legitimacy_documents_uploaded_at?: string | null
+          social_media_link?: string | null
+          uploaded_photo_urls?: string[] | null
+          impact_description?: string | null
+          impact_report_uploaded_at?: string | null
+          ai_verification_status?: string | null
+          ai_verified_at?: string | null
+          ai_confidence_score?: number | null
+          admin_approved?: boolean
+          admin_override_reason?: string | null
+          admin_email?: string | null
+          admin_reviewed_at?: string | null
+          paid_at?: string | null
+          stripe_transfer_id?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          payment_case_id?: string
+          milestone_number?: number
+          amount?: number
+          status?: string
+          stadgar_url?: string | null
+          ekonomisk_redovisning_url?: string | null
+          legitimacy_documents_uploaded_at?: string | null
+          social_media_link?: string | null
+          uploaded_photo_urls?: string[] | null
+          impact_description?: string | null
+          impact_report_uploaded_at?: string | null
+          ai_verification_status?: string | null
+          ai_verified_at?: string | null
+          ai_confidence_score?: number | null
+          admin_approved?: boolean
+          admin_override_reason?: string | null
+          admin_email?: string | null
+          admin_reviewed_at?: string | null
+          paid_at?: string | null
+          stripe_transfer_id?: string | null
+        }
+      }
+      ai_verifications: {
+        Row: {
+          id: string
+          created_at: string
+          milestone_id: string
+          verification_type: string
+          documents_analyzed: Record<string, string | number | boolean | undefined> | null
+          ai_model: string
+          ai_prompt: string
+          ai_response: Record<string, string | number | boolean | undefined>
+          passed: boolean
+          confidence_score: number | null
+          flags: string[] | null
+          reasoning: string | null
+          checks_performed: Record<string, string | number | boolean | undefined> | null
+          processing_time_ms: number | null
+          tokens_used: number | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          milestone_id: string
+          verification_type: string
+          documents_analyzed?: Record<string, string | number | boolean | undefined> | null
+          ai_model: string
+          ai_prompt: string
+          ai_response: Record<string, string | number | boolean | undefined>
+          passed: boolean
+          confidence_score?: number | null
+          flags?: string[] | null
+          reasoning?: string | null
+          checks_performed?: Record<string, string | number | boolean | undefined> | null
+          processing_time_ms?: number | null
+          tokens_used?: number | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          milestone_id?: string
+          verification_type?: string
+          documents_analyzed?: Record<string, string | number | boolean | undefined> | null
+          ai_model?: string
+          ai_prompt?: string
+          ai_response?: Record<string, string | number | boolean | undefined>
+          passed?: boolean
+          confidence_score?: number | null
+          flags?: string[] | null
+          reasoning?: string | null
+          checks_performed?: Record<string, string | number | boolean | undefined> | null
+          processing_time_ms?: number | null
+          tokens_used?: number | null
+        }
+      }
+      esg_reports: {
+        Row: {
+          id: string
+          created_at: string
+          payment_case_id: string
+          company_id: string | null
+          report_type: string
+          reporting_period_start: string | null
+          reporting_period_end: string | null
+          report_data: Record<string, string | number | boolean | undefined>
+          pdf_url: string | null
+          generated_at: string
+          project_names: string[] | null
+          total_impact_value: number | null
+          sdg_goals_supported: string[] | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          payment_case_id: string
+          company_id?: string | null
+          report_type: string
+          reporting_period_start?: string | null
+          reporting_period_end?: string | null
+          report_data: Record<string, string | number | boolean | undefined>
+          pdf_url?: string | null
+          generated_at?: string
+          project_names?: string[] | null
+          total_impact_value?: number | null
+          sdg_goals_supported?: string[] | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          payment_case_id?: string
+          company_id?: string | null
+          report_type?: string
+          reporting_period_start?: string | null
+          reporting_period_end?: string | null
+          report_data?: Record<string, string | number | boolean | undefined>
+          pdf_url?: string | null
+          generated_at?: string
+          project_names?: string[] | null
+          total_impact_value?: number | null
+          sdg_goals_supported?: string[] | null
+        }
+      }
       audit_logs: {
         Row: {
           id: string
