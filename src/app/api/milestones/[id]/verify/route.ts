@@ -17,8 +17,9 @@ export async function POST(
     const supabase = createClient();
 
     // Get milestone with payment case and organization details
-    const { data: milestone, error: milestoneError } = await supabase
-      .from('milestones')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: milestone, error: milestoneError } = await (supabase
+      .from('milestones') as any)
       .select(`
         *,
         payment_cases!inner (
@@ -93,8 +94,9 @@ export async function POST(
     }
 
     // Save AI verification result
-    const { error: verificationSaveError } = await supabase
-      .from('ai_verifications')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: verificationSaveError } = await (supabase
+      .from('ai_verifications') as any)
       .insert({
         milestone_id: milestoneId,
         verification_type: milestone.milestone_number === 1 ? 'LEGITIMACY_CHECK' : 'IMPACT_REPORT',
@@ -122,8 +124,9 @@ export async function POST(
       newStatus = 'REJECTED';
     }
 
-    await supabase
-      .from('milestones')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (supabase
+      .from('milestones') as any)
       .update({
         ai_verification_status: verificationResult.passed ? 'PASSED' : 'FAILED',
         ai_verified_at: new Date().toISOString(),
@@ -153,8 +156,9 @@ export async function POST(
           milestoneNumber: milestone.milestone_number,
         });
 
-        await supabase
-          .from('milestones')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase
+          .from('milestones') as any)
           .update({
             status: 'PAID',
             paid_at: new Date().toISOString(),

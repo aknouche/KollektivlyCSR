@@ -58,8 +58,9 @@ export async function POST(request: NextRequest) {
     // Create payment case in database
     const supabase = createClient();
 
-    const { data: paymentCase, error: dbError } = await supabase
-      .from('payment_cases')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: paymentCase, error: dbError } = await (supabase
+      .from('payment_cases') as any)
       .insert({
         project_id: projectId,
         organization_id: organizationId,

@@ -40,8 +40,9 @@ export async function POST(request: NextRequest) {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
         // Update payment case status
-        const { error: updateError } = await supabase
-          .from('payment_cases')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { error: updateError } = await (supabase
+          .from('payment_cases') as any)
           .update({
             stripe_payment_status: 'succeeded',
             status: 'PAID',
@@ -55,8 +56,9 @@ export async function POST(request: NextRequest) {
         }
 
         // Get payment case to create milestones
-        const { data: paymentCase } = await supabase
-          .from('payment_cases')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const { data: paymentCase } = await (supabase
+          .from('payment_cases') as any)
           .select('id, grant_amount')
           .eq('stripe_payment_intent_id', paymentIntent.id)
           .single();
@@ -65,7 +67,8 @@ export async function POST(request: NextRequest) {
           // Create 2 milestones (50% each)
           const milestoneAmount = Math.round(paymentCase.grant_amount / 2);
 
-          await supabase.from('milestones').insert([
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (supabase.from('milestones') as any).insert([
             {
               payment_case_id: paymentCase.id,
               milestone_number: 1,
@@ -89,8 +92,9 @@ export async function POST(request: NextRequest) {
       case 'payment_intent.payment_failed': {
         const paymentIntent = event.data.object as Stripe.PaymentIntent;
 
-        await supabase
-          .from('payment_cases')
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        await (supabase
+          .from('payment_cases') as any)
           .update({
             stripe_payment_status: 'failed',
             status: 'PAYMENT_FAILED',
@@ -106,8 +110,9 @@ export async function POST(request: NextRequest) {
         const { payment_case_id, milestone_number } = transfer.metadata;
 
         if (payment_case_id && milestone_number) {
-          await supabase
-            .from('milestones')
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          await (supabase
+            .from('milestones') as any)
             .update({
               stripe_transfer_id: transfer.id,
               status: 'PAID',
