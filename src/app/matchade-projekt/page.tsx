@@ -102,7 +102,7 @@ export default function MatchadeProjekt() {
   }, [loadMatchingResults]);
 
   const matchProjects = (projects: Project[], prefs: MatchingPreferences) => {
-    return projects
+    const scored = projects
       .map(project => {
         let score = 0;
 
@@ -136,13 +136,17 @@ export default function MatchadeProjekt() {
 
         return { ...project, matchScore: score };
       })
-      .filter(p => p.matchScore > 0)
       .sort((a, b) => b.matchScore - a.matchScore);
+
+    // Always return at least 1 project for demo (the highest scoring one)
+    const matched = scored.filter(p => p.matchScore > 0);
+    return matched.length > 0 ? matched : scored.slice(0, 1);
   };
 
   const getMatchPercentage = (score: number) => {
     const maxScore = 130; // 50 (category) + 50 (5 goals * 10) + 30 (location)
-    return Math.min(Math.round((score / maxScore) * 100), 100);
+    // If score is 0, show at least 15% for demo purposes
+    return score === 0 ? 15 : Math.min(Math.round((score / maxScore) * 100), 100);
   };
 
   const handleCardClick = (project: Project) => {
@@ -165,7 +169,10 @@ export default function MatchadeProjekt() {
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Dina matchande projekt</h1>
           <p className="text-gray-600">
-            Vi hittade {matchedProjects.length} projekt som matchar era preferenser
+            {matchedProjects.length > 0 && matchedProjects[0].matchScore > 0
+              ? `Vi hittade ${matchedProjects.length} projekt som matchar era preferenser`
+              : `Här är vårt bästa förslag baserat på era preferenser (${matchedProjects.length} projekt)`
+            }
           </p>
         </div>
 
