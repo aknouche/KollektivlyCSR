@@ -46,7 +46,8 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create auth user (email verification disabled for testing)
+    // Create auth user
+    // Note: Email verification is controlled in Supabase dashboard settings
     const { data: authData, error: authError } = await supabase.auth.signUp({
       email,
       password,
@@ -56,9 +57,7 @@ export async function POST(request: NextRequest) {
           contact_person,
           user_type: 'company'
         },
-        emailRedirectTo: `${request.nextUrl.origin}/auth/confirm`,
-        // Disable email verification for now
-        emailConfirm: false
+        emailRedirectTo: `${request.nextUrl.origin}/auth/confirm`
       }
     });
 
