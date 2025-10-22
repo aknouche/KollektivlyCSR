@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
+import type { TablesInsert } from '@/lib/supabase/database.types';
 
 export async function POST(request: NextRequest) {
   try {
@@ -86,19 +87,20 @@ export async function POST(request: NextRequest) {
     }
 
     // Create company record
-    const { error: dbError } = await supabase
-      .from('companies')
-      .insert([{
-        company_name,
-        email,
-        contact_person,
-        phone_number,
-        city,
-        gdpr_consent,
-        consent_date: new Date().toISOString(),
-        auth_user_id: authData.user.id,
-        email_verified: true // Auto-verified for testing
-      }]);
+    const companyData: TablesInsert<'companies'> = {
+      company_name,
+      email,
+      contact_person,
+      phone_number,
+      city,
+      gdpr_consent,
+      consent_date: new Date().toISOString(),
+      auth_user_id: authData.user.id,
+      email_verified: true // Auto-verified for testing
+    };
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error: dbError } = await (supabase.from('companies') as any).insert(companyData);
 
     if (dbError) {
       console.error('Database error:', dbError);
