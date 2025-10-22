@@ -12,6 +12,50 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      companies: {
+        Row: {
+          id: string
+          created_at: string
+          updated_at: string
+          company_name: string
+          email: string
+          email_verified: boolean
+          contact_person: string
+          phone_number: string | null
+          city: string | null
+          gdpr_consent: boolean
+          consent_date: string | null
+          auth_user_id: string | null
+        }
+        Insert: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          company_name: string
+          email: string
+          email_verified?: boolean
+          contact_person: string
+          phone_number?: string | null
+          city?: string | null
+          gdpr_consent?: boolean
+          consent_date?: string | null
+          auth_user_id?: string | null
+        }
+        Update: {
+          id?: string
+          created_at?: string
+          updated_at?: string
+          company_name?: string
+          email?: string
+          email_verified?: boolean
+          contact_person?: string
+          phone_number?: string | null
+          city?: string | null
+          gdpr_consent?: boolean
+          consent_date?: string | null
+          auth_user_id?: string | null
+        }
+      }
       organizations: {
         Row: {
           id: string
