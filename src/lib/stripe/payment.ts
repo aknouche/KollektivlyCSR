@@ -5,10 +5,20 @@
 
 import Stripe from 'stripe';
 
-// Initialize Stripe with secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
-  apiVersion: '2025-09-30.clover',
-});
+let stripeSingleton: Stripe | null = null;
+
+export function getStripe(): Stripe {
+  if (!stripeSingleton) {
+    const secretKey = process.env.STRIPE_SECRET_KEY;
+    if (!secretKey) {
+      throw new Error('STRIPE_SECRET_KEY is not set');
+    }
+    stripeSingleton = new Stripe(secretKey, {
+      apiVersion: '2024-06-20',
+    });
+  }
+  return stripeSingleton;
+}
 
 // Service tier fee percentages
 const SERVICE_TIER_FEES: Record<string, number> = {
@@ -58,7 +68,7 @@ export async function createPaymentIntent(params: {
   const totalAmount = grantAmount + serviceFee;
 
   // Create payment intent
-  const paymentIntent = await stripe.paymentIntents.create({
+  const paymentIntent = await getStripe().paymentIntents.create({
     amount: totalAmount * 100, // Convert to öre (SEK cents)
     currency: 'sek',
     metadata: {
@@ -107,7 +117,7 @@ export async function transferToOrganization(params: {
   }
 
   // Create transfer
-  const transfer = await stripe.transfers.create({
+  const transfer = await getStripe().transfers.create({
     amount: amount * 100, // Convert to öre
     currency: 'sek',
     destination: organizationStripeAccountId,
@@ -132,7 +142,7 @@ export async function getPaymentIntentStatus(paymentIntentId: string): Promise<{
   amount: number;
   paid: boolean;
 }> {
-  const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
+  const paymentIntent = await getStripe().paymentIntents.retrieve(paymentIntentId);
 
   return {
     status: paymentIntent.status,
@@ -157,7 +167,7 @@ export async function createConnectAccount(params: {
   const { organizationId, organizationName, email, orgNumber } = params;
 
   // Create Express account (easiest for small organizations)
-  const account = await stripe.accounts.create({
+  const account = await getStripe().accounts.create({
     type: 'express',
     country: 'SE',
     email,
@@ -173,7 +183,7 @@ export async function createConnectAccount(params: {
   });
 
   // Create account link for onboarding
-  const accountLink = await stripe.accountLinks.create({
+  const accountLink = await getStripe().accountLinks.create({
     account: account.id,
     refresh_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?stripe_refresh=true`,
     return_url: `${process.env.NEXT_PUBLIC_APP_URL}/dashboard?stripe_connected=true`,
@@ -194,7 +204,7 @@ export async function checkAccountOnboarding(accountId: string): Promise<{
   chargesEnabled: boolean;
   payoutsEnabled: boolean;
 }> {
-  const account = await stripe.accounts.retrieve(accountId);
+  const account = await getStripe().accounts.retrieve(accountId);
 
   return {
     onboarded: account.charges_enabled && account.payouts_enabled,
@@ -203,4 +213,4 @@ export async function checkAccountOnboarding(accountId: string): Promise<{
   };
 }
 
-export default stripe;
+export default getStripe;
