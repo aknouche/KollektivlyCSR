@@ -17,7 +17,7 @@ export interface VerificationResult {
   passed: boolean;
   confidence: number;
   checks: Record<string, boolean | string>;
-  details: Record<string, any>;
+  details: Record<string, string | number | boolean | undefined>;
   reasoning: string;
   flags: string[];
   metrics: {
