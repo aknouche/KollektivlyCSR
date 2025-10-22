@@ -5,10 +5,16 @@
 
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
-const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY || '');
-const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // FREE model
-
 const CONFIDENCE_THRESHOLD = 0.85;
+
+// Lazy initialization to avoid errors during build time when env vars may not be available
+function getModel() {
+  if (!process.env.GOOGLE_AI_API_KEY) {
+    throw new Error('GOOGLE_AI_API_KEY environment variable is not set');
+  }
+  const genAI = new GoogleGenerativeAI(process.env.GOOGLE_AI_API_KEY);
+  return genAI.getGenerativeModel({ model: 'gemini-1.5-flash' }); // FREE model
+}
 
 export interface VerificationResult {
   passed: boolean;
@@ -68,6 +74,7 @@ VIKTIGT: Svara ENDAST med JSON i exakt detta format (ingen annan text):
 }`;
 
   try {
+    const model = getModel();
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
@@ -166,6 +173,7 @@ VIKTIGT: Svara ENDAST med JSON i exakt detta format:
 }`;
 
   try {
+    const model = getModel();
     const result = await model.generateContent(prompt);
     const response = await result.response;
     const text = response.text();
