@@ -70,9 +70,11 @@ export default function MatchadeProjekt() {
       .eq('status', 'PUBLISHED')
       .order('created_at', { ascending: false });
 
-    if (projects) {
+    let transformed: Project[] = [];
+
+    if (projects && projects.length > 0) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const transformed = projects.map((p: any, idx: number) => ({
+      transformed = projects.map((p: any, idx: number) => ({
         id: idx + 1,
         projektnamn: p.projektnamn,
         kortBeskrivning: p.kort_beskrivning,
@@ -86,13 +88,53 @@ export default function MatchadeProjekt() {
         viewsLeft: p.view_count ? Math.max(0, 50 - (p.view_count % 50)) : undefined,
         imageUrl: p.image_url || undefined
       }));
-
-      setAllProjects(transformed);
-
-      // Simple rule-based matching
-      const matched = matchProjects(transformed, prefs);
-      setMatchedProjects(matched);
+    } else {
+      // Demo projects (fallback when database is empty)
+      transformed = [
+        {
+          id: 1,
+          projektnamn: "Grön Framtid - Skolträdgård",
+          kortBeskrivning: "Bygg en hållbar skolträdgård för barn att lära om miljö och odling",
+          fullBeskrivning: "Vi vill skapa en interaktiv skolträdgård där barn får lära sig om hållbart jordbruk, kompostering och biologisk mångfald. Projektet inkluderar växthus, odlingslådor och utbildningsmaterial.",
+          foreningsnamn: "Miljöungdomarna Stockholm",
+          stad: "Stockholm",
+          budget: "50 000 kr",
+          csrKategori: "Miljö" as const,
+          fnMal: ["Mål 13: Klimatåtgärder", "Mål 4: God utbildning", "Mål 15: Ekosystem på land"],
+          badges: ["NY" as const, "POPULÄR" as const]
+        },
+        {
+          id: 2,
+          projektnamn: "Unga Röster - Ledarskap för Alla",
+          kortBeskrivning: "Mentorskapsprogram för ungdomar från utsatta områden",
+          fullBeskrivning: "Ett 6-månaders program där unga får tillgång till mentorer från näringslivet, utvecklar ledarskapsförmågor och bygger nätverk för framtida karriärmöjligheter.",
+          foreningsnamn: "Framtidsutvecklarna",
+          stad: "Göteborg",
+          budget: "75 000 kr",
+          csrKategori: "Ungdom" as const,
+          fnMal: ["Mål 4: God utbildning", "Mål 10: Minskad ojämlikhet", "Mål 8: Anständiga arbetsvillkor"],
+          badges: ["VERIFIERAD" as const]
+        },
+        {
+          id: 3,
+          projektnamn: "Integration genom Idrott",
+          kortBeskrivning: "Fotbollsaktiviteter som främjar integration och gemenskap",
+          fullBeskrivning: "Veckovisa fotbollsträningar och turneringar som samlar ungdomar från olika bakgrunder. Fokus på språkutveckling, teamwork och social sammanhållning.",
+          foreningsnamn: "Tillsammans FC",
+          stad: "Malmö",
+          budget: "35 000 kr",
+          csrKategori: "Inkludering" as const,
+          fnMal: ["Mål 10: Minskad ojämlikhet", "Mål 3: Hälsa och välbefinnande", "Mål 11: Hållbara städer"],
+          badges: ["POPULÄR" as const]
+        }
+      ];
     }
+
+    setAllProjects(transformed);
+
+    // Simple rule-based matching
+    const matched = matchProjects(transformed, prefs);
+    setMatchedProjects(matched);
 
     setLoading(false);
   }, [router, supabase]);
@@ -165,6 +207,13 @@ export default function MatchadeProjekt() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        {/* Demo Disclaimer */}
+        <div className="mb-6 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
+          <p className="text-sm text-yellow-800">
+            ⚠️ <strong>Demo-läge:</strong> Matchningsalgoritmen är under utveckling. Dessa projekt är exempeldata för demonstration.
+          </p>
+        </div>
+
         {/* Header */}
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Dina matchande projekt</h1>
