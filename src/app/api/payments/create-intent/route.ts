@@ -7,6 +7,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { createPaymentIntent } from '@/lib/stripe/payment';
 
+// Mark as dynamic to prevent static optimization during build
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
