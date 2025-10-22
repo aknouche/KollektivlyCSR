@@ -13,7 +13,7 @@ function getStripe(): Stripe {
   if (!key) {
     throw new Error('STRIPE_SECRET_KEY is not set');
   }
-  return new Stripe(key, { apiVersion: '2024-06-20' });
+  return new Stripe(key, { apiVersion: '2025-09-30.clover' });
 }
 
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET || '';
