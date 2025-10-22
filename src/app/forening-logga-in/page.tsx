@@ -1,11 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { createBrowserClient } from '@supabase/ssr';
 
-export default function ForeningLogin() {
+function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const tab = searchParams.get('tab');
@@ -183,5 +183,17 @@ export default function ForeningLogin() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function ForeningLogin() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-white flex items-center justify-center">
+        <div className="text-gray-600">Laddar...</div>
+      </div>
+    }>
+      <LoginContent />
+    </Suspense>
   );
 }
