@@ -19,7 +19,11 @@ export default function ForetagMatningsfragor() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
-  const [company, setCompany] = useState<{ id: string; company_name: string } | null>(null);
+  const [company, setCompany] = useState<{
+    id: string;
+    company_name: string;
+    assessment_completed?: boolean;
+  } | null>(null);
   const [step, setStep] = useState(1);
   const totalSteps = 5;
 
