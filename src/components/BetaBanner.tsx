@@ -33,7 +33,7 @@ export default function BetaBanner() {
               </span>
               <span className="hidden sm:inline text-white/60">•</span>
               <span className="text-sm text-white/90">
-                Vi testar matchningsplattformen. Betalningar kommer snart.
+                Kollektivly beta. Vi testar och utvärderar plattformen. Full funktionalitet med betalningar, verifiering, rapportering mm. släpps inom kort.
               </span>
             </div>
           </div>
