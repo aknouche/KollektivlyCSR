@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navigation from '@/components/Navigation';
+import BetaBanner from '@/components/BetaBanner';
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const geistSans = localFont({
@@ -31,6 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <Navigation />
+        <BetaBanner />
         {children}
         <SpeedInsights />
       </body>
