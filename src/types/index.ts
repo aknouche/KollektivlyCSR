@@ -1,5 +1,5 @@
 export interface Project {
-  id: number;
+  id: string; // UUID from Supabase
   projektnamn: string;
   kortBeskrivning: string;
   fullBeskrivning: string;

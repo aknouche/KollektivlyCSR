@@ -3,7 +3,7 @@
 import { useState } from 'react';
 
 interface ContactFormProps {
-  projectId: number;
+  projectId: string; // UUID from Supabase
   projectName: string;
   organizationName: string;
   onSuccess?: () => void;
