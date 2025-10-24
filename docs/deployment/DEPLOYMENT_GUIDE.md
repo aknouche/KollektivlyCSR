@@ -5,7 +5,7 @@
 ### Phase 3 Implementation Status:
 - ✅ **Database Schema** - All tables created with migrations
 - ✅ **Stripe Integration** - Payment + escrow + transfers (with tests)
-- ✅ **AI Verification** - GPT-4o legitimacy + impact checks (with tests)
+- ✅ **AI Verification** - Gemini legitimacy + impact checks (with tests)
 - ✅ **API Endpoints** - All payment flow endpoints created
 - ✅ **Test Coverage** - Comprehensive test suites
 
@@ -76,8 +76,8 @@ STRIPE_SECRET_KEY="sk_test_..."
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_..."
 STRIPE_WEBHOOK_SECRET="whsec_..." # Get after setting up webhook
 
-# OpenAI (NEW - get from platform.openai.com)
-OPENAI_API_KEY="sk-..."
+# Google Gemini AI (NEW - FREE at aistudio.google.com/app/apikey)
+GOOGLE_AI_API_KEY="your_api_key_here"
 ```
 
 **Production** (Vercel):
@@ -316,11 +316,11 @@ If confidence ≥ 85%:
 
 ### Costs:
 - Stripe fees (1.4% + 1.80 SEK): ~3,000 SEK
-- OpenAI (200 verifications × ~1,500 tokens): ~2,000 SEK
+- Google Gemini (AI verification): **0 SEK** (FREE tier)
 - Supabase (storage): 0 SEK (within free tier)
 - Vercel (hosting): 0 SEK (free tier)
 
-**Net Profit**: ~240,000 SEK/month (98% margin)
+**Net Profit**: ~242,000 SEK/month (99% margin)
 **Break-even**: 4 grants/month
 
 ---
@@ -338,9 +338,10 @@ If confidence ≥ 85%:
 - Test with Stripe CLI: `stripe listen --forward-to localhost:3000/api/payments/webhook`
 
 ### AI Verification Fails
-- Check `OPENAI_API_KEY` is set
-- Verify you have OpenAI credits
+- Check `GOOGLE_AI_API_KEY` is set
+- Verify API key has correct permissions
 - Check file URLs are accessible
+- See GEMINI_SETUP_GUIDE.md for setup
 
 ### File Upload Fails
 - Verify Supabase storage buckets exist
@@ -369,7 +370,7 @@ If confidence ≥ 85%:
 ## ✅ Deployment Checklist
 
 - [ ] Apply database migrations
-- [ ] Add environment variables (Stripe, OpenAI)
+- [ ] Add environment variables (Stripe, Gemini)
 - [ ] Set up Stripe webhook
 - [ ] Create Supabase storage buckets
 - [ ] Test payment flow locally

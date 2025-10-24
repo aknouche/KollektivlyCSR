@@ -216,7 +216,7 @@ const getCachedSearch = async (query: string) => {
 ```
 
 **AI Matching** (Phase 2-3):
-- Use OpenAI API or local model for CSR goal matching
+- Use Google Gemini API (FREE tier) for CSR goal matching
 - Cache AI results for identical queries
 - Rate limit: 10 AI requests per user per hour
 - Log all AI interactions for audit

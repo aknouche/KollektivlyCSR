@@ -28,14 +28,14 @@ npm run dev  # Open http://localhost:3000
 - **Next.js 14** + TypeScript
 - **Supabase** (database, auth, storage)
 - **Stripe Connect** (escrow)
-- **OpenAI** (report verification)
+- **Google Gemini** (AI report verification, FREE tier)
 - **Vercel** (hosting, 0 SEK/month)
 
 ## Status
 
 - ✅ Phase 1: MVP complete
-- 🔄 Phase 2: Search, contact, dashboards
-- ⏳ Phase 3: Escrow + AI verification
+- ✅ Phase 2: Search, contact, dashboards
+- 🟡 Phase 3: Code complete (MVP simulation mode)
 
 ## Commands
 
@@ -48,9 +48,10 @@ git push origin main # Auto-deploy
 
 ## Documentation
 
+- **QUICKSTART.md** - Start here! Navigation guide
 - **CLAUDE.md** - Development guide & business model
-- **docs/SECURITY_ANALYSIS.md** - Security guidelines
-- **docs/SUPABASE_SETUP.md** - Database setup
+- **docs/reference/SECURITY_ANALYSIS.md** - Security guidelines
+- **docs/setup/DATABASE_SETUP.md** - Database setup
 
 ## Environment Variables
 
@@ -65,4 +66,4 @@ See docs for details.
 
 ---
 
-**Last Updated**: 2025-10-16 | Built with Claude Code
+**Last Updated**: 2025-10-23 | Built with Claude Code

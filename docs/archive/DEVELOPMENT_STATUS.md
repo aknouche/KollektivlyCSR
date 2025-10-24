@@ -199,7 +199,7 @@
 
 3. **`ai_verifications`** - Audit trail
    - Verification type (LEGITIMACY_CHECK or IMPACT_REPORT)
-   - AI model used (gpt-4o, etc.)
+   - AI model used (gemini-1.5-flash, etc.)
    - Full AI prompt & response
    - Pass/fail result
    - Confidence score (0-1)
@@ -274,7 +274,7 @@ Total charged:   53,500 SEK
 - [ ] Progress tracking UI
 
 ⏳ **AI Verification System**:
-- [ ] OpenAI API integration (GPT-4o)
+- [ ] Google Gemini API integration (gemini-1.5-flash - FREE)
 - [ ] Legitimacy check prompt engineering
 - [ ] Impact report verification prompts
 - [ ] PDF reading & analysis
@@ -354,7 +354,7 @@ kollektivly/
 - [ ] Add progress indicators
 
 ### 3. AI Verification (Next 3-4 days)
-- [ ] Integrate OpenAI API (GPT-4o)
+- [ ] Integrate Google Gemini API (gemini-1.5-flash - FREE)
 - [ ] Build legitimacy check function
 - [ ] Build impact verification function
 - [ ] Test with sample documents
@@ -418,16 +418,16 @@ kollektivly/
 
 ### Paid Services (Phase 3):
 - **Stripe**: 1.4% + 1.80 SEK per transaction (Sweden)
-- **OpenAI API**: ~0.01-0.03 SEK per verification (GPT-4o)
+- **Google Gemini AI**: **FREE** (gemini-1.5-flash - 15 req/min, 1M tokens/min)
 - **Pdfmonkey.io** (or alternative): ~5-10 SEK/month for 100 PDFs
 
 **Projected costs at 100 transactions/month**:
 - Stripe fees: ~3,000 SEK
-- OpenAI: ~2,000 SEK
+- Gemini AI: **0 SEK** (FREE tier)
 - PDF: ~10 SEK
-- **Total**: ~5,000 SEK/month
+- **Total**: ~3,000 SEK/month
 - **Revenue** (70% at 7% fee): 245,000 SEK/month
-- **Net margin**: ~240,000 SEK/month (98%)
+- **Net margin**: ~242,000 SEK/month (99%)
 
 ---
 

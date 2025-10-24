@@ -13,8 +13,8 @@ Following **Test-Driven Development**, I've created:
 ## 📦 New Dependencies Installed
 
 ```bash
-npm install stripe       # Payment processing & escrow
-npm install openai       # AI verification (GPT-4o)
+npm install stripe             # Payment processing & escrow
+npm install @google/generative-ai  # AI verification (Gemini 1.5 Flash - FREE)
 ```
 
 ---
@@ -160,7 +160,7 @@ const result = await verifyLegitimacy({
 //   metrics: {
 //     tokens_used: 1500,
 //     processing_time_ms: 2300,
-//     model: 'gpt-4o'
+//     model: 'gemini-1.5-flash'
 //   }
 // }
 ```
@@ -239,8 +239,8 @@ Add to your `.env.local`:
 STRIPE_SECRET_KEY="sk_test_your_key_here"
 NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_your_key_here"
 
-# OpenAI (get from platform.openai.com)
-OPENAI_API_KEY="sk-your_openai_key_here"
+# Google Gemini AI (FREE - get from aistudio.google.com/app/apikey)
+GOOGLE_AI_API_KEY="your_google_ai_api_key_here"
 ```
 
 ### Step 3: Create API Endpoints
@@ -306,10 +306,10 @@ Should pass all tests!
 
 ### Costs:
 - Stripe: ~3,000 SEK (1.4% + 1.80 SEK per transaction)
-- OpenAI: ~2,000 SEK (~1,000 tokens per verification × 200 verifications)
+- Google Gemini: **0 SEK** (FREE tier - 15 requests/min, 1M tokens/min)
 - Supabase Storage: ~0 SEK (10 GB free)
 
-**Net profit**: ~240,000 SEK/month (98% margin) 🚀
+**Net profit**: ~242,000 SEK/month (99% margin) 🚀
 
 ---
 
