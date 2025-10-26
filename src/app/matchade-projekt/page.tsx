@@ -65,6 +65,8 @@ export default function MatchadeProjekt() {
         badges,
         view_count,
         image_url,
+        start_date,
+        end_date,
         organizations!inner (organization_name)
       `)
       .eq('status', 'PUBLISHED')
@@ -74,8 +76,8 @@ export default function MatchadeProjekt() {
 
     if (projects && projects.length > 0) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transformed = projects.map((p: any, idx: number) => ({
-        id: idx + 1,
+      transformed = projects.map((p: any) => ({
+        id: p.id, // Use actual UUID from database
         projektnamn: p.projektnamn,
         kortBeskrivning: p.kort_beskrivning,
         fullBeskrivning: p.full_beskrivning,
@@ -86,13 +88,15 @@ export default function MatchadeProjekt() {
         fnMal: p.fn_mal,
         badges: p.badges as Array<'NY' | 'POPULÄR' | 'VERIFIERAD'>,
         viewsLeft: p.view_count ? Math.max(0, 50 - (p.view_count % 50)) : undefined,
-        imageUrl: p.image_url || undefined
+        imageUrl: p.image_url || undefined,
+        start_date: p.start_date || null,
+        end_date: p.end_date || null
       }));
     } else {
       // Demo projects (fallback when database is empty)
       transformed = [
         {
-          id: 1,
+          id: '00000000-0000-0000-0000-000000000001',
           projektnamn: "Grön Framtid - Skolträdgård",
           kortBeskrivning: "Bygg en hållbar skolträdgård för barn att lära om miljö och odling",
           fullBeskrivning: "Vi vill skapa en interaktiv skolträdgård där barn får lära sig om hållbart jordbruk, kompostering och biologisk mångfald. Projektet inkluderar växthus, odlingslådor och utbildningsmaterial.",
@@ -101,10 +105,12 @@ export default function MatchadeProjekt() {
           budget: "50 000 kr",
           csrKategori: "Miljö" as const,
           fnMal: ["Mål 13: Klimatåtgärder", "Mål 4: God utbildning", "Mål 15: Ekosystem på land"],
-          badges: ["NY" as const, "POPULÄR" as const]
+          badges: ["NY" as const, "POPULÄR" as const],
+          start_date: null,
+          end_date: null
         },
         {
-          id: 2,
+          id: '00000000-0000-0000-0000-000000000002',
           projektnamn: "Unga Röster - Ledarskap för Alla",
           kortBeskrivning: "Mentorskapsprogram för ungdomar från utsatta områden",
           fullBeskrivning: "Ett 6-månaders program där unga får tillgång till mentorer från näringslivet, utvecklar ledarskapsförmågor och bygger nätverk för framtida karriärmöjligheter.",
@@ -113,10 +119,12 @@ export default function MatchadeProjekt() {
           budget: "75 000 kr",
           csrKategori: "Ungdom" as const,
           fnMal: ["Mål 4: God utbildning", "Mål 10: Minskad ojämlikhet", "Mål 8: Anständiga arbetsvillkor"],
-          badges: ["VERIFIERAD" as const]
+          badges: ["VERIFIERAD" as const],
+          start_date: null,
+          end_date: null
         },
         {
-          id: 3,
+          id: '00000000-0000-0000-0000-000000000003',
           projektnamn: "Integration genom Idrott",
           kortBeskrivning: "Fotbollsaktiviteter som främjar integration och gemenskap",
           fullBeskrivning: "Veckovisa fotbollsträningar och turneringar som samlar ungdomar från olika bakgrunder. Fokus på språkutveckling, teamwork och social sammanhållning.",
@@ -125,7 +133,9 @@ export default function MatchadeProjekt() {
           budget: "35 000 kr",
           csrKategori: "Inkludering" as const,
           fnMal: ["Mål 10: Minskad ojämlikhet", "Mål 3: Hälsa och välbefinnande", "Mål 11: Hållbara städer"],
-          badges: ["POPULÄR" as const]
+          badges: ["POPULÄR" as const],
+          start_date: null,
+          end_date: null
         }
       ];
     }
