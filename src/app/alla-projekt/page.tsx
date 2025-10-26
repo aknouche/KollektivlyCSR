@@ -19,6 +19,8 @@ type DatabaseProject = {
   view_count: number;
   status: string;
   badges: string[];
+  start_date: string | null;
+  end_date: string | null;
   organizations: {
     organization_name: string;
     city: string;
@@ -45,6 +47,8 @@ async function getPublishedProjects(): Promise<Project[]> {
         view_count,
         status,
         badges,
+        start_date,
+        end_date,
         organizations (
           organization_name,
           city
