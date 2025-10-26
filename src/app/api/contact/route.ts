@@ -13,8 +13,17 @@ export async function POST(request: NextRequest) {
       message
     } = body;
 
+    console.log('[Contact API] Received request:', {
+      project_id,
+      company_name,
+      company_email,
+      contact_person,
+      has_message: !!message
+    });
+
     // Validate required fields
     if (!project_id || !company_name || !company_email || !contact_person || !message) {
+      console.error('[Contact API] Missing required fields');
       return NextResponse.json(
         { error: 'Alla obligatoriska fält måste fyllas i' },
         { status: 400 }
@@ -50,13 +59,24 @@ export async function POST(request: NextRequest) {
     );
 
     // Get project and organization info
+    console.log('[Contact API] Looking up project with id:', project_id);
     const { data: project, error: projectError } = await supabase
       .from('projects')
       .select('id, organization_id, projektnamn')
       .eq('id', project_id)
       .single<{ id: string; organization_id: string; projektnamn: string }>();
 
+    console.log('[Contact API] Project lookup result:', {
+      found: !!project,
+      error: projectError?.message,
+      projectData: project
+    });
+
     if (projectError || !project) {
+      console.error('[Contact API] Project not found:', {
+        project_id,
+        error: projectError
+      });
       return NextResponse.json(
         { error: 'Projekt hittades inte' },
         { status: 404 }

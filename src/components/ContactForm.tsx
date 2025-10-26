@@ -40,17 +40,24 @@ export default function ContactForm({
     setError(null);
     setIsSubmitting(true);
 
+    console.log('[ContactForm] Submitting with projectId:', projectId);
+
     try {
+      const requestBody = {
+        project_id: projectId,
+        ...formData
+      };
+      console.log('[ContactForm] Request body:', requestBody);
+
       const response = await fetch('/api/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({
-          project_id: projectId,
-          ...formData
-        })
+        body: JSON.stringify(requestBody)
       });
+
+      console.log('[ContactForm] Response status:', response.status);
 
       const data = await response.json();
 
