@@ -2,7 +2,7 @@ import { Project } from '@/types';
 
 export const projects: Project[] = [
   {
-    id: 1,
+    id: '1',
     projektnamn: "Grön Framtid för Barn",
     kortBeskrivning: "Vi skapar miljömedvetenhet bland barn genom workshops och naturaktiviteter. Målet är att inspirera nästa generation till hållbar utveckling.",
     fullBeskrivning: "Detta projekt syftar till att utbilda barn i åldrarna 7-12 år om miljöfrågor genom praktiska workshopar och utomhusaktiviteter. Vi genomför veckovisa träffar där barnen lär sig om återvinning, kompostering och energibesparing. Projektet inkluderar också skapandet av en skolgård med odlingslådor där barnen får växa egna grönsaker och lära sig om hållbart jordbruk.",
@@ -16,7 +16,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 2,
+    id: '2',
     projektnamn: "Ungas Röster",
     kortBeskrivning: "Empowerment-program för unga från socialt utsatta områden med fokus på ledarskap, kreativitet och framtidstro.",
     fullBeskrivning: "Ungas Röster är ett helårsprogram som riktar sig till ungdomar mellan 14-20 år från Rinkeby-Tensta. Programmet kombinerar mentorskap, kreativa workshopar och praktisk utbildning inom entreprenörskap. Deltagarna får möjlighet att utveckla sina ledarskapsfärdigheter genom att planera och genomföra egna projekt i sina lokalsamhällen. Vi samarbetar med lokala företag för att erbjuda praktikplatser och framtidsmöjligheter.",
@@ -29,7 +29,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1529390079861-591de354faf5?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 3,
+    id: '3',
     projektnamn: "Inkluderande Idrott",
     kortBeskrivning: "Anpassad idrottsverksamhet för personer med funktionsnedsättning. Vi bryter barriärer och skapar gemenskap genom sport.",
     fullBeskrivning: "Inkluderande Idrott driver flera verksamheter för att göra idrotten tillgänglig för alla. Vi erbjuder anpassade träningar inom fotboll, simning och bordtennis för personer med olika typer av funktionsnedsättningar. Våra kvalificerade tränare arbetar med individuella träningsplaner och vi har investerat i specialutrustning. Målet är att skapa en inkluderande miljö där alla kan uppleva idrottsglädje och utveckla sina färdigheter.",
@@ -42,7 +42,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1594736797933-d0501ba2fe65?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 4,
+    id: '4',
     projektnamn: "Digital Seniorhjälp",
     kortBeskrivning: "Vi hjälper äldre att navigera den digitala världen genom personlig undervisning och stöd i vardaglig teknikhantering.",
     fullBeskrivning: "Digital Seniorhjälp erbjuder kostnadsfri teknikundervisning för personer över 65 år. Våra volontärer, ofta yngre personer från lokalsamhället, lär ut grundläggande datorfärdigheter, mobilanvändning och internetsäkerhet. Vi fokuserar på praktiska färdigheter som nätbanking, videomöten med familj och e-hälsotjänster. Verksamheten bedrivs både i våra lokaler och genom hembesök för de som har svårt att ta sig ut.",
@@ -56,7 +56,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 5,
+    id: '5',
     projektnamn: "Återbruk och Reparation",
     kortBeskrivning: "Community-driven workshop där invånare lär sig reparera och återanvända föremål istället för att köpa nytt.",
     fullBeskrivning: "Vårt Återbruk och Reparation-center är en öppen verkstad där alla är välkomna att lära sig reparera kläder, elektronik, möbler och andra föremål. Vi arrangerar veckovisa workshops inom sömnad, träslöjd, elektronikreparation och upcycling. Målet är att minska konsumtion och avfall samtidigt som vi bygger community och delar kunskap mellan generationer. Vi samarbetar också med lokala skolor för att utbilda barn i hållbara vanor.",
@@ -68,7 +68,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 6,
+    id: '6',
     projektnamn: "Välkommen Till Sverige",
     kortBeskrivning: "Integrationsprogram för nyanlända med språkstöd, kulturella aktiviteter och praktisk hjälp i vardagen.",
     fullBeskrivning: "Välkommen Till Sverige är ett omfattande integrationsprogram för nyanlända familjer. Vi erbjuder svensklektioner på olika nivåer, kulturella aktiviteter som introducerar svensk kultur och tradition, samt praktisk hjälp med myndighetsärenden och bostadssökande. Programmet inkluderar också ett mentorsystem där etablerade svenskar paras ihop med nyanlända familjer för långsiktigt stöd och vänskap. Vi arrangerar regelbundna familjeevenemang för att bygga broar mellan kulturer.",
@@ -80,7 +80,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1517486808906-6ca8b3f04846?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 7,
+    id: '7',
     projektnamn: "Stadsodling för Alla",
     kortBeskrivning: "Vi skapar gemenskap och främjar hälsosamma matvanor genom kollektiv odling i urban miljö.",
     fullBeskrivning: "Stadsodling för Alla driver flera odlingsprojekt runt om i Örebro där invånare gemensamt odlar ekologiska grönsaker och örter. Vi har förvandlat tomma markområden till blomstrande odlingar där människor från olika bakgrunder möts och delar kunskap. Projektet inkluderar utbildning inom ekologisk odling, kompostering och hållbara matvanor. Vi donerar också en del av skörden till lokala matbanker och arrangerar gemensamma måltider för att stärka det sociala sammanhanget.",
@@ -92,7 +92,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 8,
+    id: '8',
     projektnamn: "Kreativa Ungdomar",
     kortBeskrivning: "Fri konstverksamhet för ungdomar med fokus på grafitti, musik och performance som uttrycksmedel.",
     fullBeskrivning: "Kreativa Ungdomar erbjuder en trygg plats där ungdomar kan utforska sin kreativitet genom olika konstformer. Vi har en studio med musikutrustning, en legal graffittivägg och utrymme för dans och teater. Erfarna konstnärer och musiker leder workshops och mentorskap. Målet är att ge ungdomar positiva uttryck för sina känslor och talanger samtidigt som vi bygger självförtroende och framtidstro. Vi arrangerar också offentliga uppträdanden och utställningar där ungdomarna kan visa upp sina verk.",
@@ -105,7 +105,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 9,
+    id: '9',
     projektnamn: "Språkcafé för Alla",
     kortBeskrivning: "Mötesplats där människor med olika språkbakgrunder träffas, övar svenska och delar kulturella erfarenheter över fika.",
     fullBeskrivning: "Vårt Språkcafé är en varm och välkomnande miljö där nyanlända och svenskar träffas för att tillsammans förbättra språkfärdigheter och bygga vänskap. Varje vecka arrangerar vi strukturerade språkaktiviteter, kulturella presentationer och gemensamma måltider. Deltagarna får möjlighet att både lära och lära ut, vilket skapar en naturlig vänskapscirckel. Vi har också läsgrupper, filmnätter och temadagar som fokuserar på olika kulturer och traditioner från deltagarnas hemländer.",
@@ -119,7 +119,7 @@ export const projects: Project[] = [
     imageUrl: "https://images.unsplash.com/photo-1544027993-37dbfe43562a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
   },
   {
-    id: 10,
+    id: '10',
     projektnamn: "Rena Hav-initiativet",
     kortBeskrivning: "Kusträddningsinsats som kombinerar strandrensning med utbildning om marin miljö och mikroplastproblematik.",
     fullBeskrivning: "Rena Hav-initiativet är ett omfattande miljöprojekt som fokuserar på att återställa och skydda vår svenska kustlinje. Vi organiserar veckovisa strandrensningar där volontärer samlar marin skräp samtidigt som vi dokumenterar och kategoriserar fynden för forskning. Projektet inkluderar också utbildningsworkshops om mikroplaster, havsforskning och hållbar fiskekonsumtion. Vi samarbetar med skolor, företag och lokalsamhällen för att skapa långsiktig miljömedvetenhet och förändra beteenden som påverkar våra hav negativt.",

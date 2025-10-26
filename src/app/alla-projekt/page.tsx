@@ -63,13 +63,13 @@ async function getPublishedProjects(): Promise<Project[]> {
       return fallbackProjects;
     }
 
-    const transformedProjects: Project[] = data.map((project, index) => {
+    const transformedProjects: Project[] = data.map((project) => {
       const orgName = project.organizations?.organization_name || 'Okänd organisation';
       const budgetNumber = parseInt(project.budget) || 0;
       const budgetFormatted = `${budgetNumber.toLocaleString('sv-SE')} kr`;
 
       return {
-        id: index + 1,
+        id: project.id,
         projektnamn: project.projektnamn,
         kortBeskrivning: project.kort_beskrivning,
         fullBeskrivning: project.full_beskrivning || project.kort_beskrivning,
