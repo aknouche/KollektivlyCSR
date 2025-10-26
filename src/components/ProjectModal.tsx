@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X } from 'lucide-react';
 import { Project } from '@/types';
-import ContactForm from './ContactForm';
+import BetaContactForm from './BetaContactForm';
 import { createBrowserClient } from '@supabase/ssr';
 
 interface ProjectModalProps {
@@ -132,7 +132,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
             {contactSuccess && (
               <div className="p-6 bg-green-50 border-b border-green-200">
                 <p className="text-green-800 font-medium text-center">
-                  Meddelande skickat! Föreningen kontaktar dig inom kort.
+                  ✓ Intresse registrerat! Se dina intresseanmälningar på din dashboard.
                 </p>
               </div>
             )}
@@ -215,7 +215,7 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                   {!isLoggedIn && !checkingAuth && (
                     <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
                       <p className="text-sm text-blue-900 font-medium mb-2 text-center">
-                        🔒 Logga in för att kontakta eller stödja detta projekt
+                        🔒 Logga in för att visa intresse eller stödja detta projekt
                       </p>
                       <button
                         onClick={() => router.push('/logga-in?redirect=/alla-projekt')}
@@ -246,19 +246,19 @@ const ProjectModal = ({ project, isOpen, onClose }: ProjectModalProps) => {
                           : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                       }`}
                     >
-                      Kontakta
+                      Visa intresse
                     </button>
                   </div>
                   {isLoggedIn && (
                     <p className="text-sm text-gray-600 text-center">
-                      Bidra med escrow-betalning eller kontakta föreningen
+                      Bidra med escrow-betalning eller visa intresse för samarbete
                     </p>
                   )}
                 </>
               )}
 
               {showContactForm && !contactSuccess && (
-                <ContactForm
+                <BetaContactForm
                   projectId={project.id}
                   projectName={project.projektnamn}
                   organizationName={project.foreningsnamn}

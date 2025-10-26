@@ -22,6 +22,7 @@ export default function ForetagDashboard() {
     message: string;
     created_at: string;
     project_id: string;
+    projects: { projektnamn: string; organizations: { organization_name: string } };
   }>>([]);
   const [loading, setLoading] = useState(true);
   const [company, setCompany] = useState<{
@@ -86,11 +87,23 @@ export default function ForetagDashboard() {
         }
       }
 
-      // Get contact messages sent by this company
+      // Get contact messages sent by this company (with project details)
       const { data: contactsData, error: contactsError } = await supabase
         .from('contact_messages')
-        .select('id, company_name, message, created_at, project_id')
-        .eq('company_email', companyData.email)
+        .select(`
+          id,
+          company_name,
+          message,
+          created_at,
+          project_id,
+          projects!inner (
+            projektnamn,
+            organizations!inner (
+              organization_name
+            )
+          )
+        `)
+        .eq('company_id', companyData.id)
         .order('created_at', { ascending: false })
         .limit(10);
 
@@ -188,7 +201,7 @@ export default function ForetagDashboard() {
             <p className="text-2xl font-bold text-gray-900">{bookmarkedProjects.length}</p>
           </div>
           <div className="bg-white rounded-lg border border-gray-200 p-4">
-            <p className="text-sm text-gray-600 mb-1">Skickade kontakter</p>
+            <p className="text-sm text-gray-600 mb-1">Intresseanmälningar</p>
             <p className="text-2xl font-bold text-gray-900">{contacts.length}</p>
           </div>
           <div className="bg-white rounded-lg border border-gray-200 p-4">
@@ -239,24 +252,37 @@ export default function ForetagDashboard() {
 
         {/* Contact History */}
         <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-900 mb-4">Kontakthistorik</h2>
+          <h2 className="text-xl font-bold text-gray-900 mb-4">Intresserade projekt</h2>
           {contacts.length > 0 ? (
             <div className="bg-white rounded-lg border border-gray-200 divide-y divide-gray-200">
               {contacts.map((contact) => (
-                <div key={contact.id} className="p-4">
+                <div key={contact.id} className="p-4 hover:bg-gray-50">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900">Kontakt skickad</h3>
-                    <span className="text-xs text-gray-500">
-                      {new Date(contact.created_at).toLocaleDateString('sv-SE')}
+                    <div className="flex-1">
+                      <h3 className="font-semibold text-gray-900 mb-1">
+                        {contact.projects?.projektnamn || 'Projekt'}
+                      </h3>
+                      <p className="text-xs text-gray-500 mb-2">
+                        {contact.projects?.organizations?.organization_name || 'Förening'} • {' '}
+                        {new Date(contact.created_at).toLocaleDateString('sv-SE', {
+                          year: 'numeric',
+                          month: 'short',
+                          day: 'numeric'
+                        })}
+                      </p>
+                    </div>
+                    <span className="ml-4 px-2 py-1 bg-blue-50 text-blue-700 text-xs rounded-full whitespace-nowrap">
+                      Beta-intresse
                     </span>
                   </div>
-                  <p className="text-sm text-gray-600">{contact.message}</p>
+                  <p className="text-sm text-gray-600 italic">&ldquo;{contact.message}&rdquo;</p>
                 </div>
               ))}
             </div>
           ) : (
             <div className="bg-white rounded-lg border border-gray-200 p-8 text-center">
-              <p className="text-gray-600">Inga kontakter ännu</p>
+              <p className="text-gray-600 mb-2">Inga projekt ännu</p>
+              <p className="text-sm text-gray-500">Börja visa intresse för projekt som passar era mål</p>
             </div>
           )}
         </div>

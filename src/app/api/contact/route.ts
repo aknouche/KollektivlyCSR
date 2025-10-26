@@ -4,36 +4,51 @@ import { createClient } from '@/lib/supabase/server';
 // Force dynamic rendering for this route (required when using cookies)
 export const dynamic = 'force-dynamic';
 
+/**
+ * Beta Contact API - Simplified for beta testing phase
+ * - Gets company info from auth session (no manual input)
+ * - Only requires project_id and message
+ * - Sets status to BETA_INTEREST (hidden from föreningar during beta)
+ * - Links to company_id for proper tracking
+ */
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const {
-      project_id,
-      company_name,
-      company_email,
-      contact_person,
-      phone_number,
-      message
-    } = body;
+    const { project_id, message } = body;
 
-    // Validate required fields
-    if (!project_id || !company_name || !company_email || !contact_person || !message) {
+    // Validate required fields (simplified - only message and project_id)
+    if (!project_id || !message) {
       return NextResponse.json(
-        { error: 'Alla obligatoriska fält måste fyllas i' },
-        { status: 400 }
-      );
-    }
-
-    // Email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(company_email)) {
-      return NextResponse.json(
-        { error: 'Ogiltig e-postadress' },
+        { error: 'Projekt och meddelande krävs' },
         { status: 400 }
       );
     }
 
     const supabase = createClient();
+
+    // Check authentication
+    const { data: { session }, error: authError } = await supabase.auth.getSession();
+
+    if (authError || !session) {
+      return NextResponse.json(
+        { error: 'Du måste vara inloggad för att visa intresse' },
+        { status: 401 }
+      );
+    }
+
+    // Get company details from database using auth session
+    const { data: company, error: companyError } = await supabase
+      .from('companies')
+      .select('id, company_name, email, contact_person, phone_number')
+      .eq('auth_user_id', session.user.id)
+      .single<{ id: string; company_name: string; email: string; contact_person: string; phone_number: string | null }>();
+
+    if (companyError || !company) {
+      return NextResponse.json(
+        { error: 'Företagsprofil hittades inte. Vänligen logga in igen.' },
+        { status: 404 }
+      );
+    }
 
     // Get project and organization info
     const { data: project, error: projectError } = await supabase
@@ -54,17 +69,18 @@ export async function POST(request: NextRequest) {
                request.headers.get('x-real-ip') ||
                'unknown';
 
-    // Insert contact message
+    // Insert contact message with company_id link and BETA_INTEREST status
     const contactData = {
       project_id: project.id,
       organization_id: project.organization_id,
-      company_name,
-      company_email,
-      contact_person,
-      phone_number: phone_number || null,
+      company_id: company.id, // Link to company for proper tracking
+      company_name: company.company_name,
+      company_email: company.email,
+      contact_person: company.contact_person,
+      phone_number: company.phone_number || null,
       message,
       sender_ip: ip,
-      status: 'SENT' as const,
+      status: 'BETA_INTEREST' as const, // Beta status - hidden from föreningar
       sent_at: new Date().toISOString()
     };
 
@@ -76,7 +92,7 @@ export async function POST(request: NextRequest) {
     if (insertError) {
       console.error('Error inserting contact message:', insertError);
       return NextResponse.json(
-        { error: 'Kunde inte skicka meddelande' },
+        { error: 'Kunde inte spara intresseanmälan' },
         { status: 500 }
       );
     }
@@ -92,7 +108,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Meddelande skickat!'
+      message: 'Intresse registrerat!'
     });
 
   } catch (error) {
