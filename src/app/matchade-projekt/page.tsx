@@ -74,8 +74,8 @@ export default function MatchadeProjekt() {
 
     if (projects && projects.length > 0) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      transformed = projects.map((p: any, idx: number) => ({
-        id: idx + 1,
+      transformed = projects.map((p: any) => ({
+        id: p.id,
         projektnamn: p.projektnamn,
         kortBeskrivning: p.kort_beskrivning,
         fullBeskrivning: p.full_beskrivning,
@@ -92,7 +92,7 @@ export default function MatchadeProjekt() {
       // Demo projects (fallback when database is empty)
       transformed = [
         {
-          id: 1,
+          id: "demo-1",
           projektnamn: "Grön Framtid - Skolträdgård",
           kortBeskrivning: "Bygg en hållbar skolträdgård för barn att lära om miljö och odling",
           fullBeskrivning: "Vi vill skapa en interaktiv skolträdgård där barn får lära sig om hållbart jordbruk, kompostering och biologisk mångfald. Projektet inkluderar växthus, odlingslådor och utbildningsmaterial.",
@@ -104,7 +104,7 @@ export default function MatchadeProjekt() {
           badges: ["NY" as const, "POPULÄR" as const]
         },
         {
-          id: 2,
+          id: "demo-2",
           projektnamn: "Unga Röster - Ledarskap för Alla",
           kortBeskrivning: "Mentorskapsprogram för ungdomar från utsatta områden",
           fullBeskrivning: "Ett 6-månaders program där unga får tillgång till mentorer från näringslivet, utvecklar ledarskapsförmågor och bygger nätverk för framtida karriärmöjligheter.",
@@ -116,7 +116,7 @@ export default function MatchadeProjekt() {
           badges: ["VERIFIERAD" as const]
         },
         {
-          id: 3,
+          id: "demo-3",
           projektnamn: "Integration genom Idrott",
           kortBeskrivning: "Fotbollsaktiviteter som främjar integration och gemenskap",
           fullBeskrivning: "Veckovisa fotbollsträningar och turneringar som samlar ungdomar från olika bakgrunder. Fokus på språkutveckling, teamwork och social sammanhållning.",
