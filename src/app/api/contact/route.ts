@@ -1,8 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-
-// Force dynamic rendering for this route (required when using cookies)
-export const dynamic = 'force-dynamic';
+import { createServerClient, type CookieOptions } from '@supabase/ssr';
 
 export async function POST(request: NextRequest) {
   try {
@@ -33,7 +30,24 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const supabase = createClient();
+    // Create Supabase client directly in the route handler
+    const supabase = createServerClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+      {
+        cookies: {
+          get(name: string) {
+            return request.cookies.get(name)?.value;
+          },
+          set(name: string, value: string, options: CookieOptions) {
+            // Not needed for this route
+          },
+          remove(name: string, options: CookieOptions) {
+            // Not needed for this route
+          },
+        },
+      }
+    );
 
     // Get project and organization info
     const { data: project, error: projectError } = await supabase
