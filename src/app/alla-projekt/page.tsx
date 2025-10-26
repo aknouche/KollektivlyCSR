@@ -63,13 +63,13 @@ async function getPublishedProjects(): Promise<Project[]> {
       return fallbackProjects;
     }
 
-    const transformedProjects: Project[] = data.map((project, index) => {
+    const transformedProjects: Project[] = data.map((project) => {
       const orgName = project.organizations?.organization_name || 'Okänd organisation';
       const budgetNumber = parseInt(project.budget) || 0;
       const budgetFormatted = `${budgetNumber.toLocaleString('sv-SE')} kr`;
 
       return {
-        id: index + 1,
+        id: project.id, // Use actual UUID from database
         projektnamn: project.projektnamn,
         kortBeskrivning: project.kort_beskrivning,
         fullBeskrivning: project.full_beskrivning || project.kort_beskrivning,
@@ -83,7 +83,9 @@ async function getPublishedProjects(): Promise<Project[]> {
               ['NY', 'POPULÄR', 'VERIFIERAD'].includes(b))
           : getBadgesForProject(project)) as Array<'NY' | 'POPULÄR' | 'VERIFIERAD'>,
         viewsLeft: project.view_count ? Math.max(0, 50 - (project.view_count % 50)) : undefined,
-        imageUrl: project.image_url || undefined
+        imageUrl: project.image_url || undefined,
+        start_date: project.start_date || null,
+        end_date: project.end_date || null
       };
     });
 
