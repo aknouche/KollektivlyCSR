@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createServerClient, type CookieOptions } from '@supabase/ssr';
+import { createAdminClient } from '@/lib/supabase/server';
 
 export async function POST(request: NextRequest) {
   try {
@@ -39,24 +39,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create Supabase client directly in the route handler
-    const supabase = createServerClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-      {
-        cookies: {
-          get(name: string) {
-            return request.cookies.get(name)?.value;
-          },
-          set(name: string, value: string, options: CookieOptions) {
-            // Not needed for this route
-          },
-          remove(name: string, options: CookieOptions) {
-            // Not needed for this route
-          },
-        },
-      }
-    );
+    // Use admin client to bypass RLS and access all projects
+    // This is safe because we're just looking up project info, not exposing it directly
+    const supabase = createAdminClient();
 
     // Get project and organization info
     console.log('[Contact API] Looking up project with id:', project_id);
