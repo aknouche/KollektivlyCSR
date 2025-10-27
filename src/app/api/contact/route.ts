@@ -49,6 +49,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if user is logged in as a company
+    const { data: { session } } = await supabase.auth.getSession();
+    let company_id: string | null = null;
+
+    if (session) {
+      const { data: company } = await supabase
+        .from('companies')
+        .select('id')
+        .eq('auth_user_id', session.user.id)
+        .single<{ id: string }>();
+
+      if (company) {
+        company_id = company.id;
+      }
+    }
+
     // Get client IP for rate limiting
     const ip = request.headers.get('x-forwarded-for') ||
                request.headers.get('x-real-ip') ||
@@ -58,6 +74,7 @@ export async function POST(request: NextRequest) {
     const contactData = {
       project_id: project.id,
       organization_id: project.organization_id,
+      company_id, // Link to company if logged in
       company_name,
       company_email,
       contact_person,

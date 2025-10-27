@@ -22,6 +22,12 @@ export default function ForetagDashboard() {
     message: string;
     created_at: string;
     project_id: string;
+    projects?: {
+      projektnamn: string;
+      organizations?: {
+        organization_name: string;
+      };
+    };
   }>>([]);
   const [loading, setLoading] = useState(true);
   const [company, setCompany] = useState<{
@@ -89,8 +95,15 @@ export default function ForetagDashboard() {
       // Get contact messages sent by this company
       const { data: contactsData, error: contactsError } = await supabase
         .from('contact_messages')
-        .select('id, company_name, message, created_at, project_id')
-        .eq('company_email', companyData.email)
+        .select(`
+          id,
+          company_name,
+          message,
+          created_at,
+          project_id,
+          projects!inner(projektnamn, organizations!inner(organization_name))
+        `)
+        .eq('company_id', companyData.id)
         .order('created_at', { ascending: false })
         .limit(10);
 
@@ -245,7 +258,16 @@ export default function ForetagDashboard() {
               {contacts.map((contact) => (
                 <div key={contact.id} className="p-4">
                   <div className="flex items-start justify-between mb-2">
-                    <h3 className="font-semibold text-gray-900">Kontakt skickad</h3>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">
+                        {contact.projects?.projektnamn || 'Kontakt skickad'}
+                      </h3>
+                      {contact.projects?.organizations?.organization_name && (
+                        <p className="text-xs text-gray-500">
+                          {contact.projects.organizations.organization_name}
+                        </p>
+                      )}
+                    </div>
                     <span className="text-xs text-gray-500">
                       {new Date(contact.created_at).toLocaleDateString('sv-SE')}
                     </span>
