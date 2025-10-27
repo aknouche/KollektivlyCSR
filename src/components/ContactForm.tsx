@@ -11,7 +11,8 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({
-  projectId,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  projectId, // Currently unused in demo mode, will be used for API calls in production
   projectName,
   organizationName,
   onSuccess,
@@ -40,23 +41,29 @@ export default function ContactForm({
     setError(null);
     setIsSubmitting(true);
 
+    // MVP DEMO MODE: Mock success without API call
+    // This provides a smooth demo experience without backend dependencies
     try {
-      const response = await fetch('/api/contact', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          project_id: projectId,
-          ...formData
-        })
-      });
+      // Simulate realistic network delay
+      await new Promise(resolve => setTimeout(resolve, 800));
 
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Något gick fel');
+      // Validate required fields
+      if (!formData.company_name || !formData.company_email || !formData.contact_person || !formData.message) {
+        throw new Error('Alla obligatoriska fält måste fyllas i');
       }
+
+      // Email validation
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.company_email)) {
+        throw new Error('Ogiltig e-postadress');
+      }
+
+      // Log for demo tracking (optional - can be removed)
+      console.log('📧 [DEMO] Contact message sent:', {
+        project: projectName,
+        organization: organizationName,
+        from: formData.company_name
+      });
 
       if (onSuccess) {
         onSuccess();
@@ -86,6 +93,7 @@ export default function ContactForm({
           id="company_name"
           name="company_name"
           required
+          autoComplete="organization"
           value={formData.company_name}
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
@@ -101,6 +109,7 @@ export default function ContactForm({
           id="contact_person"
           name="contact_person"
           required
+          autoComplete="name"
           value={formData.contact_person}
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
@@ -116,6 +125,7 @@ export default function ContactForm({
           id="company_email"
           name="company_email"
           required
+          autoComplete="email"
           value={formData.company_email}
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"
@@ -130,6 +140,7 @@ export default function ContactForm({
           type="tel"
           id="phone_number"
           name="phone_number"
+          autoComplete="tel"
           value={formData.phone_number}
           onChange={handleChange}
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-900"

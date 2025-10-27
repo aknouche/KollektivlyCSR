@@ -214,6 +214,7 @@ function LoginContent() {
               <input
                 type="email"
                 required
+                autoComplete="email"
                 value={loginData.email}
                 onChange={(e) => setLoginData({ ...loginData, email: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -228,6 +229,7 @@ function LoginContent() {
               <input
                 type="password"
                 required
+                autoComplete="current-password"
                 value={loginData.password}
                 onChange={(e) => setLoginData({ ...loginData, password: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -253,6 +255,7 @@ function LoginContent() {
               <input
                 type="text"
                 required
+                autoComplete="organization"
                 value={registerData.company_name}
                 onChange={(e) => setRegisterData({ ...registerData, company_name: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -266,6 +269,7 @@ function LoginContent() {
               <input
                 type="email"
                 required
+                autoComplete="email"
                 value={registerData.email}
                 onChange={(e) => setRegisterData({ ...registerData, email: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -279,6 +283,7 @@ function LoginContent() {
               <input
                 type="text"
                 required
+                autoComplete="name"
                 value={registerData.contact_person}
                 onChange={(e) => setRegisterData({ ...registerData, contact_person: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -291,6 +296,7 @@ function LoginContent() {
               </label>
               <input
                 type="tel"
+                autoComplete="tel"
                 value={registerData.phone_number}
                 onChange={(e) => setRegisterData({ ...registerData, phone_number: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -303,6 +309,7 @@ function LoginContent() {
               </label>
               <input
                 type="text"
+                autoComplete="address-level2"
                 value={registerData.city}
                 onChange={(e) => setRegisterData({ ...registerData, city: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -316,6 +323,7 @@ function LoginContent() {
               <input
                 type="password"
                 required
+                autoComplete="new-password"
                 value={registerData.password}
                 onChange={(e) => setRegisterData({ ...registerData, password: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -330,6 +338,7 @@ function LoginContent() {
               <input
                 type="password"
                 required
+                autoComplete="new-password"
                 value={registerData.confirmPassword}
                 onChange={(e) => setRegisterData({ ...registerData, confirmPassword: e.target.value })}
                 className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
