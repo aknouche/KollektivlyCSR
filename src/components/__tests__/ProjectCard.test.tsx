@@ -6,7 +6,7 @@ import { Project } from '@/types'
 
 // Mock project data for testing
 const mockProject: Project = {
-  id: 1,
+  id: '1',
   projektnamn: 'Test Projekt',
   kortBeskrivning: 'Detta är en kort beskrivning av projektet',
   fullBeskrivning: 'En längre beskrivning av projektet',
@@ -20,7 +20,7 @@ const mockProject: Project = {
 // Mock project with badges
 const mockProjectWithBadges: Project = {
   ...mockProject,
-  id: 2,
+  id: '2',
   badges: ['NY', 'POPULÄR'],
   viewsLeft: 3
 }
