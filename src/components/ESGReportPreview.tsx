@@ -18,8 +18,7 @@ export default function ESGReportPreview({
   grantAmount,
   organizationName,
   sdgGoals,
-  impactDescription = "Projektet nådde 250 ungdomar i Stockholmsområdet genom 12 fotbollsträningar och 3 turneringar. Deltagarna rapporterade ökad fysisk aktivitet (85%) och nya vänskap (92%). Projektet bidrog till social inkludering och minskad ungdomsensamhet i förorten.",
-  photos = []
+  impactDescription = "Projektet nådde 250 ungdomar i Stockholmsområdet genom 12 fotbollsträningar och 3 turneringar. Deltagarna rapporterade ökad fysisk aktivitet (85%) och nya vänskap (92%). Projektet bidrog till social inkludering och minskad ungdomsensamhet i förorten."
 }: ESGReportPreviewProps) {
   const currentDate = new Date().toLocaleDateString('sv-SE', { year: 'numeric', month: 'long', day: 'numeric' })
 

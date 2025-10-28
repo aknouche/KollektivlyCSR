@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import { useRouter, useParams } from 'next/navigation'
+import { useParams } from 'next/navigation'
 import Link from 'next/link'
 import { CheckIcon, SparklesIcon, ShieldCheckIcon, DocumentTextIcon } from '@heroicons/react/24/solid'
 import { createBrowserClient } from '@supabase/ssr'
@@ -9,7 +9,6 @@ import { createBrowserClient } from '@supabase/ssr'
 export default function StodProjektPage() {
   const params = useParams()
   const projectId = params.id as string
-  const router = useRouter()
   const [project, setProject] = useState<any>(null)
   const [selectedTier, setSelectedTier] = useState<'basic' | 'standard' | 'enhanced'>('standard')
   const [grantAmount, setGrantAmount] = useState('50000')
